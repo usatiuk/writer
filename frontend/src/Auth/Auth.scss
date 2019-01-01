@@ -1,0 +1,21 @@
+.AuthForm {
+    margin: auto;
+    margin-top: 10rem;
+    width: 20rem;
+    form {
+        display: flex;
+        flex-direction: column;
+        h2 {
+            margin-bottom: 1rem;
+        }
+        .buttons {
+            display: flex;
+            flex-direction: row;
+            button.submit {
+                margin-left: auto;
+                justify-self: flex-end;
+                align-self: flex-end;
+            }
+        }
+    }
+}

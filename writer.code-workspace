@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "frontend"
+		}
+	],
+	"settings": {
+		"typescriptHero.imports.stringQuoteStyle": "\"",
+		"files.exclude": {
+			"**/node_modules": true
+		}
+	}
+}

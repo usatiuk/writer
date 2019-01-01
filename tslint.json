@@ -1,0 +1,15 @@
+{
+    "extends": [
+        "@blueprintjs/tslint-config",
+        "tslint-plugin-prettier",
+        "tslint-no-unused-expression-chai"
+    ],
+    "rules": {
+        "prettier": true,
+        "no-console": false,
+        "object-literal-sort-keys": false,
+        "no-implicit-dependencies": false,
+        "no-submodule-imports": false,
+        "no-this-assignment": false
+    }
+}
