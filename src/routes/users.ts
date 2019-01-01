@@ -55,6 +55,7 @@ userRouter.get("/users/signup", async ctx => {
     try {
         await user.save();
     } catch (e) {
+        // TODO: Errors
         ctx.throw(400);
     }
 
