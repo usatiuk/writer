@@ -19,7 +19,8 @@ function* authStart(action: IAuthStartActionAction) {
         });
 
         if (timeout) {
-            return put(authFail("Timeout"));
+            yield put(authFail("Timeout"));
+            return;
         }
         if (response.data) {
             const user = response.data;
