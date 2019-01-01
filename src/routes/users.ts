@@ -15,14 +15,17 @@ userRouter.get("/users/user", async ctx => {
     ctx.body = { errors: false, data: user.toAuthJSON() };
 });
 
-userRouter.get("/users/login", async ctx => {
-    if (!ctx.request.body) {
+userRouter.post("/users/login", async ctx => {
+    const request = ctx.request as any;
+
+    if (!request.body) {
         ctx.throw(400);
     }
-    const { username, password } = ctx.request.body as {
+    const { username, password } = request.body as {
         username: string | null;
         password: string | null;
     };
+
     if (!(username && password)) {
         ctx.throw(400);
     }
@@ -35,12 +38,14 @@ userRouter.get("/users/login", async ctx => {
     ctx.body = { errors: false, data: user.toAuthJSON() };
 });
 
-userRouter.get("/users/signup", async ctx => {
-    if (!ctx.request.body) {
+userRouter.post("/users/signup", async ctx => {
+    const request = ctx.request as any;
+
+    if (!request.body) {
         ctx.throw(400);
     }
 
-    const { username, password } = ctx.request.body as {
+    const { username, password } = request.body as {
         username: string | null;
         password: string | null;
     };

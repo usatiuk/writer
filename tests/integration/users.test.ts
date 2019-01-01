@@ -27,7 +27,10 @@ describe("users", () => {
     it("should get user", async () => {
         const response = await request(callback)
             .get("/users/user")
-            .set({ Authorization: `Bearer ${seed.user1.toJWT()}` })
+            .set({
+                Authorization: `Bearer ${seed.user1.toJWT()}`,
+                "Content-Type": "application/json",
+            })
             .expect("Content-Type", /json/)
             .expect(200);
 
@@ -40,7 +43,8 @@ describe("users", () => {
 
     it("should login user", async () => {
         const response = await request(callback)
-            .get("/users/login")
+            .post("/users/login")
+            .set({ "Content-Type": "application/json" })
             .send({ username: "User1", password: "User1" })
             .expect("Content-Type", /json/)
             .expect(200);
@@ -54,7 +58,8 @@ describe("users", () => {
 
     it("should not login user with wrong password", async () => {
         const response = await request(callback)
-            .get("/users/login")
+            .post("/users/login")
+            .set({ "Content-Type": "application/json" })
             .send({ username: "User1", password: "asdf" })
             .expect(404);
 
@@ -63,7 +68,8 @@ describe("users", () => {
 
     it("should signup user", async () => {
         const response = await request(callback)
-            .get("/users/signup")
+            .post("/users/signup")
+            .set({ "Content-Type": "application/json" })
             .send({ username: "NUser1", password: "NUser1" })
             .expect("Content-Type", /json/)
             .expect(200);
@@ -79,7 +85,8 @@ describe("users", () => {
 
     it("should not signup user with duplicate username", async () => {
         const response = await request(callback)
-            .get("/users/signup")
+            .post("/users/signup")
+            .set({ "Content-Type": "application/json" })
             .send({ username: "User1", password: "NUser1" })
             .expect(400);
 
