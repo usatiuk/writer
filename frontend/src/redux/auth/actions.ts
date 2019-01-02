@@ -2,6 +2,7 @@ import { Action } from "redux";
 
 export enum AuthTypes {
     AUTH_START = "AUTH_START",
+    SIGNUP_START = "SIGNUP_START",
     AUTH_SUCCESS = "AUTH_SUCCESS",
     AUTH_FAIL = "AUTH_FAIL",
     AUTH_START_FORM_SPINNER = "AUTH_START_FORM_SPINNER",
@@ -12,6 +13,15 @@ export interface IAuthStartActionAction extends Action {
     payload: {
         username: string;
         password: string;
+    };
+}
+
+export interface ISignupStartActionAction extends Action {
+    type: AuthTypes.SIGNUP_START;
+    payload: {
+        username: string;
+        password: string;
+        email: string;
     };
 }
 
@@ -44,6 +54,17 @@ export function authStart(
     return { type: AuthTypes.AUTH_START, payload: { username, password } };
 }
 
+export function signupStart(
+    username: string,
+    password: string,
+    email: string,
+): ISignupStartActionAction {
+    return {
+        type: AuthTypes.SIGNUP_START,
+        payload: { username, password, email },
+    };
+}
+
 export function authSuccess(jwt: string): IAuthSuccessActionAction {
     return { type: AuthTypes.AUTH_SUCCESS, payload: { jwt } };
 }
@@ -56,4 +77,5 @@ export type AuthAction =
     | IAuthStartActionAction
     | IAuthSuccessActionAction
     | IAuthFailureActionAction
-    | IAuthStartFormSpinnerAction;
+    | IAuthStartFormSpinnerAction
+    | ISignupStartActionAction;

@@ -22,6 +22,7 @@ export const auth: Reducer<IAuthState, AuthAction> = (
 ) => {
     switch (action.type) {
         case AuthTypes.AUTH_START:
+        case AuthTypes.SIGNUP_START:
             return { ...defaultAuthState, inProgress: true };
             break;
         case AuthTypes.AUTH_SUCCESS:

@@ -1,6 +1,14 @@
 import { delay } from "redux-saga";
-import { call, cancel, fork, put, race, takeLatest } from "redux-saga/effects";
-import { login } from "~redux/api/auth";
+import {
+    all,
+    call,
+    cancel,
+    fork,
+    put,
+    race,
+    takeLatest,
+} from "redux-saga/effects";
+import { login, signup } from "~redux/api/auth";
 import { setToken } from "~redux/api/utils";
 
 import {
@@ -8,6 +16,7 @@ import {
     authSuccess,
     AuthTypes,
     IAuthStartActionAction,
+    ISignupStartActionAction,
     startFormSpinner,
 } from "./actions";
 
@@ -44,6 +53,37 @@ function* authStart(action: IAuthStartActionAction) {
     }
 }
 
+function* signupStart(action: ISignupStartActionAction) {
+    const { username, password, email } = action.payload;
+    try {
+        const spinner = yield fork(startSpinner);
+
+        const { response, timeout } = yield race({
+            response: call(signup, username, password, email),
+            timeout: call(delay, 10000),
+        });
+
+        yield cancel(spinner);
+
+        if (timeout) {
+            yield put(authFail("Timeout"));
+            return;
+        }
+        if (response.data) {
+            const user = response.data;
+            yield call(setToken, user.jwt);
+            yield put(authSuccess(user.jwt));
+        } else {
+            yield put(authFail(response.error));
+        }
+    } catch (e) {
+        yield put(authFail(e.toString()));
+    }
+}
+
 export function* authSaga() {
-    yield takeLatest(AuthTypes.AUTH_START, authStart);
+    yield all([
+        takeLatest(AuthTypes.AUTH_START, authStart),
+        takeLatest(AuthTypes.SIGNUP_START, signupStart),
+    ]);
 }

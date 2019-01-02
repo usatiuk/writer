@@ -3,43 +3,44 @@ import "./Auth.scss";
 import { Button, Card, FormGroup, H2, InputGroup } from "@blueprintjs/core";
 import * as React from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
-import { authStart } from "~redux/auth/actions";
+import { signupStart } from "~redux/auth/actions";
 import { IAppState } from "~redux/reducers";
 
-interface ILoginComponentProps extends RouteComponentProps {
+interface ISignupComponentProps extends RouteComponentProps {
     inProgress: boolean;
     error: string;
     spinner: boolean;
-    login: (username: string, password: string) => void;
+    signup: (username: string, password: string, email: string) => void;
 }
 
-interface ILoginComponentState {
+interface ISignupComponentState {
     username: string;
     password: string;
+    email: string;
 }
 
-export class LoginComponent extends React.PureComponent<
-    ILoginComponentProps,
-    ILoginComponentState
+export class SignupComponent extends React.PureComponent<
+    ISignupComponentProps,
+    ISignupComponentState
 > {
-    constructor(props: ILoginComponentProps) {
+    constructor(props: ISignupComponentProps) {
         super(props);
         this.submit = this.submit.bind(this);
         this.change = this.change.bind(this);
         this.updateFields = this.updateFields.bind(this);
-        this.state = { username: "", password: "" };
+        this.state = { username: "", password: "", email: "" };
     }
 
     public change() {
-        this.props.history.push("/signup");
+        this.props.history.push("/login");
     }
 
     public submit() {
-        const { username, password } = this.state;
+        const { username, password, email } = this.state;
         if (!this.props.inProgress) {
-            this.props.login(username, password);
+            this.props.signup(username, password, email);
         }
     }
 
@@ -54,14 +55,14 @@ export class LoginComponent extends React.PureComponent<
                 <Card className="AuthForm" elevation={2}>
                     <form>
                         <div className="header">
-                            <H2>Login</H2>
+                            <H2>Signup</H2>
                             <Button
-                                icon="new-person"
+                                icon="log-in"
                                 minimal={true}
                                 onClick={this.change}
                                 className="change"
                             >
-                                Signup
+                                Login
                             </Button>
                         </div>
                         <FormGroup label="Username">
@@ -70,6 +71,15 @@ export class LoginComponent extends React.PureComponent<
                                 value={this.state.username}
                                 onChange={this.updateFields}
                                 leftIcon="person"
+                            />
+                        </FormGroup>
+                        <FormGroup label="Email">
+                            <InputGroup
+                                name="email"
+                                value={this.state.email}
+                                onChange={this.updateFields}
+                                type="email"
+                                leftIcon="envelope"
                             />
                         </FormGroup>
                         <FormGroup label="Password">
@@ -81,17 +91,18 @@ export class LoginComponent extends React.PureComponent<
                                 leftIcon="key"
                             />
                         </FormGroup>
+
                         <div className="footer">
                             <div id="error">{this.props.error}</div>
                             <Button
                                 loading={this.props.spinner}
+                                icon="new-person"
                                 className="submit"
                                 intent="primary"
-                                icon="log-in"
                                 onClick={this.submit}
                                 disabled={this.props.spinner}
                             >
-                                Login
+                                Signup
                             </Button>
                         </div>
                     </form>
@@ -111,14 +122,14 @@ function mapStateToProps(state: IAppState) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        login: (username: string, password: string) =>
-            dispatch(authStart(username, password)),
+        signup: (username: string, password: string, email: string) =>
+            dispatch(signupStart(username, password, email)),
     };
 }
 
-export const Login = withRouter(
+export const Signup = withRouter(
     connect(
         mapStateToProps,
         mapDispatchToProps,
-    )(LoginComponent),
+    )(SignupComponent),
 );

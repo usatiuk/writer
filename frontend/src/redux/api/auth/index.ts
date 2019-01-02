@@ -6,3 +6,15 @@ export async function login(username: string, password: string) {
         password,
     });
 }
+
+export async function signup(
+    username: string,
+    password: string,
+    email: string,
+) {
+    return fetchJSON("/users/signup", "POST", {
+        username,
+        password,
+        email,
+    });
+}

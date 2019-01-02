@@ -9,10 +9,16 @@
         h2 {
             margin-bottom: 1rem;
         }
-        .buttons {
+        .header,
+        .footer {
             display: flex;
             flex-direction: row;
             align-items: baseline;
+            button.change {
+                margin-left: auto;
+            }
+        }
+        .footer {
             #error {
                 height: 1rem;
                 color: $pt-intent-danger;
