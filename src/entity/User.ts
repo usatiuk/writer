@@ -30,11 +30,16 @@ export class User extends BaseEntity {
     public username: string;
 
     @Column()
+    @Index({ unique: true })
+    public email: string;
+
+    @Column()
     public passwordHash: string;
 
-    constructor(username: string) {
+    constructor(username: string, email: string) {
         super();
         this.username = username;
+        this.email = email;
     }
 
     public async verifyPassword(password: string) {

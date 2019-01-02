@@ -71,7 +71,11 @@ describe("users", () => {
         const response = await request(callback)
             .post("/users/signup")
             .set({ "Content-Type": "application/json" })
-            .send({ username: "NUser1", password: "NUser1" })
+            .send({
+                username: "NUser1",
+                password: "NUser1",
+                email: "nuser1@users.com",
+            })
             .expect("Content-Type", /json/)
             .expect(200);
 
@@ -88,7 +92,11 @@ describe("users", () => {
         const response = await request(callback)
             .post("/users/signup")
             .set({ "Content-Type": "application/json" })
-            .send({ username: "User1", password: "NUser1" })
+            .send({
+                username: "User1",
+                password: "NUser1",
+                email: "user1@users.com",
+            })
             .expect(400);
 
         expect(response.body.error).to.be.equal("User already exists");

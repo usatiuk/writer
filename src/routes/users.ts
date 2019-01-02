@@ -45,16 +45,17 @@ userRouter.post("/users/signup", async ctx => {
         ctx.throw(400);
     }
 
-    const { username, password } = request.body as {
+    const { username, password, email } = request.body as {
         username: string | null;
         password: string | null;
+        email: string | null;
     };
 
-    if (!(username && password)) {
+    if (!(username && password && email)) {
         ctx.throw(400);
     }
 
-    const user = new User(username);
+    const user = new User(username, email);
     await user.setPassword(password);
 
     try {
