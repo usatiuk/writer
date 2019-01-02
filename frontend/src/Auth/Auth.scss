@@ -1,3 +1,4 @@
+@import "~@blueprintjs/core/lib/scss/variables";
 .AuthForm {
     margin: auto;
     margin-top: 10rem;
@@ -11,10 +12,13 @@
         .buttons {
             display: flex;
             flex-direction: row;
+            align-items: baseline;
+            #error {
+                height: 1rem;
+                color: $pt-intent-danger;
+            }
             button.submit {
                 margin-left: auto;
-                justify-self: flex-end;
-                align-self: flex-end;
             }
         }
     }

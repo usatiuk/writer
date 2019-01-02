@@ -20,4 +20,21 @@ app.use(
     }),
 );
 
+app.use(async (ctx, next) => {
+    try {
+        await next();
+    } catch (err) {
+        ctx.status = err.status || 500;
+        ctx.body = err.message;
+        ctx.app.emit("error", err, ctx);
+    }
+});
+
 app.use(userRouter.routes()).use(userRouter.allowedMethods());
+
+app.on("error", (err, ctx) => {
+    ctx.body = {
+        error: err.message,
+        data: false,
+    };
+});

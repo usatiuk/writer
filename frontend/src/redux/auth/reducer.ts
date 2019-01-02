@@ -5,13 +5,15 @@ import { AuthAction, AuthTypes } from "./actions";
 export interface IAuthState {
     jwt: string | null;
     inProgress: boolean;
-    error: string | null;
+    formError: string | null;
+    formSpinner: boolean;
 }
 
 const defaultAuthState: IAuthState = {
     jwt: null,
     inProgress: false,
-    error: null,
+    formError: null,
+    formSpinner: false,
 };
 
 export const auth: Reducer<IAuthState, AuthAction> = (
@@ -20,14 +22,19 @@ export const auth: Reducer<IAuthState, AuthAction> = (
 ) => {
     switch (action.type) {
         case AuthTypes.AUTH_START:
-            return { ...state, inProgress: true };
+            return { ...defaultAuthState, inProgress: true };
             break;
         case AuthTypes.AUTH_SUCCESS:
-            return { ...state, jwt: action.payload.jwt, inProgress: false };
+            return {
+                ...defaultAuthState,
+                jwt: action.payload.jwt,
+            };
             break;
         case AuthTypes.AUTH_FAIL:
-            return { ...defaultAuthState, error: action.payload.error };
+            return { ...defaultAuthState, formError: action.payload.error };
             break;
+        case AuthTypes.AUTH_START_FORM_SPINNER:
+            return { ...state, formSpinner: true };
         default:
             return state;
             break;

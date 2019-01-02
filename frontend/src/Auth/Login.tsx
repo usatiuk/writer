@@ -10,6 +10,7 @@ import { IAppState } from "~redux/reducers";
 interface ILoginComponentProps {
     inProgress: boolean;
     error: string;
+    spinner: boolean;
     login: (username: string, password: string) => void;
 }
 
@@ -31,7 +32,9 @@ export class LoginComponent extends React.PureComponent<
 
     public submit() {
         const { username, password } = this.state;
-        this.props.login(username, password);
+        if (!this.props.inProgress) {
+            this.props.login(username, password);
+        }
     }
 
     public updateFields(e: React.FormEvent<HTMLInputElement>) {
@@ -63,12 +66,13 @@ export class LoginComponent extends React.PureComponent<
                             />
                         </FormGroup>
                         <div className="buttons">
-                            <div id="errors">{this.props.error}</div>
+                            <div id="error">{this.props.error}</div>
                             <Button
+                                loading={this.props.spinner}
                                 className="submit"
                                 intent="primary"
                                 onClick={this.submit}
-                                active={!this.props.inProgress}
+                                disabled={this.props.spinner}
                             >
                                 Login
                             </Button>
@@ -81,7 +85,11 @@ export class LoginComponent extends React.PureComponent<
 }
 
 function mapStateToProps(state: IAppState) {
-    return { inProgress: state.auth.inProgress, error: state.auth.error };
+    return {
+        inProgress: state.auth.inProgress,
+        error: state.auth.formError,
+        spinner: state.auth.formSpinner,
+    };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {

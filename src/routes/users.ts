@@ -12,7 +12,7 @@ userRouter.get("/users/user", async ctx => {
 
     const user = await User.findOne(jwt.id);
 
-    ctx.body = { errors: false, data: user.toAuthJSON() };
+    ctx.body = { error: false, data: user.toAuthJSON() };
 });
 
 userRouter.post("/users/login", async ctx => {
@@ -32,10 +32,10 @@ userRouter.post("/users/login", async ctx => {
 
     const user = await User.findOne({ username });
     if (!user || !(await user.verifyPassword(password))) {
-        ctx.throw(404);
+        ctx.throw(404, "User not found");
     }
 
-    ctx.body = { errors: false, data: user.toAuthJSON() };
+    ctx.body = { error: false, data: user.toAuthJSON() };
 });
 
 userRouter.post("/users/signup", async ctx => {
@@ -60,9 +60,10 @@ userRouter.post("/users/signup", async ctx => {
     try {
         await user.save();
     } catch (e) {
-        // TODO: Errors
-        ctx.throw(400);
+        if (e.code === "ER_DUP_ENTRY") {
+            ctx.throw(400, "User already exists");
+        }
     }
 
-    ctx.body = { errors: false, data: user.toAuthJSON() };
+    ctx.body = { error: false, data: user.toAuthJSON() };
 });

@@ -34,7 +34,7 @@ describe("users", () => {
             .expect("Content-Type", /json/)
             .expect(200);
 
-        expect(response.body.errors).to.be.false;
+        expect(response.body.error).to.be.false;
 
         const { jwt: _, ...user } = response.body.data as IUserAuthJSON;
 
@@ -49,7 +49,7 @@ describe("users", () => {
             .expect("Content-Type", /json/)
             .expect(200);
 
-        expect(response.body.errors).to.be.false;
+        expect(response.body.error).to.be.false;
 
         const { jwt: _, ...user } = response.body.data as IUserAuthJSON;
 
@@ -63,7 +63,8 @@ describe("users", () => {
             .send({ username: "User1", password: "asdf" })
             .expect(404);
 
-        expect(response.body).to.deep.equal({});
+        expect(response.body.error).to.be.equal("User not found");
+        expect(response.body.data).to.be.false;
     });
 
     it("should signup user", async () => {
@@ -74,7 +75,7 @@ describe("users", () => {
             .expect("Content-Type", /json/)
             .expect(200);
 
-        expect(response.body.errors).to.be.false;
+        expect(response.body.error).to.be.false;
 
         const { jwt: _, ...user } = response.body.data as IUserAuthJSON;
 
@@ -90,6 +91,7 @@ describe("users", () => {
             .send({ username: "User1", password: "NUser1" })
             .expect(400);
 
-        expect(response.body).to.deep.equal({});
+        expect(response.body.error).to.be.equal("User already exists");
+        expect(response.body.data).to.be.false;
     });
 });

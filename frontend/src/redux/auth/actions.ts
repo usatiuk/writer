@@ -4,6 +4,7 @@ export enum AuthTypes {
     AUTH_START = "AUTH_START",
     AUTH_SUCCESS = "AUTH_SUCCESS",
     AUTH_FAIL = "AUTH_FAIL",
+    AUTH_START_FORM_SPINNER = "AUTH_START_FORM_SPINNER",
 }
 
 export interface IAuthStartActionAction extends Action {
@@ -28,6 +29,14 @@ export interface IAuthFailureActionAction extends Action {
     };
 }
 
+export interface IAuthStartFormSpinnerAction extends Action {
+    type: AuthTypes.AUTH_START_FORM_SPINNER;
+}
+
+export function startFormSpinner(): IAuthStartFormSpinnerAction {
+    return { type: AuthTypes.AUTH_START_FORM_SPINNER };
+}
+
 export function authStart(
     username: string,
     password: string,
@@ -46,4 +55,5 @@ export function authFail(error: string): IAuthFailureActionAction {
 export type AuthAction =
     | IAuthStartActionAction
     | IAuthSuccessActionAction
-    | IAuthFailureActionAction;
+    | IAuthFailureActionAction
+    | IAuthStartFormSpinnerAction;
