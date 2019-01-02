@@ -4,7 +4,6 @@ import * as React from "react";
 export function Home() {
     return (
         <>
-            {" "}
             <Navbar>
                 <Navbar.Group align={Alignment.LEFT}>
                     <Navbar.Heading>Writer</Navbar.Heading>

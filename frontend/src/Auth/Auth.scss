@@ -3,6 +3,9 @@
     margin: auto;
     margin-top: 10rem;
     width: 20rem;
+    left: 0;
+    right: 0;
+    position: absolute;
     form {
         display: flex;
         flex-direction: column;

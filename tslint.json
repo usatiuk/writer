@@ -11,6 +11,7 @@
         "no-implicit-dependencies": false,
         "no-submodule-imports": false,
         "no-this-assignment": false,
-        "max-classes-per-file": false
+        "max-classes-per-file": false,
+        "jsx-no-lambda": false
     }
 }
