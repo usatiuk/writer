@@ -1,14 +1,7 @@
 import { delay } from "redux-saga";
-import {
-    all,
-    call,
-    cancel,
-    fork,
-    put,
-    race,
-    takeLatest,
-} from "redux-saga/effects";
+import { all, call, put, race, takeLatest } from "redux-saga/effects";
 import { fetchUser } from "~redux/api/user";
+
 import { getUserFail, getUserSuccess, UserTypes } from "./actions";
 
 function* getUser() {
