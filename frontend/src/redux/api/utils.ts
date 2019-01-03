@@ -17,7 +17,7 @@ const root = "http://localhost:3000";
 export async function fetchJSON(
     path: string,
     method: string,
-    body: string | object,
+    body?: string | object,
     headers?: Record<string, string>,
 ) {
     if (typeof body === "object") {
@@ -38,7 +38,7 @@ export async function fetchJSON(
 export async function fetchJSONAuth(
     path: string,
     method: string,
-    body: string | object,
+    body?: string | object,
     headers?: object,
 ) {
     if (token) {

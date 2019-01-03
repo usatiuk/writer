@@ -9,7 +9,6 @@ import {
     takeLatest,
 } from "redux-saga/effects";
 import { login, signup } from "~redux/api/auth";
-import { setToken } from "~redux/api/utils";
 
 import {
     authFail,
@@ -43,13 +42,12 @@ function* authStart(action: IAuthStartActionAction) {
         }
         if (response.data) {
             const user = response.data;
-            yield call(setToken, user.jwt);
-            yield put(authSuccess(user.jwt));
+            yield put(authSuccess(user));
         } else {
             yield put(authFail(response.error));
         }
     } catch (e) {
-        yield put(authFail(e.toString()));
+        yield put(authFail("Internal error"));
     }
 }
 
@@ -71,8 +69,7 @@ function* signupStart(action: ISignupStartActionAction) {
         }
         if (response.data) {
             const user = response.data;
-            yield call(setToken, user.jwt);
-            yield put(authSuccess(user.jwt));
+            yield put(authSuccess(user));
         } else {
             yield put(authFail(response.error));
         }

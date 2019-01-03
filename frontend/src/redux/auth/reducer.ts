@@ -1,5 +1,7 @@
 import { Reducer } from "react";
 
+import { setToken } from "~redux/api/utils";
+import { UserAction, UserTypes } from "~redux/user/actions";
 import { AuthAction, AuthTypes } from "./actions";
 
 export interface IAuthState {
@@ -18,7 +20,7 @@ const defaultAuthState: IAuthState = {
 
 export const authReducer: Reducer<IAuthState, AuthAction> = (
     state: IAuthState = defaultAuthState,
-    action: AuthAction,
+    action: AuthAction | UserAction,
 ) => {
     switch (action.type) {
         case AuthTypes.AUTH_START:
@@ -26,16 +28,25 @@ export const authReducer: Reducer<IAuthState, AuthAction> = (
             return { ...defaultAuthState, inProgress: true };
             break;
         case AuthTypes.AUTH_SUCCESS:
+        case UserTypes.USER_GET_SUCCESS:
+            setToken(action.payload.jwt);
             return {
                 ...defaultAuthState,
                 jwt: action.payload.jwt,
             };
             break;
+        case UserTypes.USER_GET_FAIL:
+            if (action.payload.logout) {
+                return defaultAuthState;
+            }
         case AuthTypes.AUTH_FAIL:
             return { ...defaultAuthState, formError: action.payload.error };
             break;
         case AuthTypes.AUTH_START_FORM_SPINNER:
             return { ...state, formSpinner: true };
+        case UserTypes.USER_LOGOUT:
+            return defaultAuthState;
+            break;
         default:
             return state;
             break;

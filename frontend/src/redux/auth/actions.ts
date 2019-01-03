@@ -1,5 +1,7 @@
 import { Action } from "redux";
 
+import { IUserAuthJSON } from "~../../src/entity/User";
+
 export enum AuthTypes {
     AUTH_START = "AUTH_START",
     SIGNUP_START = "SIGNUP_START",
@@ -27,9 +29,7 @@ export interface ISignupStartActionAction extends Action {
 
 export interface IAuthSuccessActionAction extends Action {
     type: AuthTypes.AUTH_SUCCESS;
-    payload: {
-        jwt: string;
-    };
+    payload: IUserAuthJSON;
 }
 
 export interface IAuthFailureActionAction extends Action {
@@ -65,8 +65,8 @@ export function signupStart(
     };
 }
 
-export function authSuccess(jwt: string): IAuthSuccessActionAction {
-    return { type: AuthTypes.AUTH_SUCCESS, payload: { jwt } };
+export function authSuccess(user: IUserAuthJSON): IAuthSuccessActionAction {
+    return { type: AuthTypes.AUTH_SUCCESS, payload: user };
 }
 
 export function authFail(error: string): IAuthFailureActionAction {
