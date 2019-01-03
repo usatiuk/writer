@@ -16,7 +16,7 @@ const defaultAuthState: IAuthState = {
     formSpinner: false,
 };
 
-export const auth: Reducer<IAuthState, AuthAction> = (
+export const authReducer: Reducer<IAuthState, AuthAction> = (
     state: IAuthState = defaultAuthState,
     action: AuthAction,
 ) => {

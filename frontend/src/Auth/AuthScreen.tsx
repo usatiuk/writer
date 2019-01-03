@@ -24,7 +24,6 @@ export class AuthScreenComponent extends React.PureComponent<IAuthScreenProps> {
     public render() {
         const { location } = this.props.history;
         const { from } = this.props.location.state || { from: "/" };
-        console.log(from);
         const { loggedIn } = this.props;
         return loggedIn ? (
             <Redirect to={from} />
