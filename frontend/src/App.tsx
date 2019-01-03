@@ -1,16 +1,34 @@
 import * as React from "react";
-import { Route, RouteComponentProps, withRouter } from "react-router";
+import { connect } from "react-redux";
+import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
 import { AuthScreen } from "~Auth/AuthScreen";
-import { Home } from "~Home";
+import { Home } from "~Home/Home";
+import { Landing } from "~Landing/Landing";
+import { IAppState } from "~redux/reducers";
 
-export function AppComponent(props: RouteComponentProps) {
+interface IAppComponentProps extends RouteComponentProps {
+    loggedIn: boolean;
+}
+
+export function AppComponent(props: IAppComponentProps) {
+    const { loggedIn } = props;
     const { location } = props.history;
     return (
         <>
-            <Route exact={true} path="/" component={Home} />
-            <Route path="/(login|signup)/" component={AuthScreen} />
+            <Switch>
+                <Route
+                    exact={true}
+                    path="/"
+                    component={() => (loggedIn ? <Home /> : <Landing />)}
+                />
+                <Route path="/(login|signup)/" component={AuthScreen} />
+            </Switch>
         </>
     );
 }
 
-export const App = withRouter(AppComponent);
+function mapStateToProps(state: IAppState) {
+    return { loggedIn: !(state.auth.jwt === null) };
+}
+
+export const App = withRouter(connect(mapStateToProps)(AppComponent));

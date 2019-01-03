@@ -1,50 +1,69 @@
 import * as React from "react";
-import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
+import { connect } from "react-redux";
+import {
+    Redirect,
+    Route,
+    RouteComponentProps,
+    Switch,
+    withRouter,
+} from "react-router";
 import { Transition } from "react-spring";
+import { IAppState } from "~redux/reducers";
 
 import { Login } from "./Login";
 import { Signup } from "./Signup";
 
-export function AuthScreenComponent(props: RouteComponentProps) {
-    const { location } = props.history;
-    return (
-        <div
-            style={{
-                position: "absolute",
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                overflow: "hidden",
-            }}
-        >
-            <Transition
-                items={location}
-                keys={location.pathname}
-                from={{
-                    opacity: 0,
-                    transform: "translate3d(-400px,0,0)",
-                }}
-                enter={{
-                    opacity: 1,
-                    transform: "translate3d(0,0,0)",
-                }}
-                leave={{
-                    opacity: 0,
-                    transform: "translate3d(400px,0,0)",
-                }}
-            >
-                {_location => style => (
-                    <div style={style}>
-                        <Switch location={_location}>
-                            <Route path="/login" component={Login} />
-                            <Route path="/signup" component={Signup} />
-                        </Switch>
-                    </div>
-                )}
-            </Transition>
-        </div>
-    );
+interface IAuthScreenProps extends RouteComponentProps {
+    loggedIn: boolean;
 }
 
-export const AuthScreen = withRouter(AuthScreenComponent);
+export class AuthScreenComponent extends React.PureComponent<IAuthScreenProps> {
+    constructor(props: IAuthScreenProps) {
+        super(props);
+    }
+    public render() {
+        const { location } = this.props.history;
+        const { from } = this.props.location.state || { from: "/" };
+        console.log(from);
+        const { loggedIn } = this.props;
+        return loggedIn ? (
+            <Redirect to={from} />
+        ) : (
+            <div className="animationWrapper">
+                <Transition
+                    items={location}
+                    keys={location.pathname}
+                    from={{
+                        opacity: 0,
+                        transform: "translate3d(-400px,0,0)",
+                    }}
+                    enter={{
+                        opacity: 1,
+                        transform: "translate3d(0,0,0)",
+                    }}
+                    leave={{
+                        opacity: 0,
+                        transform: "translate3d(400px,0,0)",
+                    }}
+                >
+                    {_location => style => (
+                        <div style={style}>
+                            <Switch location={_location}>
+                                <Route path="/login" component={Login} />
+                                <Route path="/signup" component={Signup} />
+                            </Switch>
+                        </div>
+                    )}
+                </Transition>
+            </div>
+        );
+    }
+}
+
+function mapStateToProps(state: IAppState) {
+    return { loggedIn: !(state.auth.jwt === null) };
+}
+
+export const AuthScreen = withRouter(
+    connect(mapStateToProps)(AuthScreenComponent),
+);
