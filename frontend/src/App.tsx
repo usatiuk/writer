@@ -1,6 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
+import {
+    Redirect,
+    Route,
+    RouteComponentProps,
+    Switch,
+    withRouter,
+} from "react-router";
 import { AuthScreen } from "~Auth/AuthScreen";
 import { Home } from "~Home/Home";
 import { Landing } from "~Landing/Landing";
@@ -20,6 +26,12 @@ export function AppComponent(props: IAppComponentProps) {
                     exact={true}
                     path="/"
                     component={() => (loggedIn ? <Home /> : <Landing />)}
+                />
+                <Route
+                    path="/files"
+                    component={() =>
+                        loggedIn ? <Home /> : <Redirect to="/login" />
+                    }
                 />
                 <Route path="/(login|signup)/" component={AuthScreen} />
             </Switch>
