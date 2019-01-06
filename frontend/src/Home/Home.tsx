@@ -25,7 +25,6 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
     }
 
     public render() {
-        console.log(this.props.location.pathname);
         return (
             this.props.user && (
                 <>
