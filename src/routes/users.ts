@@ -22,8 +22,8 @@ userRouter.post("/users/login", async ctx => {
         ctx.throw(400);
     }
     const { username, password } = request.body as {
-        username: string | null;
-        password: string | null;
+        username: string | undefined;
+        password: string | undefined;
     };
 
     if (!(username && password)) {
@@ -46,9 +46,9 @@ userRouter.post("/users/signup", async ctx => {
     }
 
     const { username, password, email } = request.body as {
-        username: string | null;
-        password: string | null;
-        email: string | null;
+        username: string | undefined;
+        password: string | undefined;
+        email: string | undefined;
     };
 
     if (!(username && password && email)) {

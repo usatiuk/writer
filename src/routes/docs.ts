@@ -13,8 +13,8 @@ docsRouter.post("/docs/new", async ctx => {
     const { user } = ctx.state;
 
     const { name, content } = ctx.request.body as {
-        name: string | null;
-        content: string | null;
+        name: string | undefined;
+        content: string | undefined;
     };
 
     if (!(name && content)) {
@@ -47,7 +47,7 @@ docsRouter.patch("/docs/byID/:id", async ctx => {
     const { user } = ctx.state;
 
     const { id } = ctx.params as {
-        id: number | null;
+        id: number | undefined;
     };
 
     if (!id) {
@@ -55,8 +55,8 @@ docsRouter.patch("/docs/byID/:id", async ctx => {
     }
 
     const { name, content } = ctx.request.body as {
-        name: string | null;
-        content: string | null;
+        name: string | undefined;
+        content: string | undefined;
     };
 
     const document = await Document.findOne({ id, user: user.id });
@@ -113,7 +113,7 @@ docsRouter.get("/docs/byID/:id", async ctx => {
     }
 
     const { id } = ctx.params as {
-        id: number | null;
+        id: number | undefined;
     };
 
     if (!id) {
@@ -144,7 +144,7 @@ docsRouter.delete("/docs/byID/:id", async ctx => {
     }
 
     const { id } = ctx.params as {
-        id: number | null;
+        id: number | undefined;
     };
 
     if (!id) {
