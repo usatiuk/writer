@@ -12,7 +12,7 @@ docsRouter.post("/docs/new", async ctx => {
 
     const { user } = ctx.state;
 
-    const { name, content } = ctx.request.body as {
+    const { name, content } = (ctx.request as any).body as {
         name: string | undefined;
         content: string | undefined;
     };
@@ -54,7 +54,7 @@ docsRouter.patch("/docs/byID/:id", async ctx => {
         ctx.throw(400);
     }
 
-    const { name, content } = ctx.request.body as {
+    const { name, content } = (ctx.request as any).body as {
         name: string | undefined;
         content: string | undefined;
     };
