@@ -16,7 +16,7 @@ userRouter.get("/users/user", async ctx => {
 });
 
 userRouter.post("/users/login", async ctx => {
-    const request = ctx.request as any;
+    const request = ctx.request;
 
     if (!request.body) {
         ctx.throw(400);
@@ -39,7 +39,7 @@ userRouter.post("/users/login", async ctx => {
 });
 
 userRouter.post("/users/signup", async ctx => {
-    const request = ctx.request as any;
+    const request = ctx.request;
 
     if (!request.body) {
         ctx.throw(400);
