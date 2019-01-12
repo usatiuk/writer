@@ -5,9 +5,12 @@ import {
     Column,
     Entity,
     Index,
+    OneToOne,
     PrimaryGeneratedColumn,
 } from "typeorm";
 import { config } from "~config";
+
+import { Document } from "./Document";
 
 export type IUserJSON = Pick<User, "id" | "username">;
 
@@ -35,6 +38,9 @@ export class User extends BaseEntity {
 
     @Column()
     public passwordHash: string;
+
+    @OneToOne(type => Document, document => document.user)
+    public documents: Document[];
 
     constructor(username: string, email: string) {
         super();
