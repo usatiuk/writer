@@ -21,4 +21,11 @@ export class Document extends BaseEntity {
 
     @Column({ type: "text" })
     public content: string;
+
+    constructor(user: User, name: string, content: string) {
+        super();
+        this.user = user;
+        this.name = name;
+        this.content = content;
+    }
 }

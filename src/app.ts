@@ -6,6 +6,7 @@ import * as bodyParser from "koa-body";
 import * as jwt from "koa-jwt";
 import * as logger from "koa-logger";
 import { config } from "~config";
+import { docsRouter } from "~routes/docs";
 import { userRouter } from "~routes/users";
 
 export const app = new Koa();
@@ -31,6 +32,7 @@ app.use(async (ctx, next) => {
 });
 
 app.use(userRouter.routes()).use(userRouter.allowedMethods());
+app.use(docsRouter.routes()).use(docsRouter.allowedMethods());
 
 app.on("error", (err, ctx) => {
     ctx.body = {
