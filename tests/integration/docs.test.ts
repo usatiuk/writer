@@ -12,7 +12,7 @@ const callback = app.callback();
 
 let seed: ISeed;
 
-describe("users", () => {
+describe("docs", () => {
     before(async () => {
         await connect();
     });
