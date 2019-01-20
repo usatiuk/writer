@@ -71,6 +71,10 @@ describe("docs", () => {
         });
 
         expect(dbDocument.name).to.be.equal("Test1");
+        expect(dbDocument.editedAt.getTime()).to.be.closeTo(
+            new Date().getTime(),
+            1000,
+        );
     });
 
     it("should list docs", async () => {

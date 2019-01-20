@@ -73,6 +73,7 @@ docsRouter.patch("/docs/byID/:id", async ctx => {
     }
 
     try {
+        document.editedAt = new Date();
         await document.save();
     } catch (e) {
         ctx.throw(400);

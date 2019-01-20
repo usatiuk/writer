@@ -8,6 +8,11 @@ import {
 
 import { User } from "./User";
 
+export type IDocumentJSON = Pick<
+    Document,
+    "id" | "user" | "name" | "content" | "createdAt"
+>;
+
 @Entity()
 export class Document extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -25,9 +30,13 @@ export class Document extends BaseEntity {
     @Column({ type: "timestamp" })
     public createdAt: Date;
 
+    @Column({ type: "timestamp" })
+    public editedAt: Date;
+
     constructor(user: User, name: string, content: string) {
         super();
         this.createdAt = new Date();
+        this.editedAt = this.createdAt;
         this.user = user;
         this.name = name;
         this.content = content;
