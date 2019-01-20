@@ -22,8 +22,12 @@ export class Document extends BaseEntity {
     @Column({ type: "text" })
     public content: string;
 
+    @Column({ type: "timestamp" })
+    public createdAt: Date;
+
     constructor(user: User, name: string, content: string) {
         super();
+        this.createdAt = new Date();
         this.user = user;
         this.name = name;
         this.content = content;
