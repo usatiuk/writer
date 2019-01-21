@@ -14,8 +14,8 @@ import {
     authFail,
     authSuccess,
     AuthTypes,
-    IAuthStartActionAction,
-    ISignupStartActionAction,
+    IAuthStartAction,
+    ISignupStartAction,
     startFormSpinner,
 } from "./actions";
 
@@ -24,7 +24,7 @@ function* startSpinner() {
     yield put(startFormSpinner());
 }
 
-function* authStart(action: IAuthStartActionAction) {
+function* authStart(action: IAuthStartAction) {
     const { username, password } = action.payload;
     try {
         const spinner = yield fork(startSpinner);
@@ -51,7 +51,7 @@ function* authStart(action: IAuthStartActionAction) {
     }
 }
 
-function* signupStart(action: ISignupStartActionAction) {
+function* signupStart(action: ISignupStartAction) {
     const { username, password, email } = action.payload;
     try {
         const spinner = yield fork(startSpinner);
