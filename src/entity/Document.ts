@@ -27,10 +27,10 @@ export class Document extends BaseEntity {
     @Column({ type: "text" })
     public content: string;
 
-    @Column({ type: "timestamp" })
+    @Column({ type: "timestamp", default: null })
     public createdAt: Date;
 
-    @Column({ type: "timestamp" })
+    @Column({ type: "timestamp", default: null })
     public editedAt: Date;
 
     constructor(user: User, name: string, content: string) {
