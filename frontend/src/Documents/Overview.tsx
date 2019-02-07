@@ -1,10 +1,14 @@
-import { H1 } from "@blueprintjs/core";
+import "./Docs.scss";
+
+import { H3 } from "@blueprintjs/core";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
 import { fetchDocsStart } from "~redux/docs/actions";
 import { IAppState } from "~redux/reducers";
+
+import { DocsList } from "./DocsList";
 
 export interface IOverviewComponentProps {
     recent: IDocumentJSON[] | null;
@@ -29,16 +33,23 @@ export class OverviewComponent extends React.PureComponent<
     }
 
     public render() {
-        let docsList;
         if (this.props.all) {
-            docsList = this.props.all.map(doc => (
-                <div key={doc.id}>
-                    <H1>{doc.name}</H1>
-                    <p>{doc.content}</p>
+            return (
+                <div id="overview">
+                    <div className="section">
+                        <H3>Recent</H3>
+                        <DocsList docs={this.props.recent} />
+                    </div>
+                    <span className="separator" />
+                    <div className="section">
+                        <H3>All documents</H3>
+                        <DocsList docs={this.props.all} />
+                    </div>
                 </div>
-            ));
+            );
+        } else {
+            return <div>Loading</div>;
         }
-        return docsList || <div>Loading</div>;
     }
 }
 

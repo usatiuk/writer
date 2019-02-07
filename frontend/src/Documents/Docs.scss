@@ -1,0 +1,38 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+#overview {
+    max-width: 100%;
+    width: 50rem;
+    margin: 0 auto;
+    margin-top: 3.5rem;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    .separator {
+        margin: 2rem 0;
+        width: 100%;
+        border-bottom: 1px $light-gray1 dashed;
+    }
+    .section {
+        width: 100%;
+    }
+    .list {
+        display: flex;
+        .card {
+            height: 15rem;
+            width: 10.5rem;
+            margin: 1rem;
+            padding: 0rem;
+
+            overflow: hidden;
+            h4 {
+                padding: 1rem;
+                padding-bottom: 1.5rem;
+                border-bottom: 1px $light-gray4 solid;
+                box-shadow: 0 0 5px $light-gray3;
+            }
+            .textPreview {
+                padding: 0.5rem;
+            }
+        }
+    }
+}
