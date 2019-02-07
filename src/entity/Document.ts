@@ -8,10 +8,14 @@ import {
 
 import { User } from "./User";
 
-export type IDocumentJSON = Pick<
-    Document,
-    "id" | "user" | "name" | "content" | "createdAt"
->;
+export interface IDocumentJSON {
+    id: number;
+    user: number;
+    name: string;
+    content: string;
+    createdAt: number;
+    editedAt: number;
+}
 
 @Entity()
 export class Document extends BaseEntity {
@@ -40,5 +44,16 @@ export class Document extends BaseEntity {
         this.user = user;
         this.name = name;
         this.content = content;
+    }
+
+    public toJSON(user: number): IDocumentJSON {
+        return {
+            id: this.id,
+            user: user as any,
+            name: this.name,
+            content: this.content,
+            createdAt: this.createdAt.getTime(),
+            editedAt: this.editedAt.getTime(),
+        };
     }
 }

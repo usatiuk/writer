@@ -8,9 +8,10 @@ import {
 } from "@blueprintjs/core";
 import * as React from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps, withRouter } from "react-router";
+import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { IUserJSON } from "~../../src/entity/User";
+import { Overview } from "~Documents/Overview";
 import { IAppState } from "~redux/reducers";
 import { logoutUser } from "~redux/user/actions";
 
@@ -70,7 +71,11 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                             />
                         </Navbar.Group>
                     </Navbar>
-                    <div id="MainScreen" />
+                    <div id="MainScreen">
+                        <Switch>
+                            <Route exact={true} path="/" component={Overview} />
+                        </Switch>
+                    </div>
                 </>
             )
         );

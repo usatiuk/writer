@@ -3,8 +3,6 @@ import { Document } from "~entity/Document";
 
 export const docsRouter = new Router();
 
-export type IDocumentJSON = Pick<Document, "id" | "name" | "content">;
-
 docsRouter.post("/docs/new", async ctx => {
     if (!ctx.state.user) {
         ctx.throw(401);
@@ -31,11 +29,7 @@ docsRouter.post("/docs/new", async ctx => {
 
     ctx.body = {
         error: false,
-        data: {
-            id: document.id,
-            name: document.name,
-            content: document.content,
-        },
+        data: document.toJSON(user.id),
     };
 });
 
@@ -81,11 +75,7 @@ docsRouter.patch("/docs/byID/:id", async ctx => {
 
     ctx.body = {
         error: false,
-        data: {
-            id: document.id,
-            name: document.name,
-            content: document.content,
-        },
+        data: document.toJSON(user.id),
     };
 });
 
@@ -100,11 +90,25 @@ docsRouter.get("/docs/list", async ctx => {
 
     ctx.body = {
         error: false,
-        data: documents.map(document => ({
-            id: document.id,
-            name: document.name,
-            content: document.content,
-        })),
+        data: documents.map(document => document.toJSON(user.id)),
+    };
+});
+
+docsRouter.get("/docs/list/recent", async ctx => {
+    if (!ctx.state.user) {
+        ctx.throw(401);
+    }
+
+    const { user } = ctx.state;
+
+    const documents = await Document.find({
+        where: { user: user.id },
+        order: { editedAt: "DESC" },
+    });
+
+    ctx.body = {
+        error: false,
+        data: documents.map(document => document.toJSON(user.id)),
     };
 });
 
@@ -131,11 +135,7 @@ docsRouter.get("/docs/byID/:id", async ctx => {
 
     ctx.body = {
         error: false,
-        data: {
-            id: document.id,
-            name: document.name,
-            content: document.content,
-        },
+        data: document.toJSON(user.id),
     };
 });
 
