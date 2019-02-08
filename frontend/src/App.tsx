@@ -19,23 +19,19 @@ interface IAppComponentProps extends RouteComponentProps {
 export function AppComponent(props: IAppComponentProps) {
     const { loggedIn } = props;
     const { location } = props.history;
-    return (
-        <>
-            <Switch>
-                <Route
-                    exact={true}
-                    path="/"
-                    component={() => (loggedIn ? <Home /> : <Landing />)}
-                />
-                <Route
-                    path="/docs/:id"
-                    component={() =>
-                        loggedIn ? <Home /> : <Redirect to="/login" />
-                    }
-                />
-                <Route path="/(login|signup)/" component={AuthScreen} />
-            </Switch>
-        </>
+    return loggedIn ? (
+        <Switch>
+            <Route path="/docs/:id" component={Home} />,
+            <Route path="/" component={Home} />,
+            <Route path="/signup" component={AuthScreen} />,
+            <Route path="/login" component={AuthScreen} />,
+        </Switch>
+    ) : (
+        <Switch>
+            <Route path="/signup" component={AuthScreen} />
+            <Route path="/login" component={AuthScreen} />
+            <Route exact={true} path="/" component={Landing} />
+        </Switch>
     );
 }
 

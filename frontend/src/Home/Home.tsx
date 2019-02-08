@@ -1,3 +1,5 @@
+import "./Home.scss";
+
 import {
     Alignment,
     Breadcrumbs,
@@ -10,9 +12,11 @@ import {
 import * as React from "react";
 import { connect } from "react-redux";
 import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
+import { Transition } from "react-spring/renderprops";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
 import { IUserJSON } from "~../../src/entity/User";
+import { EditDoc } from "~Documents/EditDoc";
 import { Overview } from "~Documents/Overview";
 import { IAppState } from "~redux/reducers";
 import { logoutUser } from "~redux/user/actions";
@@ -29,6 +33,8 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
     }
 
     public render() {
+        const { location } = this.props.history;
+
         const breadcrumbs: IBreadcrumbProps[] = [
             {
                 icon: "home",
@@ -49,7 +55,7 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
         return (
             this.props.user && (
                 <>
-                    <Navbar>
+                    <Navbar fixedToTop={true}>
                         <Navbar.Group align={Alignment.LEFT}>
                             <Navbar.Heading>Writer</Navbar.Heading>
                             <Navbar.Divider />
@@ -74,11 +80,35 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                             />
                         </Navbar.Group>
                     </Navbar>
-                    <div id="MainScreen">
-                        <Switch>
-                            <Route exact={true} path="/" component={Overview} />
-                            <Route path="/docs/:id" component={Overview} />
-                        </Switch>
+                    <div id="MainScreen" className="animationWrapper">
+                        <Transition
+                            items={location}
+                            keys={location.pathname}
+                            from={{
+                                opacity: 0,
+                                transform: "translate3d(-400px,0,0)",
+                            }}
+                            enter={{
+                                opacity: 1,
+                                transform: "translate3d(0,0,0)",
+                            }}
+                            leave={{
+                                opacity: 0,
+                                transform: "translate3d(400px,0,0)",
+                            }}
+                        >
+                            {(_location: any) => (style: any) => (
+                                <div style={style} className="viewComponent">
+                                    <Switch location={_location}>
+                                        <Route
+                                            path="/docs/:id"
+                                            component={EditDoc}
+                                        />
+                                        <Route path="/" component={Overview} />
+                                    </Switch>
+                                </div>
+                            )}
+                        </Transition>
                     </div>
                 </>
             )
