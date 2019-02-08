@@ -9,3 +9,4 @@ ormconfig.test.json
 .env
 .cache
 .directory
+.history

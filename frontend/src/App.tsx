@@ -28,7 +28,7 @@ export function AppComponent(props: IAppComponentProps) {
                     component={() => (loggedIn ? <Home /> : <Landing />)}
                 />
                 <Route
-                    path="/files"
+                    path="/docs/:id"
                     component={() =>
                         loggedIn ? <Home /> : <Redirect to="/login" />
                     }

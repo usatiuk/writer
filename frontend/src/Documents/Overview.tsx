@@ -12,7 +12,7 @@ import { IAppState } from "~redux/reducers";
 import { DocsList } from "./DocsList";
 
 export interface IOverviewComponentProps {
-    all: { [key: number]: IDocumentJSON };
+    allDocs: { [key: number]: IDocumentJSON };
     fetching: boolean;
     spinner: boolean;
 
@@ -28,14 +28,14 @@ export class OverviewComponent extends React.PureComponent<
     }
 
     public componentDidMount() {
-        if (!this.props.all) {
+        if (!this.props.allDocs) {
             this.props.fetchDocs();
         }
     }
 
     public render() {
-        if (this.props.all) {
-            const docs = Object.values(this.props.all);
+        if (this.props.allDocs) {
+            const docs = Object.values(this.props.allDocs);
             const recent = [...docs];
             recent.sort((a, b) => b.editedAt - a.editedAt);
             const recentCut = recent.splice(0, 4);
@@ -60,7 +60,7 @@ export class OverviewComponent extends React.PureComponent<
 
 function mapStateToProps(state: IAppState) {
     return {
-        all: state.docs.all,
+        allDocs: state.docs.all,
         fetching: state.docs.fetching,
         spinner: state.docs.spinner,
     };

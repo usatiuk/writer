@@ -1,7 +1,8 @@
 import {
     Alignment,
+    Breadcrumbs,
     Button,
-    Classes,
+    IBreadcrumbProps,
     Menu,
     Navbar,
     Popover,
@@ -10,12 +11,14 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
 import { Dispatch } from "redux";
+import { IDocumentJSON } from "~../../src/entity/Document";
 import { IUserJSON } from "~../../src/entity/User";
 import { Overview } from "~Documents/Overview";
 import { IAppState } from "~redux/reducers";
 import { logoutUser } from "~redux/user/actions";
 
 interface IHomeProps extends RouteComponentProps {
+    allDocs: { [key: number]: IDocumentJSON };
     user: IUserJSON | null;
     logout: () => void;
 }
@@ -26,6 +29,23 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
     }
 
     public render() {
+        const breadcrumbs: IBreadcrumbProps[] = [
+            {
+                icon: "home",
+                text: "Home",
+                onClick: () => this.props.history.push("/"),
+            },
+        ];
+
+        if ((this.props.match.params as any).id && this.props.allDocs) {
+            const { id } = this.props.match.params as any;
+            breadcrumbs.push({
+                icon: "document",
+                text: this.props.allDocs[id].name,
+                onClick: () => this.props.history.push(`/docs/${id}`),
+            });
+        }
+
         return (
             this.props.user && (
                 <>
@@ -33,24 +53,7 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                         <Navbar.Group align={Alignment.LEFT}>
                             <Navbar.Heading>Writer</Navbar.Heading>
                             <Navbar.Divider />
-                            <Button
-                                className={Classes.MINIMAL}
-                                icon="home"
-                                text="Home"
-                                active={this.props.location.pathname === "/"}
-                                onClick={() => this.props.history.push("/")}
-                            />
-                            <Button
-                                className={Classes.MINIMAL}
-                                icon="document"
-                                text="Files"
-                                active={
-                                    this.props.location.pathname === "/files"
-                                }
-                                onClick={() =>
-                                    this.props.history.push("/files")
-                                }
-                            />
+                            <Breadcrumbs items={breadcrumbs} />
                         </Navbar.Group>
                         <Navbar.Group align={Alignment.RIGHT}>
                             <Popover
@@ -74,6 +77,7 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                     <div id="MainScreen">
                         <Switch>
                             <Route exact={true} path="/" component={Overview} />
+                            <Route path="/docs/:id" component={Overview} />
                         </Switch>
                     </div>
                 </>
@@ -83,7 +87,7 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
 }
 
 function mapStateToProps(state: IAppState) {
-    return { user: state.user.user };
+    return { allDocs: state.docs.all, user: state.user.user };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {

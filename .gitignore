@@ -8,3 +8,4 @@ ormconfig.json
 ormconfig.test.json
 .env
 .directory
+.history
