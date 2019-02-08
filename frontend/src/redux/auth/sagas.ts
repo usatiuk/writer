@@ -1,8 +1,8 @@
-import { delay } from "redux-saga";
 import {
     all,
     call,
     cancel,
+    delay,
     fork,
     put,
     race,
@@ -31,7 +31,7 @@ function* authStart(action: IAuthStartAction) {
 
         const { response, timeout } = yield race({
             response: call(login, username, password),
-            timeout: call(delay, 10000),
+            timeout: delay(10000),
         });
 
         yield cancel(spinner);
@@ -58,7 +58,7 @@ function* signupStart(action: ISignupStartAction) {
 
         const { response, timeout } = yield race({
             response: call(signup, username, password, email),
-            timeout: call(delay, 10000),
+            timeout: delay(10000),
         });
 
         yield cancel(spinner);

@@ -1,5 +1,4 @@
-import { delay } from "redux-saga";
-import { all, call, put, race, takeLatest } from "redux-saga/effects";
+import { all, call, delay, put, race, takeLatest } from "redux-saga/effects";
 import { fetchUser } from "~redux/api/user";
 
 import { getUserFail, getUserSuccess, UserTypes } from "./actions";
@@ -8,7 +7,7 @@ function* getUser() {
     try {
         const { response, timeout } = yield race({
             response: call(fetchUser),
-            timeout: call(delay, 10000),
+            timeout: delay(10000),
         });
 
         if (timeout) {

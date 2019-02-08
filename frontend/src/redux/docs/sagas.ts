@@ -1,8 +1,8 @@
-import { delay } from "redux-saga";
 import {
     all,
     call,
     cancel,
+    delay,
     fork,
     put,
     race,
@@ -29,7 +29,7 @@ function* docsFetchStart(action: IDocsFetchStartAction) {
 
         const { response, timeout } = yield race({
             response: call(fetchAllDocs),
-            timeout: call(delay, 10000),
+            timeout: delay(10000),
         });
 
         yield cancel(spinner);

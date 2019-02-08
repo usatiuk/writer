@@ -4,7 +4,7 @@ import { IDocumentJSON } from "~../../src/entity/Document";
 import { DocsAction, DocsTypes } from "./actions";
 
 export interface IDocsState {
-    all: IDocumentJSON[] | null;
+    all: { [key: number]: IDocumentJSON };
     fetching: boolean;
     error: string | null;
     spinner: boolean;
@@ -27,7 +27,11 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
         case DocsTypes.DOCS_FETCH_START:
             return { ...defaultDocsState, fetching: true };
         case DocsTypes.DOCS_FETCH_SUCCESS:
-            return { ...defaultDocsState, ...action.payload };
+            const all: { [key: number]: IDocumentJSON } = {};
+            action.payload.all.forEach(doc => {
+                all[doc.id] = doc;
+            });
+            return { ...defaultDocsState, all };
         case DocsTypes.DOCS_FETCH_FAIL:
             return { ...defaultDocsState, ...action.payload };
         default:

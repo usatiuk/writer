@@ -7,7 +7,7 @@ import {
     Switch,
     withRouter,
 } from "react-router";
-import { Transition } from "react-spring";
+import { Transition } from "react-spring/renderprops";
 import { IAppState } from "~redux/reducers";
 
 import { Login } from "./Login";
@@ -45,7 +45,7 @@ export class AuthScreenComponent extends React.PureComponent<IAuthScreenProps> {
                         transform: "translate3d(400px,0,0)",
                     }}
                 >
-                    {_location => style => (
+                    {(_location: any) => (style: any) => (
                         <div style={style}>
                             <Switch location={_location}>
                                 <Route path="/login" component={Login} />
