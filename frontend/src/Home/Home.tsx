@@ -4,6 +4,7 @@ import {
     Alignment,
     Breadcrumbs,
     Button,
+    Classes,
     IBreadcrumbProps,
     Menu,
     Navbar,
@@ -18,13 +19,18 @@ import { IDocumentJSON } from "~../../src/entity/Document";
 import { IUserJSON } from "~../../src/entity/User";
 import { EditDoc } from "~Documents/EditDoc";
 import { Overview } from "~Documents/Overview";
+import { toggleDarkMode } from "~redux/localSettings/actions";
 import { IAppState } from "~redux/reducers";
 import { logoutUser } from "~redux/user/actions";
 
 interface IHomeProps extends RouteComponentProps {
     allDocs: { [key: number]: IDocumentJSON };
     user: IUserJSON | null;
+
+    darkMode: boolean;
+
     logout: () => void;
+    dispatchToggleDarkMode: () => void;
 }
 
 export class HomeComponent extends React.PureComponent<IHomeProps> {
@@ -54,7 +60,7 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
 
         return (
             this.props.user && (
-                <>
+                <div id="mainContainer" className={this.props.darkMode && Classes.DARK}>
                     <Navbar fixedToTop={true}>
                         <Navbar.Group align={Alignment.LEFT}>
                             <Navbar.Heading>Writer</Navbar.Heading>
@@ -75,6 +81,25 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                                             text="Logout"
                                             onClick={this.props.logout}
                                         />
+                                        {this.props.darkMode ? (
+                                            <Menu.Item
+                                                icon="flash"
+                                                text="Light Mode"
+                                                onClick={
+                                                    this.props
+                                                        .dispatchToggleDarkMode
+                                                }
+                                            />
+                                        ) : (
+                                            <Menu.Item
+                                                icon="moon"
+                                                text="Dark Mode"
+                                                onClick={
+                                                    this.props
+                                                        .dispatchToggleDarkMode
+                                                }
+                                            />
+                                        )}
                                     </Menu>
                                 }
                             />
@@ -110,18 +135,25 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                             )}
                         </Transition>
                     </div>
-                </>
+                </div>
             )
         );
     }
 }
 
 function mapStateToProps(state: IAppState) {
-    return { allDocs: state.docs.all, user: state.user.user };
+    return {
+        allDocs: state.docs.all,
+        user: state.user.user,
+        darkMode: state.localSettings.darkMode,
+    };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-    return { logout: () => dispatch(logoutUser()) };
+    return {
+        logout: () => dispatch(logoutUser()),
+        dispatchToggleDarkMode: () => dispatch(toggleDarkMode()),
+    };
 }
 
 export const Home = withRouter(

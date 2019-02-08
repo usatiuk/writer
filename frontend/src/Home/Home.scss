@@ -14,3 +14,9 @@
     margin-top: 3rem;
     max-height: 100%;
 }
+
+#mainContainer.bp3-dark {
+    #MainScreen {
+        background: $dark-gray2;
+    }
+}

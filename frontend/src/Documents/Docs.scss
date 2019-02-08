@@ -24,12 +24,34 @@
             h4 {
                 padding: 1rem;
                 padding-bottom: 1.5rem;
-                border-bottom: 1px $light-gray4 solid;
+                border-bottom: 1px $light-gray2 solid;
                 box-shadow: 0 0 5px $light-gray3;
+                .bp3-dark {
+                    box-shadow: 0 0 5px $dark-gray5;
+                }
             }
             .textPreview {
                 padding: 0.5rem;
                 color: $dark-gray5;
+            }
+        }
+    }
+}
+
+.bp3-dark {
+    #overview {
+        .separator {
+            border-bottom: 1px $dark-gray5 dashed;
+        }
+        .list {
+            .card {
+                h4 {
+                    border-bottom: 1px $dark-gray2 solid;
+                    box-shadow: 0 0 5px $dark-gray3;
+                }
+                .textPreview {
+                    color: $light-gray1;
+                }
             }
         }
     }
