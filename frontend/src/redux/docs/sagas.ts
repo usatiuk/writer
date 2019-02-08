@@ -8,7 +8,7 @@ import {
     race,
     takeLatest,
 } from "redux-saga/effects";
-import { fetchAllDocs, fetchRecentDocs } from "~redux/api/docs";
+import { fetchAllDocs } from "~redux/api/docs";
 
 import {
     DocsTypes,
@@ -28,7 +28,7 @@ function* docsFetchStart(action: IDocsFetchStartAction) {
         const spinner = yield fork(startSpinner);
 
         const { response, timeout } = yield race({
-            response: all([call(fetchRecentDocs), call(fetchAllDocs)]),
+            response: call(fetchAllDocs),
             timeout: call(delay, 10000),
         });
 
@@ -40,12 +40,11 @@ function* docsFetchStart(action: IDocsFetchStartAction) {
         }
 
         if (response) {
-            if (response[0].data == null || response[1].data == null) {
-                yield put(fetchDocsFail(response[0].error));
+            if (response.data == null) {
+                yield put(fetchDocsFail(response.error));
             } else {
-                const recentDocs = response[0].data;
-                const allDocs = response[1].data;
-                yield put(fetchDocsSuccess(recentDocs, allDocs));
+                const allDocs = response.data;
+                yield put(fetchDocsSuccess(allDocs));
             }
         }
     } catch (e) {

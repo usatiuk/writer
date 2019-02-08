@@ -4,7 +4,6 @@ import { IDocumentJSON } from "~../../src/entity/Document";
 import { DocsAction, DocsTypes } from "./actions";
 
 export interface IDocsState {
-    recent: IDocumentJSON[] | null;
     all: IDocumentJSON[] | null;
     fetching: boolean;
     error: string | null;
@@ -12,7 +11,6 @@ export interface IDocsState {
 }
 
 const defaultDocsState: IDocsState = {
-    recent: null,
     all: null,
     fetching: false,
     error: null,

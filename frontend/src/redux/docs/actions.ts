@@ -26,7 +26,6 @@ export interface IDocsFetchFailAction extends Action {
 export interface IDocsFetchSuccessAction extends Action {
     type: DocsTypes.DOCS_FETCH_SUCCESS;
     payload: {
-        recent: IDocumentJSON[];
         all: IDocumentJSON[];
     };
 }
@@ -44,10 +43,9 @@ export function fetchDocsFail(error: string): IDocsFetchFailAction {
 }
 
 export function fetchDocsSuccess(
-    recent: IDocumentJSON[],
     all: IDocumentJSON[],
 ): IDocsFetchSuccessAction {
-    return { type: DocsTypes.DOCS_FETCH_SUCCESS, payload: { recent, all } };
+    return { type: DocsTypes.DOCS_FETCH_SUCCESS, payload: { all } };
 }
 
 export type DocsAction =

@@ -94,24 +94,6 @@ docsRouter.get("/docs/list", async ctx => {
     };
 });
 
-docsRouter.get("/docs/list/recent", async ctx => {
-    if (!ctx.state.user) {
-        ctx.throw(401);
-    }
-
-    const { user } = ctx.state;
-
-    const documents = await Document.find({
-        where: { user: user.id },
-        order: { editedAt: "DESC" },
-    });
-
-    ctx.body = {
-        error: false,
-        data: documents.map(document => document.toJSON(user.id)),
-    };
-});
-
 docsRouter.get("/docs/byID/:id", async ctx => {
     if (!ctx.state.user) {
         ctx.throw(401);

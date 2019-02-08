@@ -93,38 +93,6 @@ describe("docs", () => {
         expect(documents).to.deep.equal(userDocs);
     });
 
-    it("should list recent docs", async () => {
-        const doc1 = new Document(seed.user1, "doc1", "");
-        doc1.editedAt = new Date(doc1.editedAt.getTime() + 10000);
-        await doc1.save();
-        const doc2 = new Document(seed.user1, "doc2", "");
-        doc2.editedAt = new Date(doc2.editedAt.getTime() + 20000);
-        await doc2.save();
-        const doc3 = new Document(seed.user1, "doc3", "");
-        doc3.editedAt = new Date(doc3.editedAt.getTime() + 30000);
-        await doc3.save();
-
-        const response = await request(callback)
-            .get("/docs/list/recent")
-            .set({
-                Authorization: `Bearer ${seed.user1.toJWT()}`,
-            })
-            .expect(200);
-
-        expect(response.body.error).to.be.false;
-
-        const documents = response.body.data as IDocumentJSON[];
-
-        const userDocs = [
-            doc3.toJSON(seed.user1.id),
-            doc2.toJSON(seed.user1.id),
-            doc1.toJSON(seed.user1.id),
-            seed.doc1.toJSON(seed.user1.id),
-        ];
-
-        expect(documents).to.deep.equal(userDocs);
-    });
-
     it("should get a document", async () => {
         const response = await request(callback)
             .get(`/docs/byID/${seed.doc1.id}`)

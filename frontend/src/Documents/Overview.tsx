@@ -12,7 +12,6 @@ import { IAppState } from "~redux/reducers";
 import { DocsList } from "./DocsList";
 
 export interface IOverviewComponentProps {
-    recent: IDocumentJSON[] | null;
     all: IDocumentJSON[] | null;
     fetching: boolean;
     spinner: boolean;
@@ -36,11 +35,14 @@ export class OverviewComponent extends React.PureComponent<
 
     public render() {
         if (this.props.all) {
+            const recent = [...this.props.all];
+            recent.sort((a, b) => b.editedAt - a.editedAt);
+            const recentCut = recent.splice(0, 4);
             return (
                 <div id="overview">
                     <div className="section">
                         <H3>Recent</H3>
-                        <DocsList docs={this.props.recent} />
+                        <DocsList docs={recentCut} />
                     </div>
                     <span className="separator" />
                     <div className="section">
@@ -57,7 +59,6 @@ export class OverviewComponent extends React.PureComponent<
 
 function mapStateToProps(state: IAppState) {
     return {
-        recent: state.docs.recent,
         all: state.docs.all,
         fetching: state.docs.fetching,
         spinner: state.docs.spinner,
