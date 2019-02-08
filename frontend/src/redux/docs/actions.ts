@@ -5,6 +5,11 @@ export enum DocsTypes {
     DOCS_FETCH_START = "DOCS_FETCH_START",
     DOCS_FETCH_FAIL = "DOCS_FETCH_FAIL",
     DOCS_FETCH_SUCCESS = "DOCS_FETCH_SUCCESS",
+    DOCS_SHOW_SPINNER = "DOCS_SHOW_SPINNER",
+}
+
+export interface IDocsShowSpinnerAction extends Action {
+    type: DocsTypes.DOCS_SHOW_SPINNER;
 }
 
 export interface IDocsFetchStartAction extends Action {
@@ -26,6 +31,10 @@ export interface IDocsFetchSuccessAction extends Action {
     };
 }
 
+export function showDocsSpinner(): IDocsShowSpinnerAction {
+    return { type: DocsTypes.DOCS_SHOW_SPINNER };
+}
+
 export function fetchDocsStart(): IDocsFetchStartAction {
     return { type: DocsTypes.DOCS_FETCH_START };
 }
@@ -44,4 +53,5 @@ export function fetchDocsSuccess(
 export type DocsAction =
     | IDocsFetchStartAction
     | IDocsFetchFailAction
-    | IDocsFetchSuccessAction;
+    | IDocsFetchSuccessAction
+    | IDocsShowSpinnerAction;

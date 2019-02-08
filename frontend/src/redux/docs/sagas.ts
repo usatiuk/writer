@@ -15,10 +15,12 @@ import {
     fetchDocsFail,
     fetchDocsSuccess,
     IDocsFetchStartAction,
+    showDocsSpinner,
 } from "./actions";
 
 function* startSpinner() {
     yield delay(300);
+    yield put(showDocsSpinner());
 }
 
 function* docsFetchStart(action: IDocsFetchStartAction) {

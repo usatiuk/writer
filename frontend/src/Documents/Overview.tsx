@@ -5,6 +5,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
+import { LoadingStub } from "~LoadingStub";
 import { fetchDocsStart } from "~redux/docs/actions";
 import { IAppState } from "~redux/reducers";
 
@@ -14,6 +15,7 @@ export interface IOverviewComponentProps {
     recent: IDocumentJSON[] | null;
     all: IDocumentJSON[] | null;
     fetching: boolean;
+    spinner: boolean;
 
     fetchDocs: () => void;
 }
@@ -48,7 +50,7 @@ export class OverviewComponent extends React.PureComponent<
                 </div>
             );
         } else {
-            return <div>Loading</div>;
+            return this.props.spinner && <LoadingStub />;
         }
     }
 }
@@ -58,6 +60,7 @@ function mapStateToProps(state: IAppState) {
         recent: state.docs.recent,
         all: state.docs.all,
         fetching: state.docs.fetching,
+        spinner: state.docs.spinner,
     };
 }
 

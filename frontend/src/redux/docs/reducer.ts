@@ -8,6 +8,7 @@ export interface IDocsState {
     all: IDocumentJSON[] | null;
     fetching: boolean;
     error: string | null;
+    spinner: boolean;
 }
 
 const defaultDocsState: IDocsState = {
@@ -15,6 +16,7 @@ const defaultDocsState: IDocsState = {
     all: null,
     fetching: false,
     error: null,
+    spinner: false,
 };
 
 export const docsReducer: Reducer<IDocsState, DocsAction> = (
@@ -22,6 +24,8 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
     action: DocsAction,
 ) => {
     switch (action.type) {
+        case DocsTypes.DOCS_SHOW_SPINNER:
+            return { ...state, spinner: true };
         case DocsTypes.DOCS_FETCH_START:
             return { ...defaultDocsState, fetching: true };
         case DocsTypes.DOCS_FETCH_SUCCESS:
