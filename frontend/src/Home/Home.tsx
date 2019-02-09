@@ -17,7 +17,8 @@ import { Transition } from "react-spring/renderprops";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
 import { IUserJSON } from "~../../src/entity/User";
-import { EditDoc } from "~Documents/EditDoc";
+import { DocumentEdit } from "~Documents/DocumentEdit";
+import { DocumentView } from "~Documents/DocumentView";
 import { Overview } from "~Documents/Overview";
 import { toggleDarkMode } from "~redux/localSettings/actions";
 import { IAppState } from "~redux/reducers";
@@ -60,7 +61,10 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
 
         return (
             this.props.user && (
-                <div id="mainContainer" className={this.props.darkMode && Classes.DARK}>
+                <div
+                    id="mainContainer"
+                    className={this.props.darkMode && Classes.DARK}
+                >
                     <Navbar fixedToTop={true}>
                         <Navbar.Group align={Alignment.LEFT}>
                             <Navbar.Heading>Writer</Navbar.Heading>
@@ -126,8 +130,12 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                                 <div style={style} className="viewComponent">
                                     <Switch location={_location}>
                                         <Route
+                                            path="/docs/:id/edit"
+                                            component={DocumentEdit}
+                                        />
+                                        <Route
                                             path="/docs/:id"
-                                            component={EditDoc}
+                                            component={DocumentView}
                                         />
                                         <Route path="/" component={Overview} />
                                     </Switch>
