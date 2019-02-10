@@ -47,7 +47,9 @@ export class DocumentViewComponent extends React.PureComponent<
                 </div>
             );
         } else {
-            this.props.fetchDocs();
+            if (!this.props.fetching) {
+                this.props.fetchDocs();
+            }
             return this.props.spinner && <LoadingStub />;
         }
     }

@@ -27,12 +27,6 @@ export class OverviewComponent extends React.PureComponent<
         super(props);
     }
 
-    public componentDidMount() {
-        if (!this.props.allDocs) {
-            this.props.fetchDocs();
-        }
-    }
-
     public render() {
         if (this.props.allDocs) {
             const docs = Object.values(this.props.allDocs);
@@ -53,6 +47,9 @@ export class OverviewComponent extends React.PureComponent<
                 </div>
             );
         } else {
+            if (!this.props.fetching) {
+                this.props.fetchDocs();
+            }
             return this.props.spinner && <LoadingStub />;
         }
     }

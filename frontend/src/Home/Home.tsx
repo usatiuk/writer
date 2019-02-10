@@ -13,7 +13,7 @@ import {
 import * as React from "react";
 import { connect } from "react-redux";
 import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
-import { Transition } from "react-spring/renderprops";
+import { config, Transition } from "react-spring/renderprops";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
 import { IUserJSON } from "~../../src/entity/User";
@@ -111,6 +111,11 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                     </Navbar>
                     <div id="MainScreen" className="animationWrapper">
                         <Transition
+                            config={{
+                                ...config.default,
+                                clamp: true,
+                                precision: 0.1,
+                            }}
                             items={location}
                             keys={location.pathname}
                             from={{

@@ -10,6 +10,8 @@ export interface IDocsState {
     spinner: boolean;
 
     newDocumentID: number | null;
+
+    deletedDocument: IDocumentJSON | null;
 }
 
 const defaultDocsState: IDocsState = {
@@ -18,6 +20,7 @@ const defaultDocsState: IDocsState = {
     error: null,
     spinner: false,
     newDocumentID: null,
+    deletedDocument: null,
 };
 
 export const docsReducer: Reducer<IDocsState, DocsAction> = (
@@ -45,10 +48,20 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
         case DocsTypes.DOC_NEW_RESET: {
             return { ...state, newDocumentID: null };
         }
-        case DocsTypes.DOC_DELETE_SUCCESS: {
+        case DocsTypes.DOC_DELETE_START: {
+            const doc = { ...state.all[action.id] };
             const all = { ...state.all };
-            delete all[action.payload.id];
-            return { ...state, all };
+            delete all[action.id];
+            return { ...state, deletedDocument: doc, all };
+        }
+        case DocsTypes.DOC_DELETE_SUCCESS: {
+            return { ...state, deletedDocument: null };
+        }
+        case DocsTypes.DOC_DELETE_CANCEL: {
+            const deletedDocument = { ...state.deletedDocument };
+            const all = { ...state.all };
+            all[deletedDocument.id] = deletedDocument;
+            return { ...state, deletedDocument: null, all };
         }
         case DocsTypes.DOC_UPDATE_SUCCESS: {
             const all = { ...state.all };
