@@ -7,6 +7,7 @@ import {
     put,
     race,
     take,
+    takeEvery,
     takeLatest,
 } from "redux-saga/effects";
 import {
@@ -160,7 +161,7 @@ export function* docsSaga() {
     yield all([
         takeLatest(DocsTypes.DOCS_FETCH_START, docsFetchStart),
         takeLatest(DocsTypes.DOC_NEW_START, docNewStart),
-        takeLatest(DocsTypes.DOC_DELETE_START, docDeleteStart),
+        takeEvery(DocsTypes.DOC_DELETE_START, docDeleteStart),
         takeLatest(DocsTypes.DOC_UPDATE_START, docUpdateStart),
     ]);
 }
