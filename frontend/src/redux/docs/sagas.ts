@@ -8,13 +8,16 @@ import {
     race,
     takeLatest,
 } from "redux-saga/effects";
-import { fetchAllDocs } from "~redux/api/docs";
+import { createNewDoc, fetchAllDocs } from "~redux/api/docs";
 
 import {
     DocsTypes,
     fetchDocsFail,
     fetchDocsSuccess,
+    IDocNewStartAction,
     IDocsFetchStartAction,
+    newDocFail,
+    newDocSuccess,
     showDocsSpinner,
 } from "./actions";
 
@@ -52,6 +55,38 @@ function* docsFetchStart(action: IDocsFetchStartAction) {
     }
 }
 
+function* docNewStart(action: IDocNewStartAction) {
+    try {
+        const spinner = yield fork(startSpinner);
+
+        const { response, timeout } = yield race({
+            response: call(createNewDoc),
+            timeout: delay(10000),
+        });
+
+        yield cancel(spinner);
+
+        if (timeout) {
+            yield put(newDocFail("Timeout"));
+            return;
+        }
+
+        if (response) {
+            if (response.data == null) {
+                yield put(newDocFail(response.error));
+            } else {
+                const newDoc = response.data;
+                yield put(newDocSuccess(newDoc));
+            }
+        }
+    } catch (e) {
+        yield put(newDocFail("Internal error"));
+    }
+}
+
 export function* docsSaga() {
-    yield all([takeLatest(DocsTypes.DOCS_FETCH_START, docsFetchStart)]);
+    yield all([
+        takeLatest(DocsTypes.DOCS_FETCH_START, docsFetchStart),
+        takeLatest(DocsTypes.DOC_NEW_START, docNewStart),
+    ]);
 }

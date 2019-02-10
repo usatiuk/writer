@@ -26,12 +26,19 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
             return { ...state, spinner: true };
         case DocsTypes.DOCS_FETCH_START:
             return { ...defaultDocsState, fetching: true };
-        case DocsTypes.DOCS_FETCH_SUCCESS:
+        case DocsTypes.DOCS_FETCH_SUCCESS: {
             const all: { [key: number]: IDocumentJSON } = {};
             action.payload.all.forEach(doc => {
                 all[doc.id] = doc;
             });
             return { ...defaultDocsState, all };
+        }
+        case DocsTypes.DOC_NEW_SUCCESS: {
+            const all = { ...state.all };
+            const doc = action.payload.doc;
+            all[doc.id] = doc;
+            return { ...state, all };
+        }
         case DocsTypes.DOCS_FETCH_FAIL:
             return { ...defaultDocsState, ...action.payload };
         default:

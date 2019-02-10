@@ -28,7 +28,7 @@ export class Document extends BaseEntity {
     @Column()
     public name: string;
 
-    @Column({ type: "text" })
+    @Column({ type: "text", default: "" })
     public content: string;
 
     @Column({ type: "timestamp", default: null })

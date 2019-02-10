@@ -9,7 +9,7 @@ import { LoadingStub } from "~LoadingStub";
 import { fetchDocsStart } from "~redux/docs/actions";
 import { IAppState } from "~redux/reducers";
 
-import { DocsList } from "./DocsList";
+import { DocumentsList } from "./DocumentsList";
 
 export interface IOverviewComponentProps {
     allDocs: { [key: number]: IDocumentJSON };
@@ -43,12 +43,12 @@ export class OverviewComponent extends React.PureComponent<
                 <div id="overview">
                     <div className="section">
                         <H3>Recent</H3>
-                        <DocsList docs={recentCut} />
+                        <DocumentsList docs={recentCut} />
                     </div>
                     <span className="separator" />
                     <div className="section">
                         <H3>All documents</H3>
-                        <DocsList docs={docs} />
+                        <DocumentsList docs={docs} newDocument={true} />
                     </div>
                 </div>
             );

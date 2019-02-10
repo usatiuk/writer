@@ -15,7 +15,7 @@ docsRouter.post("/docs/new", async ctx => {
         content: string | undefined;
     };
 
-    if (!(name && content)) {
+    if (!name) {
         ctx.throw(400);
     }
 

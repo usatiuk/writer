@@ -20,6 +20,7 @@
   "dependencies": {
     "@blueprintjs/core": "^3.13.0",
     "@blueprintjs/icons": "^3.6.0",
+    "http2": "^3.3.7",
     "rea": "0.0.1",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",

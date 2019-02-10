@@ -16,7 +16,7 @@ export async function fetchAllDocs(): Promise<IAPIResponse<IDocumentJSON[]>> {
 export async function fetchDoc(
     id: number,
 ): Promise<IAPIResponse<IDocumentJSON>> {
-    return fetchJSONAuth(`docs/byID/${id}`, "GET");
+    return fetchJSONAuth(`/docs/byID/${id}`, "GET");
 }
 
 export async function patchDoc(
@@ -24,9 +24,13 @@ export async function patchDoc(
     name?: string,
     content?: string,
 ): Promise<IAPIResponse<IDocumentJSON>> {
-    return fetchJSONAuth(`docs/byID/${id}`, "PATCH", { name, content });
+    return fetchJSONAuth(`/docs/byID/${id}`, "PATCH", { name, content });
 }
 
 export async function deleteDoc(id: number): Promise<IAPIResponse<boolean>> {
-    return fetchJSONAuth(`docs/byID/${id}`, "DELETE");
+    return fetchJSONAuth(`/docs/byID/${id}`, "DELETE");
+}
+
+export async function createNewDoc(): Promise<IAPIResponse<IDocumentJSON>> {
+    return fetchJSONAuth(`/docs/new`, "POST", { name: "New Document" });
 }
