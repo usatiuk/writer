@@ -84,6 +84,34 @@
         margin-bottom: 1rem;
         min-width: 100%;
         resize: none;
+        code {
+            border-radius: 3px;
+            border: 1px solid $light-gray2;
+            background-color: $light-gray5;
+        }
+        pre {
+            border-radius: 3px;
+            border: 1px solid $light-gray2;
+            background-color: $light-gray5;
+            code {
+                background-color: inherit;
+                border: none;
+            }
+        }
+        table {
+            border-radius: 3px;
+            border: 1px solid $light-gray2;
+            border-collapse: collapse;
+            tr,
+            td,
+            th {
+                padding: 0.5rem;
+                border: 1px solid $light-gray2;
+            }
+            tr:nth-child(even) {
+                background-color: $light-gray5;
+            }
+        }
     }
 }
 
@@ -120,6 +148,25 @@
         .documentContents {
             background: $dark-gray4;
             border-color: $dark-gray1;
+            code {
+                border-color: $dark-gray2;
+                background-color: $dark-gray3;
+            }
+            pre {
+                border-color: $dark-gray2;
+                background-color: $dark-gray3;
+            }
+            table {
+                border-color: $dark-gray2;
+                tr,
+                td,
+                th {
+                    border-color: $dark-gray2;
+                }
+                tr:nth-child(even) {
+                    background-color: $dark-gray3;
+                }
+            }
         }
     }
 }
