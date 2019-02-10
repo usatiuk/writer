@@ -70,6 +70,7 @@ export class DocumentEditComponent extends React.PureComponent<
                             <Button
                                 icon="trash"
                                 minimal={true}
+                                intent="danger"
                                 onClick={() => {
                                     this.props.history.push(`/`);
                                     this.props.deleteDoc(this.state.id);
@@ -87,6 +88,7 @@ export class DocumentEditComponent extends React.PureComponent<
                             />
                             <Button
                                 icon="tick"
+                                intent="success"
                                 minimal={true}
                                 onClick={() => {
                                     this.update();
