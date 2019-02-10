@@ -24,6 +24,7 @@
     "rea": "0.0.1",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
+    "react-markdown": "^4.0.6",
     "react-redux": "^6.0.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",

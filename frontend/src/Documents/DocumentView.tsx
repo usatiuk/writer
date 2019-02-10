@@ -1,7 +1,8 @@
 import "./Docs.scss";
 
-import { Button, H1, Text } from "@blueprintjs/core";
+import { Button, H1 } from "@blueprintjs/core";
 import * as React from "react";
+import Markdown from "react-markdown";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
@@ -40,7 +41,7 @@ export class DocumentViewComponent extends React.PureComponent<
                             />
                         </div>
                     </div>
-                    <Text>{doc.content}</Text>
+                    <Markdown source={doc.content} />
                 </div>
             );
         } else {

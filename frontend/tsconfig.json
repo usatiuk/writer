@@ -13,6 +13,7 @@
         "experimentalDecorators": true,
         "sourceMap": true,
         "noImplicitAny": true,
+        "allowSyntheticDefaultImports": true,
         "baseUrl": "./src",
         "paths": {
             "~*": [
