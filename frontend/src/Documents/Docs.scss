@@ -82,8 +82,6 @@
     }
     textarea,
     .documentContents {
-        border: 1px solid $light-gray1;
-        border-radius: 3px;
         padding: 0.5rem 1rem;
         overflow: auto;
         margin: 0;
@@ -120,6 +118,10 @@
                 background-color: $light-gray5;
             }
         }
+    }
+    .documentContents {
+        border: 1px solid $light-gray1;
+        border-radius: 3px;
     }
 }
 
