@@ -17,6 +17,7 @@
         flex-grow: 0;
         flex-wrap: wrap;
         .card {
+            user-select: none;
             height: 15rem;
             width: 10.5rem;
             margin: 1rem;
@@ -27,11 +28,18 @@
                 padding: 1rem;
                 padding-bottom: 1.5rem;
                 border-bottom: 1px $light-gray2 solid;
+                margin-bottom: 0;
             }
             .textPreview {
+                pointer-events: none;
+                font-size: 0.5rem;
                 transition: 0.3s;
                 padding: 0.5rem;
+                padding-top: 0.5rem;
                 color: $dark-gray5;
+                ul {
+                    padding-left: 1rem;
+                }
             }
         }
         .card.newDocumentCard {
