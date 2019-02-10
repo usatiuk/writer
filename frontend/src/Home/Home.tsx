@@ -111,7 +111,6 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                     </Navbar>
                     <div id="MainScreen" className="animationWrapper">
                         <Transition
-                            native={true}
                             config={{
                                 ...config.default,
                                 clamp: true,
