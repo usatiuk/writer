@@ -30,13 +30,15 @@ export class DocumentViewComponent extends React.PureComponent<
                 <div className="document">
                     <div className="documentHeader">
                         <H1>{doc.name}</H1>
-                        <Button
-                            icon="edit"
-                            minimal={true}
-                            onClick={() =>
-                                this.props.history.push(`/docs/${id}/edit`)
-                            }
-                        />
+                        <div className="buttons">
+                            <Button
+                                icon="edit"
+                                minimal={true}
+                                onClick={() =>
+                                    this.props.history.push(`/docs/${id}/edit`)
+                                }
+                            />
+                        </div>
                     </div>
                     <Text>{doc.content}</Text>
                 </div>

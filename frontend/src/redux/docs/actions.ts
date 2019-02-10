@@ -11,6 +11,11 @@ export enum DocsTypes {
     DOC_NEW_SUCCESS = "DOC_NEW_SUCCESS",
     DOC_NEW_RESET = "DOC_NEW_RESET",
 
+    DOC_DELETE_START = "DOC_DELETE_START",
+    DOC_DELETE_FAIL = "DOC_DELETE_FAIL",
+    DOC_DELETE_SUCCESS = "DOC_DELETE_SUCCESS",
+    DOC_DELETE_CANCEL = "DOC_DELETE_CANCEL",
+
     DOCS_SHOW_SPINNER = "DOCS_SHOW_SPINNER",
 }
 
@@ -92,6 +97,45 @@ export function newDocReset(): IDocNewResetAction {
     return { type: DocsTypes.DOC_NEW_RESET };
 }
 
+export interface IDocDeleteStartAction extends Action {
+    type: DocsTypes.DOC_DELETE_START;
+    id: number;
+}
+
+export interface IDocDeleteFailAction extends Action {
+    type: DocsTypes.DOC_DELETE_FAIL;
+    payload: {
+        error: string;
+    };
+}
+
+export interface IDocDeleteSuccessAction extends Action {
+    type: DocsTypes.DOC_DELETE_SUCCESS;
+    payload: {
+        id: number;
+    };
+}
+
+export interface IDocDeleteCancelAction extends Action {
+    type: DocsTypes.DOC_DELETE_CANCEL;
+}
+
+export function deleteDocStart(id: number): IDocDeleteStartAction {
+    return { type: DocsTypes.DOC_DELETE_START, id };
+}
+
+export function deleteDocFail(error: string): IDocDeleteFailAction {
+    return { type: DocsTypes.DOC_DELETE_FAIL, payload: { error } };
+}
+
+export function deleteDocSuccess(id: number): IDocDeleteSuccessAction {
+    return { type: DocsTypes.DOC_DELETE_SUCCESS, payload: { id } };
+}
+
+export function deleteDocCancel(): IDocDeleteCancelAction {
+    return { type: DocsTypes.DOC_DELETE_CANCEL };
+}
+
 export type DocsAction =
     | IDocsFetchStartAction
     | IDocsFetchFailAction
@@ -99,4 +143,9 @@ export type DocsAction =
     | IDocsShowSpinnerAction
     | IDocNewFailAction
     | IDocNewStartAction
-    | IDocNewSuccessAction | IDocNewResetAction;
+    | IDocNewSuccessAction
+    | IDocNewResetAction
+    | IDocDeleteFailAction
+    | IDocDeleteStartAction
+    | IDocDeleteSuccessAction
+    | IDocDeleteCancelAction;

@@ -45,6 +45,11 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
         case DocsTypes.DOC_NEW_RESET: {
             return { ...state, newDocumentID: null };
         }
+        case DocsTypes.DOC_DELETE_SUCCESS: {
+            const all = { ...state.all };
+            delete all[action.payload.id];
+            return { ...state, all };
+        }
         case DocsTypes.DOCS_FETCH_FAIL:
             return { ...defaultDocsState, ...action.payload };
         default:

@@ -6,8 +6,13 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
+import { AppToaster } from "~App";
 import { LoadingStub } from "~LoadingStub";
-import { fetchDocsStart } from "~redux/docs/actions";
+import {
+    deleteDocCancel,
+    deleteDocStart,
+    fetchDocsStart,
+} from "~redux/docs/actions";
 import { IAppState } from "~redux/reducers";
 
 export interface IDocumentEditComponentProps extends RouteComponentProps {
@@ -15,7 +20,10 @@ export interface IDocumentEditComponentProps extends RouteComponentProps {
 
     fetching: boolean;
     spinner: boolean;
+
     fetchDocs: () => void;
+    deleteDoc: (id: number) => void;
+    cancelDelete: () => void;
 }
 
 export class DocumentEditComponent extends React.PureComponent<
@@ -30,13 +38,33 @@ export class DocumentEditComponent extends React.PureComponent<
                 <div className="document">
                     <div className="documentHeader">
                         <H1 contentEditable={true}>{doc.name}</H1>
-                        <Button
-                            icon="tick"
-                            minimal={true}
-                            onClick={() =>
-                                this.props.history.push(`/docs/${id}`)
-                            }
-                        />
+                        <div className="buttons">
+                            <Button
+                                icon="trash"
+                                minimal={true}
+                                onClick={() => {
+                                    this.props.history.push(`/`);
+                                    this.props.deleteDoc(id);
+                                    AppToaster.show({
+                                        message: "Document deleted!",
+                                        intent: "danger",
+                                        timeout: 1900,
+                                        action: {
+                                            text: "Undo",
+                                            onClick: () =>
+                                                this.props.cancelDelete(),
+                                        },
+                                    });
+                                }}
+                            />
+                            <Button
+                                icon="tick"
+                                minimal={true}
+                                onClick={() =>
+                                    this.props.history.push(`/docs/${id}`)
+                                }
+                            />
+                        </div>
                     </div>
                     <TextArea>{doc.content}</TextArea>
                 </div>
@@ -59,6 +87,8 @@ function mapStateToProps(state: IAppState) {
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         fetchDocs: () => dispatch(fetchDocsStart()),
+        cancelDelete: () => dispatch(deleteDocCancel()),
+        deleteDoc: (id: number) => dispatch(deleteDocStart(id)),
     };
 }
 

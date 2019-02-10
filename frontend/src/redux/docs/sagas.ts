@@ -6,14 +6,18 @@ import {
     fork,
     put,
     race,
+    take,
     takeLatest,
 } from "redux-saga/effects";
-import { createNewDoc, fetchAllDocs } from "~redux/api/docs";
+import { createNewDoc, deleteDoc, fetchAllDocs } from "~redux/api/docs";
 
 import {
+    deleteDocFail,
+    deleteDocSuccess,
     DocsTypes,
     fetchDocsFail,
     fetchDocsSuccess,
+    IDocDeleteStartAction,
     IDocNewStartAction,
     IDocsFetchStartAction,
     newDocFail,
@@ -84,9 +88,41 @@ function* docNewStart(action: IDocNewStartAction) {
     }
 }
 
+function* docDeleteStart(action: IDocDeleteStartAction) {
+    try {
+        const { cancelled } = yield race({
+            timeout: delay(2000),
+            cancelled: take(DocsTypes.DOC_DELETE_CANCEL),
+        });
+
+        if (!cancelled) {
+            const { response, timeout } = yield race({
+                response: call(deleteDoc, action.id),
+                timeout: delay(10000),
+            });
+
+            if (timeout) {
+                yield put(deleteDocFail("Timeout"));
+                return;
+            }
+
+            if (response) {
+                if (response.data == null) {
+                    yield put(deleteDocFail(response.error));
+                } else {
+                    yield put(deleteDocSuccess(action.id));
+                }
+            }
+        }
+    } catch (e) {
+        yield put(deleteDocFail("Internal error"));
+    }
+}
+
 export function* docsSaga() {
     yield all([
         takeLatest(DocsTypes.DOCS_FETCH_START, docsFetchStart),
         takeLatest(DocsTypes.DOC_NEW_START, docNewStart),
+        takeLatest(DocsTypes.DOC_DELETE_START, docDeleteStart),
     ]);
 }
