@@ -9,7 +9,12 @@ import {
     take,
     takeLatest,
 } from "redux-saga/effects";
-import { createNewDoc, deleteDoc, fetchAllDocs } from "~redux/api/docs";
+import {
+    createNewDoc,
+    deleteDoc,
+    fetchAllDocs,
+    patchDoc,
+} from "~redux/api/docs";
 
 import {
     deleteDocFail,
@@ -20,9 +25,12 @@ import {
     IDocDeleteStartAction,
     IDocNewStartAction,
     IDocsFetchStartAction,
+    IDocUpdateStartAction,
     newDocFail,
     newDocSuccess,
     showDocsSpinner,
+    updateDocFail,
+    updateDocSuccess,
 } from "./actions";
 
 function* startSpinner() {
@@ -119,10 +127,40 @@ function* docDeleteStart(action: IDocDeleteStartAction) {
     }
 }
 
+function* docUpdateStart(action: IDocUpdateStartAction) {
+    try {
+        const spinner = yield fork(startSpinner);
+
+        const { response, timeout } = yield race({
+            response: call(patchDoc, action.id, action.name, action.content),
+            timeout: delay(10000),
+        });
+
+        yield cancel(spinner);
+
+        if (timeout) {
+            yield put(updateDocFail("Timeout"));
+            return;
+        }
+
+        if (response) {
+            if (response.data == null) {
+                yield put(updateDocFail(response.error));
+            } else {
+                const updDoc = response.data;
+                yield put(updateDocSuccess(updDoc));
+            }
+        }
+    } catch (e) {
+        yield put(updateDocFail("Internal error"));
+    }
+}
+
 export function* docsSaga() {
     yield all([
         takeLatest(DocsTypes.DOCS_FETCH_START, docsFetchStart),
         takeLatest(DocsTypes.DOC_NEW_START, docNewStart),
         takeLatest(DocsTypes.DOC_DELETE_START, docDeleteStart),
+        takeLatest(DocsTypes.DOC_UPDATE_START, docUpdateStart),
     ]);
 }

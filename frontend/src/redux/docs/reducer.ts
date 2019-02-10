@@ -50,6 +50,12 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
             delete all[action.payload.id];
             return { ...state, all };
         }
+        case DocsTypes.DOC_UPDATE_SUCCESS: {
+            const all = { ...state.all };
+            const doc = action.payload.doc;
+            all[doc.id] = doc;
+            return { ...state, all };
+        }
         case DocsTypes.DOCS_FETCH_FAIL:
             return { ...defaultDocsState, ...action.payload };
         default:

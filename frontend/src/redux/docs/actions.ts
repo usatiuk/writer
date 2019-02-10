@@ -16,6 +16,10 @@ export enum DocsTypes {
     DOC_DELETE_SUCCESS = "DOC_DELETE_SUCCESS",
     DOC_DELETE_CANCEL = "DOC_DELETE_CANCEL",
 
+    DOC_UPDATE_START = "DOC_UPDATE_START",
+    DOC_UPDATE_FAIL = "DOC_UPDATE_FAIL",
+    DOC_UPDATE_SUCCESS = "DOC_UPDATE_SUCCESS",
+
     DOCS_SHOW_SPINNER = "DOCS_SHOW_SPINNER",
 }
 
@@ -136,6 +140,43 @@ export function deleteDocCancel(): IDocDeleteCancelAction {
     return { type: DocsTypes.DOC_DELETE_CANCEL };
 }
 
+export interface IDocUpdateStartAction extends Action {
+    type: DocsTypes.DOC_UPDATE_START;
+    id: number;
+    name: string;
+    content: string;
+}
+
+export interface IDocUpdateFailAction extends Action {
+    type: DocsTypes.DOC_UPDATE_FAIL;
+    payload: {
+        error: string;
+    };
+}
+
+export interface IDocUpdateSuccessAction extends Action {
+    type: DocsTypes.DOC_UPDATE_SUCCESS;
+    payload: {
+        doc: IDocumentJSON;
+    };
+}
+
+export function updateDocStart(
+    id: number,
+    name: string,
+    content: string,
+): IDocUpdateStartAction {
+    return { type: DocsTypes.DOC_UPDATE_START, id, name, content };
+}
+
+export function updateDocFail(error: string): IDocUpdateFailAction {
+    return { type: DocsTypes.DOC_UPDATE_FAIL, payload: { error } };
+}
+
+export function updateDocSuccess(doc: IDocumentJSON): IDocUpdateSuccessAction {
+    return { type: DocsTypes.DOC_UPDATE_SUCCESS, payload: { doc } };
+}
+
 export type DocsAction =
     | IDocsFetchStartAction
     | IDocsFetchFailAction
@@ -148,4 +189,7 @@ export type DocsAction =
     | IDocDeleteFailAction
     | IDocDeleteStartAction
     | IDocDeleteSuccessAction
-    | IDocDeleteCancelAction;
+    | IDocDeleteCancelAction
+    | IDocUpdateFailAction
+    | IDocUpdateStartAction
+    | IDocUpdateSuccessAction;

@@ -63,7 +63,7 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
             this.props.user && (
                 <div
                     id="mainContainer"
-                    className={this.props.darkMode && Classes.DARK}
+                    className={this.props.darkMode ? Classes.DARK : undefined}
                 >
                     <Navbar fixedToTop={true}>
                         <Navbar.Group align={Alignment.LEFT}>
