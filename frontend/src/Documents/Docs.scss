@@ -36,7 +36,7 @@
         }
         .card.newDocumentCard {
             background-color: $light-gray5;
-            color: $dark-gray2;
+            color: $gray2;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -89,6 +89,10 @@
                     transition: 0.3s;
                     color: $light-gray1;
                 }
+            }
+            .card.newDocumentCard {
+                background-color: $dark-gray3;
+                color: $gray1;
             }
         }
     }
