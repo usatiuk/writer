@@ -12,6 +12,7 @@
         "no-submodule-imports": false,
         "no-this-assignment": false,
         "max-classes-per-file": false,
-        "jsx-no-lambda": false
+        "jsx-no-lambda": false,
+        "linebreak-style": false
     }
 }

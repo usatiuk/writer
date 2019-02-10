@@ -1,12 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import {
-    Redirect,
-    Route,
-    RouteComponentProps,
-    Switch,
-    withRouter,
-} from "react-router";
+import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
 import { AuthScreen } from "~Auth/AuthScreen";
 import { Home } from "~Home/Home";
 import { Landing } from "~Landing/Landing";
@@ -21,10 +15,10 @@ export function AppComponent(props: IAppComponentProps) {
     const { location } = props.history;
     return loggedIn ? (
         <Switch>
-            <Route path="/docs/:id" component={Home} />,
-            <Route path="/" component={Home} />,
             <Route path="/signup" component={AuthScreen} />,
             <Route path="/login" component={AuthScreen} />,
+            <Route path="/docs/:id" component={Home} />,
+            <Route path="/" component={Home} />,
         </Switch>
     ) : (
         <Switch>
