@@ -72,7 +72,8 @@
         }
         margin-bottom: 1rem;
     }
-    textarea,.documentContents {
+    textarea,
+    .documentContents {
         border: 1px solid $light-gray1;
         border-radius: 3px;
         padding: 0.5rem 1rem;
@@ -104,9 +105,21 @@
                 }
             }
             .card.newDocumentCard {
-                background-color: $dark-gray3;
+                background-color: $dark-gray4;
                 color: $gray1;
             }
+        }
+    }
+    .documentHeader {
+        input {
+            background: $dark-gray4;
+        }
+    }
+    .document {
+        textarea,
+        .documentContents {
+            background: $dark-gray4;
+            border-color: $dark-gray1;
         }
     }
 }
