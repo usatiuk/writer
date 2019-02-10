@@ -30,6 +30,7 @@ export class AuthScreenComponent extends React.PureComponent<IAuthScreenProps> {
         ) : (
             <div className="animationWrapper">
                 <Transition
+                    native={true}
                     items={location}
                     keys={location.pathname}
                     from={{
