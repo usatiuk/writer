@@ -41,7 +41,9 @@ export class DocumentViewComponent extends React.PureComponent<
                             />
                         </div>
                     </div>
-                    <Markdown source={doc.content} />
+                    <div className="documentContents">
+                        <Markdown source={doc.content} />
+                    </div>
                 </div>
             );
         } else {
