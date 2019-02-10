@@ -1,5 +1,6 @@
 import { Reducer } from "react";
 import { IDocumentJSON } from "~../../src/entity/Document";
+import { UserAction, UserTypes } from "~redux/user/actions";
 
 import { DocsAction, DocsTypes } from "./actions";
 
@@ -25,7 +26,7 @@ const defaultDocsState: IDocsState = {
 
 export const docsReducer: Reducer<IDocsState, DocsAction> = (
     state: IDocsState = defaultDocsState,
-    action: DocsAction,
+    action: DocsAction | UserAction,
 ) => {
     switch (action.type) {
         case DocsTypes.DOCS_SHOW_SPINNER:
@@ -71,6 +72,8 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
         }
         case DocsTypes.DOCS_FETCH_FAIL:
             return { ...defaultDocsState, ...action.payload };
+        case UserTypes.USER_LOGOUT:
+            return defaultDocsState;
         default:
             return state;
             break;
