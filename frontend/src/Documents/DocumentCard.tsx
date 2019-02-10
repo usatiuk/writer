@@ -1,9 +1,9 @@
 import { Card, H4 } from "@blueprintjs/core";
 import * as React from "react";
-import { RouteChildrenProps, withRouter } from "react-router";
+import { RouteComponentProps, withRouter } from "react-router";
 import { IDocumentJSON } from "~../../src/entity/Document";
 
-export interface IDocumentCardComponentProps extends RouteChildrenProps {
+export interface IDocumentCardComponentProps extends RouteComponentProps {
     doc: IDocumentJSON;
 }
 

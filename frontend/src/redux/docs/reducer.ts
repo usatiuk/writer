@@ -8,6 +8,8 @@ export interface IDocsState {
     fetching: boolean;
     error: string | null;
     spinner: boolean;
+
+    newDocumentID: number | null;
 }
 
 const defaultDocsState: IDocsState = {
@@ -15,6 +17,7 @@ const defaultDocsState: IDocsState = {
     fetching: false,
     error: null,
     spinner: false,
+    newDocumentID: null,
 };
 
 export const docsReducer: Reducer<IDocsState, DocsAction> = (
@@ -37,7 +40,10 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
             const all = { ...state.all };
             const doc = action.payload.doc;
             all[doc.id] = doc;
-            return { ...state, all };
+            return { ...state, all, newDocumentID: doc.id };
+        }
+        case DocsTypes.DOC_NEW_RESET: {
+            return { ...state, newDocumentID: null };
         }
         case DocsTypes.DOCS_FETCH_FAIL:
             return { ...defaultDocsState, ...action.payload };

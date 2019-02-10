@@ -9,6 +9,7 @@ export enum DocsTypes {
     DOC_NEW_START = "DOC_NEW_START",
     DOC_NEW_FAIL = "DOC_NEW_FAIL",
     DOC_NEW_SUCCESS = "DOC_NEW_SUCCESS",
+    DOC_NEW_RESET = "DOC_NEW_RESET",
 
     DOCS_SHOW_SPINNER = "DOCS_SHOW_SPINNER",
 }
@@ -71,6 +72,10 @@ export interface IDocNewSuccessAction extends Action {
     };
 }
 
+export interface IDocNewResetAction extends Action {
+    type: DocsTypes.DOC_NEW_RESET;
+}
+
 export function newDocStart(): IDocNewStartAction {
     return { type: DocsTypes.DOC_NEW_START };
 }
@@ -83,6 +88,10 @@ export function newDocSuccess(doc: IDocumentJSON): IDocNewSuccessAction {
     return { type: DocsTypes.DOC_NEW_SUCCESS, payload: { doc } };
 }
 
+export function newDocReset(): IDocNewResetAction {
+    return { type: DocsTypes.DOC_NEW_RESET };
+}
+
 export type DocsAction =
     | IDocsFetchStartAction
     | IDocsFetchFailAction
@@ -90,4 +99,4 @@ export type DocsAction =
     | IDocsShowSpinnerAction
     | IDocNewFailAction
     | IDocNewStartAction
-    | IDocNewSuccessAction;
+    | IDocNewSuccessAction | IDocNewResetAction;
