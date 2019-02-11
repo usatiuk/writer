@@ -77,7 +77,7 @@ export class DocumentEditComponent extends React.PureComponent<
                                     AppToaster.show({
                                         message: "Document deleted!",
                                         intent: "danger",
-                                        timeout: 1900,
+                                        timeout: 2900,
                                         action: {
                                             text: "Undo",
                                             onClick: () =>

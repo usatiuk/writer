@@ -100,7 +100,7 @@ function* docNewStart(action: IDocNewStartAction) {
 function* docDeleteStart(action: IDocDeleteStartAction) {
     try {
         const { cancelled } = yield race({
-            timeout: delay(2000),
+            timeout: delay(3000),
             cancelled: take(DocsTypes.DOC_DELETE_CANCEL),
         });
 
