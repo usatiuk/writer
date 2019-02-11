@@ -47,10 +47,19 @@ export class OverviewComponent extends React.PureComponent<
                 </div>
             );
         } else {
-            if (!this.props.fetching) {
-                this.props.fetchDocs();
-            }
             return this.props.spinner && <LoadingStub />;
+        }
+    }
+
+    public componentDidUpdate() {
+        if (!this.props.allDocs && !this.props.fetching) {
+            this.props.fetchDocs();
+        }
+    }
+
+    public componentDidMount() {
+        if (!this.props.allDocs && !this.props.fetching) {
+            this.props.fetchDocs();
         }
     }
 }
