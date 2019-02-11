@@ -107,6 +107,7 @@ export class DocumentEditComponent extends React.PureComponent<
                 </div>
             );
         } else {
+            this.tryLoad();
             return this.props.spinner && <LoadingStub />;
         }
     }

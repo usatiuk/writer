@@ -7,7 +7,7 @@ import {
     Switch,
     withRouter,
 } from "react-router";
-import { Transition } from "react-spring/renderprops";
+import { animated, Transition } from "react-spring/renderprops";
 import { IAppState } from "~redux/reducers";
 
 import { Login } from "./Login";
@@ -30,6 +30,7 @@ export class AuthScreenComponent extends React.PureComponent<IAuthScreenProps> {
         ) : (
             <div className="animationWrapper">
                 <Transition
+                    native={true}
                     items={location}
                     keys={location.pathname}
                     from={{
@@ -46,12 +47,12 @@ export class AuthScreenComponent extends React.PureComponent<IAuthScreenProps> {
                     }}
                 >
                     {(_location: any) => (style: any) => (
-                        <div style={style}>
+                        <animated.div style={style}>
                             <Switch location={_location}>
                                 <Route path="/login" component={Login} />
                                 <Route path="/signup" component={Signup} />
                             </Switch>
-                        </div>
+                        </animated.div>
                     )}
                 </Transition>
             </div>

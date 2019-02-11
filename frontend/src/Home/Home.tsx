@@ -13,7 +13,7 @@ import {
 import * as React from "react";
 import { connect } from "react-redux";
 import { Route, RouteComponentProps, Switch, withRouter } from "react-router";
-import { config, Transition } from "react-spring/renderprops";
+import { animated, config, Transition } from "react-spring/renderprops";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
 import { IUserJSON } from "~../../src/entity/User";
@@ -111,6 +111,7 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                     </Navbar>
                     <div id="MainScreen" className="animationWrapper">
                         <Transition
+                        native={true}
                             config={{
                                 ...config.default,
                                 clamp: true,
@@ -132,7 +133,7 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                             }}
                         >
                             {(_location: any) => (style: any) => (
-                                <div style={style} className="viewComponent">
+                                <animated.div style={style} className="viewComponent">
                                     <Switch location={_location}>
                                         <Route
                                             path="/docs/:id/edit"
@@ -144,7 +145,7 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                                         />
                                         <Route path="/" component={Overview} />
                                     </Switch>
-                                </div>
+                                </animated.div>
                             )}
                         </Transition>
                     </div>
