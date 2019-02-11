@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
-import { AppToaster } from "~App";
+import { AppToaster } from "~AppToaster";
 import { LoadingStub } from "~LoadingStub";
 import {
     deleteDocCancel,
