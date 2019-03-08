@@ -9,7 +9,8 @@ jobs:
           MYSQL_DATABASE: writer_test
           MYSQL_USER: writer
           MYSQL_PASSWORD: writer
-
+          MYSQL_HOST: "localhost"
+          
     working_directory: ~/writer
 
     steps:
