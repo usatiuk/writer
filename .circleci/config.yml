@@ -1,0 +1,47 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10
+      - image: circleci/mariadb:10
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+          MYSQL_DATABASE: writer_test
+          MYSQL_USER: writer
+          MYSQL_PASSWORD: writer
+
+    working_directory: ~/writer
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - backend-dependencies-{{ checksum "package.json" }}
+            - frontend-dependencies-{{ checksum "frontend/package.json" }}
+
+      - run: 
+          name: install backend deps
+          command: npm i
+
+      - run: 
+          name: install frontend deps
+          command: cd frontend && npm i
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: backend-dependencies-{{ checksum "package.json" }}
+
+      - save_cache:
+          paths:
+            - frontend/node_modules
+          key: frontend-dependencies-{{ checksum "frontend/package.json" }}
+
+      - run: 
+          name: test backend
+          command: npm test
+
+      - run: 
+          name: install frontend
+          command: cd frontend && npm test
