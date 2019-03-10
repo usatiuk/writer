@@ -14,10 +14,10 @@
         "sourceMap": true,
         "noImplicitAny": true,
         "allowSyntheticDefaultImports": true,
-        "baseUrl": "./src",
+        "baseUrl": "./",
         "paths": {
             "~*": [
-                "./*"
+                "./src/*"
             ]
         }
     }

@@ -3,9 +3,13 @@
   "scripts": {
     "start": "parcel src/index.html",
     "build": "parcel build src/index.html",
-    "test": "echo \"Error: no tests (yet!)\""
+    "test": "jest"
   },
   "devDependencies": {
+    "@types/autoprefixer": "^9.4.0",
+    "@types/enzyme": "^3.9.0",
+    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/jest": "^24.0.11",
     "@types/node-sass": "^3.10.32",
     "@types/parcel-bundler": "^1.10.1",
     "@types/react": "^16.8.2",
@@ -14,10 +18,14 @@
     "@types/react-router": "^4.4.3",
     "@types/react-router-dom": "^4.3.1",
     "autoprefixer": "^9.4.7",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.10.0",
+    "jest": "^24.3.1",
     "node-sass": "^4.11.0",
     "parcel-bundler": "^1.11.0",
     "postcss-modules": "^1.4.1",
-    "redux-devtools-extension": "^2.13.8"
+    "redux-devtools-extension": "^2.13.8",
+    "ts-jest": "^24.0.0"
   },
   "dependencies": {
     "@blueprintjs/core": "^3.13.0",
