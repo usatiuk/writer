@@ -44,5 +44,5 @@ jobs:
           command: npm test
 
       - run: 
-          name: install frontend
+          name: test frontend
           command: cd frontend && npm test
