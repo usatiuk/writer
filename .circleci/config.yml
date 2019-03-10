@@ -19,6 +19,9 @@ jobs:
       - restore_cache:
           keys:
             - backend-dependencies-{{ checksum "package.json" }}
+            
+      - restore_cache:
+          keys:
             - frontend-dependencies-{{ checksum "frontend/package.json" }}
 
       - run: 
