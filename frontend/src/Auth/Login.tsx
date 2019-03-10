@@ -36,7 +36,8 @@ export class LoginComponent extends React.PureComponent<
         this.props.history.push("/signup");
     }
 
-    public submit() {
+    public submit(e: React.FormEvent<any>) {
+        e.preventDefault();
         const { username, password } = this.state;
         if (!this.props.inProgress) {
             this.props.login(username, password);
@@ -52,7 +53,7 @@ export class LoginComponent extends React.PureComponent<
         return (
             <>
                 <Card className="AuthForm" elevation={2}>
-                    <form>
+                    <form onSubmit={this.submit}>
                         <div className="header">
                             <H2>Login</H2>
                             <Button
@@ -88,6 +89,7 @@ export class LoginComponent extends React.PureComponent<
                                 className="submit"
                                 intent="primary"
                                 icon="log-in"
+                                type="submit"
                                 onClick={this.submit}
                                 disabled={this.props.spinner}
                             >
