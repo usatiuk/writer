@@ -78,40 +78,13 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                                         {this.props.user.username}
                                     </Button>
                                 }
-                                content={
-                                    <Menu>
-                                        <Menu.Item
-                                            icon="log-out"
-                                            text="Logout"
-                                            onClick={this.props.logout}
-                                        />
-                                        {this.props.darkMode ? (
-                                            <Menu.Item
-                                                icon="flash"
-                                                text="Light Mode"
-                                                onClick={
-                                                    this.props
-                                                        .dispatchToggleDarkMode
-                                                }
-                                            />
-                                        ) : (
-                                            <Menu.Item
-                                                icon="moon"
-                                                text="Dark Mode"
-                                                onClick={
-                                                    this.props
-                                                        .dispatchToggleDarkMode
-                                                }
-                                            />
-                                        )}
-                                    </Menu>
-                                }
+                                content={this.menu()}
                             />
                         </Navbar.Group>
                     </Navbar>
                     <div id="MainScreen" className="animationWrapper">
                         <Transition
-                        native={true}
+                            native={true}
                             config={{
                                 ...config.default,
                                 clamp: true,
@@ -133,7 +106,10 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                             }}
                         >
                             {(_location: any) => (style: any) => (
-                                <animated.div style={style} className="viewComponent">
+                                <animated.div
+                                    style={style}
+                                    className="viewComponent"
+                                >
                                     <Switch location={_location}>
                                         <Route
                                             path="/docs/:id/edit"
@@ -151,6 +127,31 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                     </div>
                 </div>
             )
+        );
+    }
+
+    private menu() {
+        return (
+            <Menu>
+                <Menu.Item
+                    icon="log-out"
+                    text="Logout"
+                    onClick={this.props.logout}
+                />
+                {this.props.darkMode ? (
+                    <Menu.Item
+                        icon="flash"
+                        text="Light Mode"
+                        onClick={this.props.dispatchToggleDarkMode}
+                    />
+                ) : (
+                    <Menu.Item
+                        icon="moon"
+                        text="Dark Mode"
+                        onClick={this.props.dispatchToggleDarkMode}
+                    />
+                )}
+            </Menu>
         );
     }
 }
