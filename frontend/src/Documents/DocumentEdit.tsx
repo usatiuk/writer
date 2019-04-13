@@ -17,7 +17,7 @@ import {
 import { IAppState } from "~redux/reducers";
 
 export interface IDocumentEditComponentProps extends RouteComponentProps {
-    allDocs: IDocumentJSON[];
+    allDocs: { [key: number]: IDocumentJSON };
 
     fetching: boolean;
     spinner: boolean;
@@ -34,6 +34,11 @@ export interface IDocumentEditComponentState {
     id: number | null;
     name: string | null;
     content: string | null;
+
+    savedName: string | null;
+    savedContent: string | null;
+
+    dirty: boolean;
 }
 
 const defaultDocumentEditComponentState: IDocumentEditComponentState = {
@@ -42,6 +47,11 @@ const defaultDocumentEditComponentState: IDocumentEditComponentState = {
     id: null,
     name: null,
     content: null,
+
+    savedName: null,
+    savedContent: null,
+
+    dirty: false,
 };
 
 export class DocumentEditComponent extends React.PureComponent<
@@ -53,6 +63,7 @@ export class DocumentEditComponent extends React.PureComponent<
 
         this.state = defaultDocumentEditComponentState;
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.onUnload = this.onUnload.bind(this);
     }
 
     public render() {
@@ -117,6 +128,11 @@ export class DocumentEditComponent extends React.PureComponent<
             this.state.name,
             this.state.content,
         );
+        this.setState({
+            savedName: this.state.name,
+            savedContent: this.state.content,
+            dirty: false,
+        } as any);
     }
 
     public handleInputChange(
@@ -128,8 +144,21 @@ export class DocumentEditComponent extends React.PureComponent<
         const value = target.value;
         const name = target.name;
 
+        const { savedName, savedContent } = this.state;
+
+        const updDoc: { [key: string]: string } = {
+            name: this.state.name,
+            content: this.state.content,
+        };
+
+        updDoc[name] = value;
+
+        const dirty =
+            savedName !== updDoc.name || savedContent !== updDoc.content;
+
         this.setState({
             [name]: value,
+            dirty,
         } as any);
     }
 
@@ -139,6 +168,18 @@ export class DocumentEditComponent extends React.PureComponent<
 
     public componentDidMount() {
         this.tryLoad();
+        window.addEventListener("beforeunload", this.onUnload);
+    }
+
+    public componentWillUnmount() {
+        window.removeEventListener("beforeunload", this.onUnload);
+    }
+
+    public onUnload(e: BeforeUnloadEvent) {
+        if (this.state.dirty) {
+            e.preventDefault();
+            e.returnValue = "";
+        }
     }
 
     private tryLoad() {
@@ -159,6 +200,8 @@ export class DocumentEditComponent extends React.PureComponent<
                     id: doc.id,
                     name: doc.name,
                     content: doc.content,
+                    savedContent: doc.content,
+                    savedName: doc.name,
                 });
             }
         }
