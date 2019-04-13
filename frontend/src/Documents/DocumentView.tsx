@@ -12,7 +12,7 @@ import { fetchDocsStart } from "~redux/docs/actions";
 import { IAppState } from "~redux/reducers";
 
 export interface IDocumentViewComponentProps extends RouteComponentProps {
-    allDocs: IDocumentJSON[];
+    allDocs: { [key: number]: IDocumentJSON };
 
     fetching: boolean;
     spinner: boolean;
