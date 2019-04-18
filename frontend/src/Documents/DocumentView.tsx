@@ -10,12 +10,16 @@ import { IDocumentJSON } from "~../../src/entity/Document";
 import { LoadingStub } from "~LoadingStub";
 import { fetchDocsStart } from "~redux/docs/actions";
 import { IAppState } from "~redux/reducers";
+import { CodeBlock } from "./CodeBlock";
 
 export interface IDocumentViewComponentProps extends RouteComponentProps {
     allDocs: { [key: number]: IDocumentJSON };
 
     fetching: boolean;
     spinner: boolean;
+
+    darkMode: boolean;
+
     fetchDocs: () => void;
 }
 
@@ -25,6 +29,7 @@ export class DocumentViewComponent extends React.PureComponent<
 > {
     public render() {
         const { id } = this.props.match.params as any;
+        const { darkMode } = this.props;
         if (this.props.allDocs && this.props.allDocs[id]) {
             const doc = this.props.allDocs[id];
             return (
@@ -42,7 +47,19 @@ export class DocumentViewComponent extends React.PureComponent<
                         </div>
                     </div>
                     <div className="documentContents">
-                        <Markdown source={doc.content} />
+                        <Markdown
+                            source={doc.content}
+                            renderers={{
+                                code: props => {
+                                    return (
+                                        <CodeBlock
+                                            {...props}
+                                            darkMode={darkMode}
+                                        />
+                                    );
+                                },
+                            }}
+                        />
                     </div>
                 </div>
             );
@@ -69,6 +86,8 @@ function mapStateToProps(state: IAppState) {
         allDocs: state.docs.all,
         fetching: state.docs.fetching,
         spinner: state.docs.spinner,
+
+        darkMode: state.localSettings.darkMode,
     };
 }
 
