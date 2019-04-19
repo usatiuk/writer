@@ -3,14 +3,11 @@
 import hljs from "highlight.js";
 import * as React from "react";
 
-import * as darkStyle from "highlight.js/styles/a11y-dark.css";
-import * as lightStyle from "highlight.js/styles/a11y-light.css";
+import "./CodeBlock.scss";
 
 export interface ICodeBlockProps {
     value: string;
     language?: string;
-
-    darkMode: boolean;
 }
 
 interface ICodeBlockState {
@@ -29,13 +26,11 @@ export class CodeBlock extends React.PureComponent<
     }
 
     public render() {
-        console.log(darkStyle);
         return (
             <pre>
                 <code
                     ref={this.setRef}
                     className={"lang-" + this.props.language}
-                    style={this.props.darkMode ? darkStyle : lightStyle}
                 >
                     {this.props.value}
                 </code>

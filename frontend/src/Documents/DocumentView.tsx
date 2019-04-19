@@ -18,8 +18,6 @@ export interface IDocumentViewComponentProps extends RouteComponentProps {
     fetching: boolean;
     spinner: boolean;
 
-    darkMode: boolean;
-
     fetchDocs: () => void;
 }
 
@@ -29,7 +27,6 @@ export class DocumentViewComponent extends React.PureComponent<
 > {
     public render() {
         const { id } = this.props.match.params as any;
-        const { darkMode } = this.props;
         if (this.props.allDocs && this.props.allDocs[id]) {
             const doc = this.props.allDocs[id];
             return (
@@ -50,14 +47,7 @@ export class DocumentViewComponent extends React.PureComponent<
                         <Markdown
                             source={doc.content}
                             renderers={{
-                                code: props => {
-                                    return (
-                                        <CodeBlock
-                                            {...props}
-                                            darkMode={darkMode}
-                                        />
-                                    );
-                                },
+                                code: CodeBlock,
                             }}
                         />
                     </div>
@@ -86,8 +76,6 @@ function mapStateToProps(state: IAppState) {
         allDocs: state.docs.all,
         fetching: state.docs.fetching,
         spinner: state.docs.spinner,
-
-        darkMode: state.localSettings.darkMode,
     };
 }
 
