@@ -10,12 +10,14 @@ import { IDocumentJSON } from "~../../src/entity/Document";
 import { LoadingStub } from "~LoadingStub";
 import { fetchDocsStart } from "~redux/docs/actions";
 import { IAppState } from "~redux/reducers";
+import { CodeBlock } from "./CodeBlock";
 
 export interface IDocumentViewComponentProps extends RouteComponentProps {
     allDocs: { [key: number]: IDocumentJSON };
 
     fetching: boolean;
     spinner: boolean;
+
     fetchDocs: () => void;
 }
 
@@ -42,7 +44,12 @@ export class DocumentViewComponent extends React.PureComponent<
                         </div>
                     </div>
                     <div className="documentContents">
-                        <Markdown source={doc.content} />
+                        <Markdown
+                            source={doc.content}
+                            renderers={{
+                                code: CodeBlock,
+                            }}
+                        />
                     </div>
                 </div>
             );

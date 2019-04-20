@@ -107,7 +107,9 @@
             border-radius: 3px;
             border: 1px solid $light-gray2;
             background-color: $light-gray5;
+            padding: 0.75rem;
             code {
+                padding: 0;
                 background-color: inherit;
                 border: none;
             }
