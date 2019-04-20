@@ -1,6 +1,6 @@
 /* tslint:disable: blueprint-html-components */
 
-import hljs from "highlight.js";
+import * as hljs from "highlight.js";
 import * as React from "react";
 
 import "./CodeBlock.scss";
