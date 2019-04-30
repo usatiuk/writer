@@ -63,6 +63,9 @@ export class DocumentEditComponent extends React.PureComponent<
 
         this.state = defaultDocumentEditComponentState;
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleNameKeyPress = this.handleNameKeyPress.bind(this);
+        this.remove = this.remove.bind(this);
+        this.save = this.save.bind(this);
         this.onUnload = this.onUnload.bind(this);
     }
 
@@ -76,37 +79,20 @@ export class DocumentEditComponent extends React.PureComponent<
                             onChange={this.handleInputChange}
                             name="name"
                             value={this.state.name}
+                            onKeyPress={this.handleNameKeyPress}
                         />
                         <div className="buttons">
                             <Button
                                 icon="trash"
                                 minimal={true}
                                 intent="danger"
-                                onClick={() => {
-                                    this.props.history.push(`/`);
-                                    this.props.deleteDoc(this.state.id);
-                                    AppToaster.show({
-                                        message: "Document deleted!",
-                                        intent: "danger",
-                                        timeout: 2900,
-                                        action: {
-                                            text: "Undo",
-                                            onClick: () =>
-                                                this.props.cancelDelete(),
-                                        },
-                                    });
-                                }}
+                                onClick={this.remove}
                             />
                             <Button
                                 icon="tick"
                                 intent="success"
                                 minimal={true}
-                                onClick={() => {
-                                    this.update();
-                                    this.props.history.push(
-                                        `/docs/${this.state.id}`,
-                                    );
-                                }}
+                                onClick={this.save}
                             />
                         </div>
                     </div>
@@ -133,6 +119,31 @@ export class DocumentEditComponent extends React.PureComponent<
             savedContent: this.state.content,
             dirty: false,
         } as any);
+    }
+
+    public remove() {
+        this.props.history.push(`/`);
+        this.props.deleteDoc(this.state.id);
+        AppToaster.show({
+            message: "Document deleted!",
+            intent: "danger",
+            timeout: 2900,
+            action: {
+                text: "Undo",
+                onClick: () => this.props.cancelDelete(),
+            },
+        });
+    }
+
+    public save() {
+        this.update();
+        this.props.history.push(`/docs/${this.state.id}`);
+    }
+
+    public handleNameKeyPress(event: React.KeyboardEvent<HTMLInputElement>) {
+        if (event.key === "Enter") {
+            this.save();
+        }
     }
 
     public handleInputChange(
