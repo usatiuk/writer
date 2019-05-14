@@ -35,11 +35,15 @@ export class OverviewComponent extends React.PureComponent<
             const recentCut = recent.splice(0, 4);
             return (
                 <div id="overview">
-                    <div className="section">
-                        <H3>Recent</H3>
-                        <DocumentsList docs={recentCut} />
-                    </div>
-                    <span className="separator" />
+                    {recentCut.length !== 0 && (
+                        <>
+                            <div className="section">
+                                <H3>Recent</H3>
+                                <DocumentsList docs={recentCut} />
+                            </div>
+                            <span className="separator" />
+                        </>
+                    )}
                     <div className="section">
                         <H3>All documents</H3>
                         <DocumentsList docs={docs} newDocument={true} />
