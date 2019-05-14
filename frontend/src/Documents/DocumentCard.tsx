@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
-import { AppToaster } from "~AppToaster";
+import { showDeletionToast } from "~AppToaster";
 import { deleteDocCancel, deleteDocStart } from "~redux/docs/actions";
 
 export interface IDocumentCardComponentProps extends RouteComponentProps {
@@ -28,15 +28,7 @@ export class DocumentCardComponent extends React.PureComponent<
     }
 
     public handleDelete() {
-        AppToaster.show({
-            message: "Document deleted!",
-            intent: "danger",
-            timeout: 2900,
-            action: {
-                text: "Undo",
-                onClick: () => this.props.cancelDelete(),
-            },
-        });
+        showDeletionToast(this.props.cancelDelete);
         this.props.deleteDoc(this.props.doc.id);
     }
 
