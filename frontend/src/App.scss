@@ -1,4 +1,6 @@
 @import "~@blueprintjs/core/lib/scss/variables";
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext');
+
 .animationWrapper {
     position: absolute;
     top: 0;
@@ -22,4 +24,8 @@
     .bp3-button {
         margin-right: 0.25rem;
     }
+}
+
+body {
+    font-family: "PT Sans", "emoji", sans-serif;
 }
