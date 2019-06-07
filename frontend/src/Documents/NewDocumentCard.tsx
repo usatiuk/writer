@@ -1,7 +1,7 @@
 import { Card, Icon } from "@blueprintjs/core";
 import * as React from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps, withRouter } from "react-router";
+import { Redirect, RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { newDocReset, newDocStart } from "~redux/docs/actions";
 import { IAppState } from "~redux/reducers";
@@ -28,8 +28,7 @@ export function NewDocumentCardComponent(
         );
     } else {
         props.reset();
-        props.history.push(`/docs/${props.newDocumentID}/edit`);
-        return null;
+        return <Redirect to={`/docs/${props.newDocumentID}/edit`} />;
     }
 }
 
