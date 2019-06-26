@@ -1,7 +1,9 @@
 @import "~@blueprintjs/core/lib/scss/variables";
+
 #overview {
     display: flex;
     flex-direction: column;
+
     .separator {
         transition: 0.3s;
         margin: 2rem 0;
@@ -9,14 +11,17 @@
         border-bottom: 1px $light-gray1 dashed;
         transition: 0.3s;
     }
+
     .section {
         width: 100%;
     }
+
     .list {
         display: flex;
         flex-shrink: 0;
         flex-grow: 0;
         flex-wrap: wrap;
+
         .card {
             transition: 0.3s;
             user-select: none;
@@ -25,6 +30,7 @@
             margin: 1rem;
             padding: 0rem;
             overflow: hidden;
+
             h4 {
                 transition: 0.3s;
                 transition: 0.3s;
@@ -33,6 +39,7 @@
                 border-bottom: 1px $light-gray2 solid;
                 margin-bottom: 0;
             }
+
             .textPreview {
                 transition: 0.3s;
                 pointer-events: none;
@@ -41,11 +48,13 @@
                 padding: 0.5rem;
                 padding-top: 0.5rem;
                 color: $dark-gray5;
+
                 ul {
                     padding-left: 1rem;
                 }
             }
         }
+
         .card.newDocumentCard {
             background-color: $light-gray5;
             color: $gray2;
@@ -59,32 +68,43 @@
 .document {
     height: 100%;
     margin-bottom: 1rem;
+
     .documentHeader {
         display: flex;
         align-content: baseline;
+
         h1 {
             margin-left: 0;
             margin-right: auto;
-            flex-shrink: 0;
+            min-width: 0;
+            flex-grow: 1;
         }
+
         input {
             transition: 0.3s;
             font-weight: 600;
             font-size: 2rem;
             height: 3rem;
+            min-width: 0;
             flex-grow: 1;
         }
+
         .buttons {
             margin-left: auto;
             margin-right: 0;
             display: flex;
             justify-content: end;
+            flex-shrink: 0;
+            flex-grow: 0;
+
             button {
                 width: 3rem;
             }
         }
+
         margin-bottom: 1rem;
     }
+
     textarea,
     .documentContents {
         transition: 0.3s;
@@ -96,29 +116,34 @@
         margin-bottom: 1rem;
         min-width: 100%;
         resize: none;
+
         code {
             transition: 0.3s;
             border-radius: 3px;
             border: 1px solid $light-gray2;
             background-color: $light-gray5;
         }
+
         pre {
             transition: 0.3s;
             border-radius: 3px;
             border: 1px solid $light-gray2;
             background-color: $light-gray5;
             padding: 0.75rem;
+
             code {
                 padding: 0;
                 background-color: inherit;
                 border: none;
             }
         }
+
         table {
             transition: 0.3s;
             border-radius: 3px;
             border: 1px solid $light-gray2;
             border-collapse: collapse;
+
             tr,
             td,
             th {
@@ -126,12 +151,14 @@
                 padding: 0.5rem;
                 border: 1px solid $light-gray2;
             }
+
             tr:nth-child(even) {
                 transition: 0.3s;
                 background-color: $light-gray5;
             }
         }
     }
+
     .documentContents {
         transition: 0.3s;
         border: 1px solid $light-gray1;
@@ -145,55 +172,67 @@
             transition: 0.3s;
             border-bottom: 1px $dark-gray5 dashed;
         }
+
         .list {
             .card {
                 transition: 0.3s;
+
                 h4 {
                     transition: 0.3s;
                     border-bottom: 1px $dark-gray2 solid;
                 }
+
                 .textPreview {
                     transition: 0.3s;
                     color: $light-gray1;
                 }
             }
+
             .card.newDocumentCard {
                 background-color: $dark-gray4;
                 color: $gray1;
             }
         }
     }
+
     .documentHeader {
         input {
             transition: 0.3s;
             background: $dark-gray4;
         }
     }
+
     .document {
+
         textarea,
         .documentContents {
             transition: 0.3s;
             background: $dark-gray4;
             border-color: $dark-gray1;
+
             code {
                 transition: 0.3s;
                 border-color: $dark-gray2;
                 background-color: $dark-gray3;
             }
+
             pre {
                 transition: 0.3s;
                 border-color: $dark-gray2;
                 background-color: $dark-gray3;
             }
+
             table {
                 transition: 0.3s;
                 border-color: $dark-gray2;
+
                 tr,
                 td,
                 th {
                     transition: 0.3s;
                     border-color: $dark-gray2;
                 }
+
                 tr:nth-child(even) {
                     transition: 0.3s;
                     background-color: $dark-gray3;
