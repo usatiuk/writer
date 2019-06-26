@@ -18,12 +18,10 @@ interface IAppComponentProps extends RouteComponentProps {
 
 export function AppComponent(props: IAppComponentProps) {
     const { loggedIn } = props;
-    const { location } = props.history;
     return loggedIn ? (
         <Switch>
             <Route path="/signup" component={AuthScreen} />,
             <Route path="/login" component={AuthScreen} />,
-            <Route path="/docs/:id" component={Home} />,
             <Route path="/" component={Home} />,
         </Switch>
     ) : (
@@ -37,7 +35,7 @@ export function AppComponent(props: IAppComponentProps) {
 }
 
 function mapStateToProps(state: IAppState) {
-    return { loggedIn: !(state.auth.jwt === null) };
+    return { loggedIn: state.auth.jwt !== null };
 }
 
 export const App = withRouter(connect(mapStateToProps)(AppComponent));

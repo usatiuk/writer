@@ -11,6 +11,7 @@
 		"typescriptHero.imports.stringQuoteStyle": "\"",
 		"files.exclude": {
 			"**/node_modules": true
-		}
+		},
+		"typescript.tsdk": "writer/node_modules/typescript/lib"
 	}
 }
