@@ -22,6 +22,7 @@ export function AppComponent(props: IAppComponentProps) {
         <Switch>
             <Route path="/signup" component={AuthScreen} />,
             <Route path="/login" component={AuthScreen} />,
+            <Route path="/docs/:id" component={Home} />,
             <Route path="/" component={Home} />,
         </Switch>
     ) : (
