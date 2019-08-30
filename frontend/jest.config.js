@@ -10,6 +10,9 @@ module.exports = {
         ...pathsToModuleNameMapper(compilerOptions.paths, {
             prefix: "<rootDir>/",
         }),
+        "react-spring/renderprops":
+            "<rootDir>/node_modules/react-spring/renderprops.cjs",
+        "react-spring": "<rootDir>/node_modules/react-spring/web.cjs",
     },
     setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
 };

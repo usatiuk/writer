@@ -7,6 +7,7 @@ import { DocsAction, DocsTypes } from "./actions";
 export interface IDocsState {
     all: { [key: number]: IDocumentJSON };
     fetching: boolean;
+    uploading: boolean;
     error: string | null;
     spinner: boolean;
 
@@ -18,6 +19,7 @@ export interface IDocsState {
 const defaultDocsState: IDocsState = {
     all: null,
     fetching: false,
+    uploading: false,
     error: null,
     spinner: false,
     newDocumentID: null,
@@ -64,11 +66,17 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
             all[deletedDocument.id] = deletedDocument;
             return { ...state, deletedDocument: null, all };
         }
+        case DocsTypes.DOC_UPDATE_START: {
+            return { ...state, uploading: true };
+        }
+        case DocsTypes.DOC_UPDATE_FAIL: {
+            return { ...state, uploading: false };
+        }
         case DocsTypes.DOC_UPDATE_SUCCESS: {
             const all = { ...state.all };
             const doc = action.payload.doc;
             all[doc.id] = doc;
-            return { ...state, all };
+            return { ...state, all, uploading: false };
         }
         case DocsTypes.DOCS_FETCH_FAIL:
             return { ...defaultDocsState, ...action.payload };

@@ -6,9 +6,11 @@ import {
     Button,
     Classes,
     IBreadcrumbProps,
+    Icon,
     Menu,
     Navbar,
     Popover,
+    Spinner,
 } from "@blueprintjs/core";
 import * as React from "react";
 import { connect } from "react-redux";
@@ -24,9 +26,12 @@ import { toggleDarkMode } from "~redux/localSettings/actions";
 import { IAppState } from "~redux/reducers";
 import { logoutUser } from "~redux/user/actions";
 
-interface IHomeProps extends RouteComponentProps {
+export interface IHomeProps extends RouteComponentProps {
     allDocs: { [key: number]: IDocumentJSON };
     user: IUserJSON | null;
+
+    fetching: boolean;
+    uploading: boolean;
 
     darkMode: boolean;
 
@@ -72,6 +77,13 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                             <Breadcrumbs items={breadcrumbs} />
                         </Navbar.Group>
                         <Navbar.Group align={Alignment.RIGHT}>
+                            <Button id="uploadingStatusButton">
+                                {this.props.uploading ? (
+                                    <Spinner size={20} />
+                                ) : (
+                                    <Icon icon="saved" />
+                                )}
+                            </Button>
                             <Popover
                                 target={
                                     <Button id="userButton">
@@ -161,6 +173,8 @@ function mapStateToProps(state: IAppState) {
         allDocs: state.docs.all,
         user: state.user.user,
         darkMode: state.localSettings.darkMode,
+        fetching: state.docs.fetching,
+        uploading: state.docs.uploading,
     };
 }
 
