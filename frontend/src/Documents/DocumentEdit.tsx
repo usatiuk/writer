@@ -12,7 +12,7 @@ import {
     deleteDocCancel,
     deleteDocStart,
     fetchDocsStart,
-    updateDocStart,
+    uploadDocStart,
 } from "~redux/docs/actions";
 import { IAppState } from "~redux/reducers";
 
@@ -25,7 +25,7 @@ export interface IDocumentEditComponentProps extends RouteComponentProps {
     fetchDocs: () => void;
     deleteDoc: (id: number) => void;
     cancelDelete: () => void;
-    updateDoc: (id: number, name: string, content: string) => void;
+    uploadDoc: (id: number, name: string, content: string) => void;
 }
 
 export interface IDocumentEditComponentState {
@@ -108,8 +108,8 @@ export class DocumentEditComponent extends React.PureComponent<
         }
     }
 
-    public update() {
-        this.props.updateDoc(
+    public upload() {
+        this.props.uploadDoc(
             this.state.id,
             this.state.name,
             this.state.content,
@@ -128,7 +128,7 @@ export class DocumentEditComponent extends React.PureComponent<
     }
 
     public save() {
-        this.update();
+        this.upload();
         this.props.history.push(`/docs/${this.state.id}`);
     }
 
@@ -224,8 +224,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
         fetchDocs: () => dispatch(fetchDocsStart()),
         cancelDelete: () => dispatch(deleteDocCancel()),
         deleteDoc: (id: number) => dispatch(deleteDocStart(id)),
-        updateDoc: (id: number, name: string, content: string) =>
-            dispatch(updateDocStart(id, name, content)),
+        uploadDoc: (id: number, name: string, content: string) =>
+            dispatch(uploadDocStart(id, name, content)),
     };
 }
 

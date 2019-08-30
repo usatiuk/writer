@@ -26,12 +26,12 @@ import {
     IDocDeleteStartAction,
     IDocNewStartAction,
     IDocsFetchStartAction,
-    IDocUpdateStartAction,
+    IDocUploadStartAction,
     newDocFail,
     newDocSuccess,
     showDocsSpinner,
-    updateDocFail,
-    updateDocSuccess,
+    uploadDocFail,
+    uploadDocSuccess,
 } from "./actions";
 
 function* startSpinner() {
@@ -128,7 +128,7 @@ function* docDeleteStart(action: IDocDeleteStartAction) {
     }
 }
 
-function* docUpdateStart(action: IDocUpdateStartAction) {
+function* docUploadStart(action: IDocUploadStartAction) {
     try {
         const spinner = yield fork(startSpinner);
 
@@ -140,20 +140,20 @@ function* docUpdateStart(action: IDocUpdateStartAction) {
         yield cancel(spinner);
 
         if (timeout) {
-            yield put(updateDocFail("Timeout"));
+            yield put(uploadDocFail("Timeout"));
             return;
         }
 
         if (response) {
             if (response.data == null) {
-                yield put(updateDocFail(response.error));
+                yield put(uploadDocFail(response.error));
             } else {
                 const updDoc = response.data;
-                yield put(updateDocSuccess(updDoc));
+                yield put(uploadDocSuccess(updDoc));
             }
         }
     } catch (e) {
-        yield put(updateDocFail("Internal error"));
+        yield put(uploadDocFail("Internal error"));
     }
 }
 
@@ -162,6 +162,6 @@ export function* docsSaga() {
         takeLatest(DocsTypes.DOCS_FETCH_START, docsFetchStart),
         takeLatest(DocsTypes.DOC_NEW_START, docNewStart),
         takeEvery(DocsTypes.DOC_DELETE_START, docDeleteStart),
-        takeLatest(DocsTypes.DOC_UPDATE_START, docUpdateStart),
+        takeLatest(DocsTypes.DOC_UPLOAD_START, docUploadStart),
     ]);
 }

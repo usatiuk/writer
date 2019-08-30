@@ -4,8 +4,13 @@ import { UserAction, UserTypes } from "~redux/user/actions";
 
 import { DocsAction, DocsTypes } from "./actions";
 
+export interface IDocumentEntry extends IDocumentJSON {
+    remote: IDocumentJSON;
+    dirty: boolean;
+}
+
 export interface IDocsState {
-    all: { [key: number]: IDocumentJSON };
+    all: { [key: number]: IDocumentEntry };
     fetching: boolean;
     uploading: boolean;
     error: string | null;
@@ -13,7 +18,7 @@ export interface IDocsState {
 
     newDocumentID: number | null;
 
-    deletedDocument: IDocumentJSON | null;
+    deletedDocument: IDocumentEntry | null;
 }
 
 const defaultDocsState: IDocsState = {
@@ -36,16 +41,16 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
         case DocsTypes.DOCS_FETCH_START:
             return { ...defaultDocsState, fetching: true };
         case DocsTypes.DOCS_FETCH_SUCCESS: {
-            const all: { [key: number]: IDocumentJSON } = {};
+            const all: { [key: number]: IDocumentEntry } = {};
             action.payload.all.forEach(doc => {
-                all[doc.id] = doc;
+                all[doc.id] = { ...doc, remote: doc, dirty: false };
             });
             return { ...defaultDocsState, all };
         }
         case DocsTypes.DOC_NEW_SUCCESS: {
             const all = { ...state.all };
             const doc = action.payload.doc;
-            all[doc.id] = doc;
+            all[doc.id] = { ...doc, remote: doc, dirty: false };
             return { ...state, all, newDocumentID: doc.id };
         }
         case DocsTypes.DOC_NEW_RESET: {
@@ -66,16 +71,16 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
             all[deletedDocument.id] = deletedDocument;
             return { ...state, deletedDocument: null, all };
         }
-        case DocsTypes.DOC_UPDATE_START: {
+        case DocsTypes.DOC_UPLOAD_START: {
             return { ...state, uploading: true };
         }
-        case DocsTypes.DOC_UPDATE_FAIL: {
+        case DocsTypes.DOC_UPLOAD_FAIL: {
             return { ...state, uploading: false };
         }
-        case DocsTypes.DOC_UPDATE_SUCCESS: {
+        case DocsTypes.DOC_UPLOAD_SUCCESS: {
             const all = { ...state.all };
             const doc = action.payload.doc;
-            all[doc.id] = doc;
+            all[doc.id] = { ...doc, remote: doc, dirty: false };
             return { ...state, all, uploading: false };
         }
         case DocsTypes.DOCS_FETCH_FAIL:
