@@ -10,6 +10,7 @@ const defaultHomeProps: IHomeProps = {
 
     fetching: false,
     uploading: false,
+    dirty: false,
 
     darkMode: false,
 

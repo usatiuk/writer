@@ -21,6 +21,8 @@ export enum DocsTypes {
     DOC_UPLOAD_SUCCESS = "DOC_UPLOAD_SUCCESS",
 
     DOCS_SHOW_SPINNER = "DOCS_SHOW_SPINNER",
+
+    DOC_UPDATE = "DOC_UPDATE",
 }
 
 export interface IDocsShowSpinnerAction extends Action {
@@ -177,6 +179,23 @@ export function uploadDocSuccess(doc: IDocumentJSON): IDocUploadSuccessAction {
     return { type: DocsTypes.DOC_UPLOAD_SUCCESS, payload: { doc } };
 }
 
+export interface IDocUpdateAction extends Action {
+    type: DocsTypes.DOC_UPDATE;
+    payload: {
+        id: number;
+        name: string;
+        content: string;
+    };
+}
+
+export function updateDoc(
+    id: number,
+    name: string,
+    content: string,
+): IDocUpdateAction {
+    return { type: DocsTypes.DOC_UPDATE, payload: { id, name, content } };
+}
+
 export type DocsAction =
     | IDocsFetchStartAction
     | IDocsFetchFailAction
@@ -192,4 +211,5 @@ export type DocsAction =
     | IDocDeleteCancelAction
     | IDocUploadFailAction
     | IDocUploadStartAction
-    | IDocUploadSuccessAction;
+    | IDocUploadSuccessAction
+    | IDocUpdateAction;

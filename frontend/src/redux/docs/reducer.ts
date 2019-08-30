@@ -11,6 +11,8 @@ export interface IDocumentEntry extends IDocumentJSON {
 
 export interface IDocsState {
     all: { [key: number]: IDocumentEntry };
+    dirty: boolean;
+
     fetching: boolean;
     uploading: boolean;
     error: string | null;
@@ -23,6 +25,7 @@ export interface IDocsState {
 
 const defaultDocsState: IDocsState = {
     all: null,
+    dirty: false,
     fetching: false,
     uploading: false,
     error: null,
@@ -81,12 +84,39 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
             const all = { ...state.all };
             const doc = action.payload.doc;
             all[doc.id] = { ...doc, remote: doc, dirty: false };
-            return { ...state, all, uploading: false };
+            return { ...state, all, uploading: false, dirty: false };
         }
         case DocsTypes.DOCS_FETCH_FAIL:
             return { ...defaultDocsState, ...action.payload };
         case UserTypes.USER_LOGOUT:
             return defaultDocsState;
+        case DocsTypes.DOC_UPDATE: {
+            const all = { ...state.all };
+            let dirty = state.dirty;
+            const { payload } = action;
+            const doc = all[payload.id];
+            const remote = doc.remote;
+            if (
+                payload.content !== remote.content ||
+                payload.name !== remote.name
+            ) {
+                all[payload.id] = {
+                    ...doc,
+                    content: payload.content,
+                    name: payload.name,
+                    dirty: true,
+                };
+                dirty = true;
+            } else {
+                all[payload.id] = {
+                    ...doc,
+                    content: payload.content,
+                    name: payload.name,
+                    dirty: false,
+                };
+            }
+            return { ...state, all, dirty };
+        }
         default:
             return state;
             break;

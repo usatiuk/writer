@@ -1,20 +1,42 @@
 import { mount } from "enzyme";
 import * as React from "react";
 
+import { IDocumentEntry } from "~redux/docs/reducer";
+import { IDocumentJSON } from "../../../../src/entity/Document";
 import { DocumentEditComponent } from "../DocumentEdit";
 
 const mock: any = jest.fn();
 
 const onUnloadSpy = jest.spyOn(DocumentEditComponent.prototype, "onUnload");
 
-const testDoc = {
+const testDoc: IDocumentJSON = {
+    name: "not changed",
+    content: "not changed",
+    id: 1,
+    user: 1,
+    createdAt: 0,
+    editedAt: 0,
+};
+
+const testDocsChanged: { [key: number]: IDocumentEntry } = {
     1: {
-        name: "not changed",
-        content: "not changed",
-        id: 1,
-        user: 1,
-        createdAt: 0,
-        editedAt: 0,
+        ...testDoc,
+        name: "changed",
+        content: "changed",
+        remote: {
+            ...testDoc,
+        },
+        dirty: true,
+    },
+};
+
+const testDocsNotChanged: { [key: number]: IDocumentEntry } = {
+    1: {
+        ...testDoc,
+        remote: {
+            ...testDoc,
+        },
+        dirty: false,
     },
 };
 
@@ -32,24 +54,19 @@ describe("<DocumentEdit />", () => {
 
         const wrapper = mount(
             <DocumentEditComponent
-                allDocs={testDoc}
+                allDocs={testDocsChanged}
                 fetching={false}
                 spinner={false}
                 fetchDocs={mock}
                 cancelDelete={mock}
                 deleteDoc={mock}
                 uploadDoc={mock}
+                updateDoc={mock}
                 history={mock}
                 location={mock}
                 match={{ params: { id: 1 } } as any}
             />,
         );
-
-        const content = wrapper.find("textarea");
-        expect(content).toHaveLength(1);
-        (content.instance() as any).value = "changed";
-
-        content.simulate("change");
 
         const preventDefault = jest.fn();
         const event = { preventDefault };
@@ -67,27 +84,19 @@ describe("<DocumentEdit />", () => {
 
         const wrapper = mount(
             <DocumentEditComponent
-                allDocs={testDoc}
+                allDocs={testDocsNotChanged}
                 fetching={false}
                 spinner={false}
                 fetchDocs={mock}
                 cancelDelete={mock}
                 deleteDoc={mock}
                 uploadDoc={mock}
+                updateDoc={mock}
                 history={mock}
                 location={mock}
                 match={{ params: { id: 1 } } as any}
             />,
         );
-
-        const content = wrapper.find("textarea");
-        expect(content).toHaveLength(1);
-
-        (content.instance() as any).value = "changed";
-        content.simulate("change");
-
-        (content.instance() as any).value = "not changed";
-        content.simulate("change");
 
         const preventDefault = jest.fn();
         const event = { preventDefault };

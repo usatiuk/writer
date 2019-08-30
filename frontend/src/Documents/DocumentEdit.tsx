@@ -12,12 +12,14 @@ import {
     deleteDocCancel,
     deleteDocStart,
     fetchDocsStart,
+    updateDoc,
     uploadDocStart,
 } from "~redux/docs/actions";
+import { IDocumentEntry } from "~redux/docs/reducer";
 import { IAppState } from "~redux/reducers";
 
 export interface IDocumentEditComponentProps extends RouteComponentProps {
-    allDocs: { [key: number]: IDocumentJSON };
+    allDocs: { [key: number]: IDocumentEntry };
 
     fetching: boolean;
     spinner: boolean;
@@ -26,32 +28,17 @@ export interface IDocumentEditComponentProps extends RouteComponentProps {
     deleteDoc: (id: number) => void;
     cancelDelete: () => void;
     uploadDoc: (id: number, name: string, content: string) => void;
+    updateDoc: (id: number, name: string, content: string) => void;
 }
 
 export interface IDocumentEditComponentState {
     loaded: boolean;
-
     id: number | null;
-    name: string | null;
-    content: string | null;
-
-    savedName: string | null;
-    savedContent: string | null;
-
-    dirty: boolean;
 }
 
 const defaultDocumentEditComponentState: IDocumentEditComponentState = {
     loaded: false,
-
     id: null,
-    name: null,
-    content: null,
-
-    savedName: null,
-    savedContent: null,
-
-    dirty: false,
 };
 
 export class DocumentEditComponent extends React.PureComponent<
@@ -71,6 +58,8 @@ export class DocumentEditComponent extends React.PureComponent<
 
     public render() {
         if (this.state.loaded) {
+            const doc = this.props.allDocs[this.state.id];
+
             return (
                 <div className="document">
                     <div className="documentHeader">
@@ -78,7 +67,7 @@ export class DocumentEditComponent extends React.PureComponent<
                             className={Classes.INPUT}
                             onChange={this.handleInputChange}
                             name="name"
-                            value={this.state.name}
+                            value={doc.name}
                             onKeyPress={this.handleNameKeyPress}
                         />
                         <div className="buttons">
@@ -99,7 +88,7 @@ export class DocumentEditComponent extends React.PureComponent<
                     <TextArea
                         onChange={this.handleInputChange}
                         name="content"
-                        value={this.state.content}
+                        value={doc.content}
                     />
                 </div>
             );
@@ -109,16 +98,9 @@ export class DocumentEditComponent extends React.PureComponent<
     }
 
     public upload() {
-        this.props.uploadDoc(
-            this.state.id,
-            this.state.name,
-            this.state.content,
-        );
-        this.setState({
-            savedName: this.state.name,
-            savedContent: this.state.content,
-            dirty: false,
-        } as any);
+        const doc = this.props.allDocs[this.state.id];
+        console.log("upload");
+        this.props.uploadDoc(this.state.id, doc.name, doc.content);
     }
 
     public remove() {
@@ -147,22 +129,15 @@ export class DocumentEditComponent extends React.PureComponent<
         const value = target.value;
         const name = target.name;
 
-        const { savedName, savedContent } = this.state;
+        const doc = this.props.allDocs[this.state.id];
 
         const updDoc: { [key: string]: string } = {
-            name: this.state.name,
-            content: this.state.content,
+            name: doc.name,
+            content: doc.content,
         };
-
         updDoc[name] = value;
 
-        const dirty =
-            savedName !== updDoc.name || savedContent !== updDoc.content;
-
-        this.setState({
-            [name]: value,
-            dirty,
-        } as any);
+        this.props.updateDoc(this.state.id, updDoc.name, updDoc.content);
     }
 
     public componentDidUpdate() {
@@ -179,7 +154,9 @@ export class DocumentEditComponent extends React.PureComponent<
     }
 
     public onUnload(e: BeforeUnloadEvent) {
-        if (this.state.dirty) {
+        const doc = this.props.allDocs[this.state.id];
+
+        if (doc.dirty) {
             e.preventDefault();
             e.returnValue = "";
         }
@@ -201,10 +178,6 @@ export class DocumentEditComponent extends React.PureComponent<
                     ...this.state,
                     loaded: true,
                     id: doc.id,
-                    name: doc.name,
-                    content: doc.content,
-                    savedContent: doc.content,
-                    savedName: doc.name,
                 });
             }
         }
@@ -226,6 +199,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
         deleteDoc: (id: number) => dispatch(deleteDocStart(id)),
         uploadDoc: (id: number, name: string, content: string) =>
             dispatch(uploadDocStart(id, name, content)),
+        updateDoc: (id: number, name: string, content: string) =>
+            dispatch(updateDoc(id, name, content)),
     };
 }
 

@@ -32,6 +32,7 @@ export interface IHomeProps extends RouteComponentProps {
 
     fetching: boolean;
     uploading: boolean;
+    dirty: boolean;
 
     darkMode: boolean;
 
@@ -78,7 +79,7 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                         </Navbar.Group>
                         <Navbar.Group align={Alignment.RIGHT}>
                             <Button id="uploadingStatusButton">
-                                {this.props.uploading ? (
+                                {this.props.uploading || this.props.dirty ? (
                                     <Spinner size={20} />
                                 ) : (
                                     <Icon icon="saved" />
@@ -175,6 +176,7 @@ function mapStateToProps(state: IAppState) {
         darkMode: state.localSettings.darkMode,
         fetching: state.docs.fetching,
         uploading: state.docs.uploading,
+        dirty: state.docs.dirty,
     };
 }
 
