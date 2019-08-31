@@ -115,6 +115,8 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
                     name: payload.name,
                     dirty: false,
                 };
+                const dirtyDocs = Object.values(all).filter(e => e.dirty);
+                dirty = dirtyDocs.length > 0;
             }
             return { ...state, all, dirty };
         }

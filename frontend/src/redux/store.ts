@@ -6,7 +6,7 @@ import { rootReducer } from "~redux/reducers";
 
 import { setToken } from "./api/utils";
 import { authSaga } from "./auth/sagas";
-import { docsSaga } from "./docs/sagas";
+import { docsSaga, uploadDocsTimer } from "./docs/sagas";
 import { getUser } from "./user/actions";
 import { userSaga } from "./user/sagas";
 
@@ -28,3 +28,4 @@ export const persistor = persistStore(store, null, () => {
 sagaMiddleware.run(authSaga);
 sagaMiddleware.run(userSaga);
 sagaMiddleware.run(docsSaga);
+sagaMiddleware.run(uploadDocsTimer);

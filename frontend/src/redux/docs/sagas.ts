@@ -33,6 +33,7 @@ import {
     newDocSuccess,
     showDocsSpinner,
     uploadDocsFail,
+    uploadDocsStart,
     uploadDocsSuccess,
 } from "./actions";
 
@@ -167,6 +168,13 @@ function* docsUploadStart(action: IDocsUploadStartAction) {
         yield put(uploadDocsSuccess(updatedDocs));
     } catch (e) {
         yield put(uploadDocsFail("Internal error"));
+    }
+}
+
+export function* uploadDocsTimer() {
+    while (true) {
+        yield docsUploadStart(uploadDocsStart());
+        yield delay(5000);
     }
 }
 
