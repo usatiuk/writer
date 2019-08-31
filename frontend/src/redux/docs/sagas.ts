@@ -173,7 +173,7 @@ function* docsUploadStart(action: IDocsUploadStartAction) {
 
 export function* uploadDocsTimer() {
     while (true) {
-        yield docsUploadStart(uploadDocsStart());
+        yield put(uploadDocsStart());
         yield delay(5000);
     }
 }
