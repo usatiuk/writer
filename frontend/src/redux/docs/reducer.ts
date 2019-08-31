@@ -74,16 +74,17 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
             all[deletedDocument.id] = deletedDocument;
             return { ...state, deletedDocument: null, all };
         }
-        case DocsTypes.DOC_UPLOAD_START: {
+        case DocsTypes.DOCS_UPLOAD_START: {
             return { ...state, uploading: true };
         }
-        case DocsTypes.DOC_UPLOAD_FAIL: {
+        case DocsTypes.DOCS_UPLOAD_FAIL: {
             return { ...state, uploading: false };
         }
-        case DocsTypes.DOC_UPLOAD_SUCCESS: {
-            const all = { ...state.all };
-            const doc = action.payload.doc;
-            all[doc.id] = { ...doc, remote: doc, dirty: false };
+        case DocsTypes.DOCS_UPLOAD_SUCCESS: {
+            const all: { [key: number]: IDocumentEntry } = { ...state.all };
+            action.payload.all.forEach(doc => {
+                all[doc.id] = { ...doc, remote: doc, dirty: false };
+            });
             return { ...state, all, uploading: false, dirty: false };
         }
         case DocsTypes.DOCS_FETCH_FAIL:

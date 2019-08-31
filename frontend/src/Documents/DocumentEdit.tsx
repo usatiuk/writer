@@ -13,7 +13,7 @@ import {
     deleteDocStart,
     fetchDocsStart,
     updateDoc,
-    uploadDocStart,
+    uploadDocsStart,
 } from "~redux/docs/actions";
 import { IDocumentEntry } from "~redux/docs/reducer";
 import { IAppState } from "~redux/reducers";
@@ -27,7 +27,7 @@ export interface IDocumentEditComponentProps extends RouteComponentProps {
     fetchDocs: () => void;
     deleteDoc: (id: number) => void;
     cancelDelete: () => void;
-    uploadDoc: (id: number, name: string, content: string) => void;
+    uploadDocs: () => void;
     updateDoc: (id: number, name: string, content: string) => void;
 }
 
@@ -98,9 +98,7 @@ export class DocumentEditComponent extends React.PureComponent<
     }
 
     public upload() {
-        const doc = this.props.allDocs[this.state.id];
-        console.log("upload");
-        this.props.uploadDoc(this.state.id, doc.name, doc.content);
+        this.props.uploadDocs();
     }
 
     public remove() {
@@ -197,8 +195,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         fetchDocs: () => dispatch(fetchDocsStart()),
         cancelDelete: () => dispatch(deleteDocCancel()),
         deleteDoc: (id: number) => dispatch(deleteDocStart(id)),
-        uploadDoc: (id: number, name: string, content: string) =>
-            dispatch(uploadDocStart(id, name, content)),
+        uploadDocs: () => dispatch(uploadDocsStart()),
         updateDoc: (id: number, name: string, content: string) =>
             dispatch(updateDoc(id, name, content)),
     };

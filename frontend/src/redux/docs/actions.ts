@@ -16,9 +16,9 @@ export enum DocsTypes {
     DOC_DELETE_SUCCESS = "DOC_DELETE_SUCCESS",
     DOC_DELETE_CANCEL = "DOC_DELETE_CANCEL",
 
-    DOC_UPLOAD_START = "DOC_UPLOAD_START",
-    DOC_UPLOAD_FAIL = "DOC_UPLOAD_FAIL",
-    DOC_UPLOAD_SUCCESS = "DOC_UPLOAD_SUCCESS",
+    DOCS_UPLOAD_START = "DOCS_UPLOAD_START",
+    DOCS_UPLOAD_FAIL = "DOCS_UPLOAD_FAIL",
+    DOCS_UPLOAD_SUCCESS = "DOCS_UPLOAD_SUCCESS",
 
     DOCS_SHOW_SPINNER = "DOCS_SHOW_SPINNER",
 
@@ -142,41 +142,36 @@ export function deleteDocCancel(): IDocDeleteCancelAction {
     return { type: DocsTypes.DOC_DELETE_CANCEL };
 }
 
-export interface IDocUploadStartAction extends Action {
-    type: DocsTypes.DOC_UPLOAD_START;
-    id: number;
-    name: string;
-    content: string;
+export interface IDocsUploadStartAction extends Action {
+    type: DocsTypes.DOCS_UPLOAD_START;
 }
 
-export interface IDocUploadFailAction extends Action {
-    type: DocsTypes.DOC_UPLOAD_FAIL;
+export interface IDocsUploadFailAction extends Action {
+    type: DocsTypes.DOCS_UPLOAD_FAIL;
     payload: {
         error: string;
     };
 }
 
-export interface IDocUploadSuccessAction extends Action {
-    type: DocsTypes.DOC_UPLOAD_SUCCESS;
+export interface IDocsUploadSuccessAction extends Action {
+    type: DocsTypes.DOCS_UPLOAD_SUCCESS;
     payload: {
-        doc: IDocumentJSON;
+        all: IDocumentJSON[];
     };
 }
 
-export function uploadDocStart(
-    id: number,
-    name: string,
-    content: string,
-): IDocUploadStartAction {
-    return { type: DocsTypes.DOC_UPLOAD_START, id, name, content };
+export function uploadDocsStart(): IDocsUploadStartAction {
+    return { type: DocsTypes.DOCS_UPLOAD_START };
 }
 
-export function uploadDocFail(error: string): IDocUploadFailAction {
-    return { type: DocsTypes.DOC_UPLOAD_FAIL, payload: { error } };
+export function uploadDocsFail(error: string): IDocsUploadFailAction {
+    return { type: DocsTypes.DOCS_UPLOAD_FAIL, payload: { error } };
 }
 
-export function uploadDocSuccess(doc: IDocumentJSON): IDocUploadSuccessAction {
-    return { type: DocsTypes.DOC_UPLOAD_SUCCESS, payload: { doc } };
+export function uploadDocsSuccess(
+    all: IDocumentJSON[],
+): IDocsUploadSuccessAction {
+    return { type: DocsTypes.DOCS_UPLOAD_SUCCESS, payload: { all } };
 }
 
 export interface IDocUpdateAction extends Action {
@@ -209,7 +204,7 @@ export type DocsAction =
     | IDocDeleteStartAction
     | IDocDeleteSuccessAction
     | IDocDeleteCancelAction
-    | IDocUploadFailAction
-    | IDocUploadStartAction
-    | IDocUploadSuccessAction
+    | IDocsUploadFailAction
+    | IDocsUploadStartAction
+    | IDocsUploadSuccessAction
     | IDocUpdateAction;

@@ -6,6 +6,7 @@ import {
     fork,
     put,
     race,
+    select,
     take,
     takeEvery,
     takeLatest,
@@ -16,7 +17,8 @@ import {
     fetchAllDocs,
     patchDoc,
 } from "~redux/api/docs";
-
+import { IAppState } from "~redux/reducers";
+import { IDocumentJSON } from "../../../../src/entity/Document";
 import {
     deleteDocFail,
     deleteDocSuccess,
@@ -26,12 +28,12 @@ import {
     IDocDeleteStartAction,
     IDocNewStartAction,
     IDocsFetchStartAction,
-    IDocUploadStartAction,
+    IDocsUploadStartAction,
     newDocFail,
     newDocSuccess,
     showDocsSpinner,
-    uploadDocFail,
-    uploadDocSuccess,
+    uploadDocsFail,
+    uploadDocsSuccess,
 } from "./actions";
 
 function* startSpinner() {
@@ -128,32 +130,43 @@ function* docDeleteStart(action: IDocDeleteStartAction) {
     }
 }
 
-function* docUploadStart(action: IDocUploadStartAction) {
+function* docsUploadStart(action: IDocsUploadStartAction) {
     try {
         const spinner = yield fork(startSpinner);
 
-        const { response, timeout } = yield race({
-            response: call(patchDoc, action.id, action.name, action.content),
-            timeout: delay(10000),
-        });
+        const state: IAppState = yield select();
+        const allDocs = state.docs.all;
 
-        yield cancel(spinner);
+        const changedDocs: IDocumentJSON[] = Object.values(allDocs).filter(
+            e => e.dirty,
+        );
 
-        if (timeout) {
-            yield put(uploadDocFail("Timeout"));
-            return;
-        }
+        const updatedDocs: IDocumentJSON[] = [];
 
-        if (response) {
-            if (response.data == null) {
-                yield put(uploadDocFail(response.error));
-            } else {
-                const updDoc = response.data;
-                yield put(uploadDocSuccess(updDoc));
+        for (const doc of changedDocs) {
+            const { response, timeout } = yield race({
+                response: call(patchDoc, doc.id, doc.name, doc.content),
+                timeout: delay(10000),
+            });
+
+            if (timeout) {
+                yield put(uploadDocsFail("Timeout"));
+                return;
+            }
+
+            if (response) {
+                if (response.data == null) {
+                    yield put(uploadDocsFail(response.error));
+                } else {
+                    const updDoc = response.data;
+                    updatedDocs.push(updDoc);
+                }
             }
         }
+        yield cancel(spinner);
+        yield put(uploadDocsSuccess(updatedDocs));
     } catch (e) {
-        yield put(uploadDocFail("Internal error"));
+        yield put(uploadDocsFail("Internal error"));
     }
 }
 
@@ -162,6 +175,6 @@ export function* docsSaga() {
         takeLatest(DocsTypes.DOCS_FETCH_START, docsFetchStart),
         takeLatest(DocsTypes.DOC_NEW_START, docNewStart),
         takeEvery(DocsTypes.DOC_DELETE_START, docDeleteStart),
-        takeLatest(DocsTypes.DOC_UPLOAD_START, docUploadStart),
+        takeLatest(DocsTypes.DOCS_UPLOAD_START, docsUploadStart),
     ]);
 }
