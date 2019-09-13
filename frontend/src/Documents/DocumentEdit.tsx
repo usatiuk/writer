@@ -8,6 +8,7 @@ import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
 import { showDeletionToast } from "~AppToaster";
 import { LoadingStub } from "~LoadingStub";
+import { NotFound } from "~NotFound";
 import {
     deleteDocCancel,
     deleteDocStart,
@@ -59,7 +60,9 @@ export class DocumentEditComponent extends React.PureComponent<
     public render() {
         if (this.state.loaded) {
             const doc = this.props.allDocs[this.state.id];
-
+            if (!doc) {
+                return <NotFound />;
+            }
             return (
                 <div className="document">
                     <div className="documentHeader">
@@ -165,17 +168,11 @@ export class DocumentEditComponent extends React.PureComponent<
             this.props.fetchDocs();
         } else {
             const { id } = this.props.match.params as any;
-            if (
-                !this.state.loaded &&
-                this.props.allDocs &&
-                this.props.allDocs[id]
-            ) {
-                const doc = this.props.allDocs[id];
-
+            if (!this.state.loaded && this.props.allDocs) {
                 this.setState({
                     ...this.state,
                     loaded: true,
-                    id: doc.id,
+                    id,
                 });
             }
         }

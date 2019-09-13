@@ -8,6 +8,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
 import { LoadingStub } from "~LoadingStub";
+import { NotFound } from "~NotFound";
 import { fetchDocsStart } from "~redux/docs/actions";
 import { IAppState } from "~redux/reducers";
 import { CodeBlock } from "./CodeBlock";
@@ -27,8 +28,12 @@ export class DocumentViewComponent extends React.PureComponent<
 > {
     public render() {
         const { id } = this.props.match.params as any;
-        if (this.props.allDocs && this.props.allDocs[id]) {
+        if (this.props.allDocs) {
             const doc = this.props.allDocs[id];
+            if (!doc) {
+                return <NotFound />;
+            }
+
             return (
                 <div className="document">
                     <div className="documentHeader">
