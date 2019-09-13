@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
-import { showDeletionToast } from "~AppToaster";
+import { showDeletionToast, showSharedToast } from "~AppToaster";
 import { LoadingStub } from "~LoadingStub";
 import { NotFound } from "~NotFound";
 import {
@@ -31,6 +31,7 @@ export interface IDocumentEditComponentProps extends RouteComponentProps {
 
     fetching: boolean;
     spinner: boolean;
+    username: string;
 
     fetchDocs: () => void;
     deleteDoc: (id: number) => void;
@@ -169,6 +170,13 @@ export class DocumentEditComponent extends React.PureComponent<
 
         const updShared = !doc.shared;
 
+        if (updShared) {
+            navigator.clipboard.writeText(
+                `http://localhost:1234/shared/${this.props.username}/${doc.id}`,
+            );
+            showSharedToast();
+        }
+
         this.props.updateDoc(this.state.id, doc.name, doc.content, updShared);
         this.upload();
     }
@@ -241,6 +249,7 @@ function mapStateToProps(state: IAppState) {
         allDocs: state.docs.all,
         fetching: state.docs.fetching,
         spinner: state.docs.spinner,
+        username: state.user.user.username,
     };
 }
 
