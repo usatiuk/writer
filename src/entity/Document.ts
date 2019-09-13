@@ -15,6 +15,7 @@ export interface IDocumentJSON {
     content: string;
     createdAt: number;
     editedAt: number;
+    shared: boolean;
 }
 
 @Entity()
@@ -37,13 +38,17 @@ export class Document extends BaseEntity {
     @Column({ type: "timestamp", default: null })
     public editedAt: Date;
 
-    constructor(user: User, name: string, content: string) {
+    @Column({ type: "boolean", default: false })
+    public shared: boolean;
+
+    constructor(user: User, name: string, content: string, shared: boolean) {
         super();
         this.createdAt = new Date();
         this.editedAt = this.createdAt;
         this.user = user;
         this.name = name;
         this.content = content;
+        this.shared = shared;
     }
 
     public toJSON(user: number): IDocumentJSON {
@@ -54,6 +59,7 @@ export class Document extends BaseEntity {
             content: this.content,
             createdAt: this.createdAt.getTime(),
             editedAt: this.editedAt.getTime(),
+            shared: this.shared,
         };
     }
 }

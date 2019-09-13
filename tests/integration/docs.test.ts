@@ -88,9 +88,26 @@ describe("docs", () => {
 
         const documents = response.body.data as IDocumentJSON[];
 
-        const userDocs = [seed.doc1.toJSON(seed.user1.id)];
+        const userDocs = [
+            seed.doc1.toJSON(seed.user1.id),
+            seed.doc2p.toJSON(seed.user1.id),
+        ];
 
         expect(documents).to.deep.equal(userDocs);
+    });
+
+    it("should get a shared document", async () => {
+        const response = await request(callback)
+            .get(`/docs/shared/${seed.user1.username}/${seed.doc2p.id}`)
+            .expect(200);
+
+        expect(response.body.error).to.be.false;
+
+        const document = response.body.data as IDocumentJSON;
+
+        const usedDoc = seed.doc2p.toJSON(seed.user1.id);
+
+        expect(document).to.deep.equal(usedDoc);
     });
 
     it("should get a document", async () => {

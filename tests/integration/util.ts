@@ -5,6 +5,7 @@ export interface ISeed {
     user1: User;
     user2: User;
     doc1: Document;
+    doc2p: Document;
 }
 
 export async function seedDB(): Promise<ISeed> {
@@ -19,8 +20,11 @@ export async function seedDB(): Promise<ISeed> {
     await user2.setPassword("User2");
     await user2.save();
 
-    const doc1 = new Document(user1, "Doc1", "Doc1");
-    await doc1.save();
+    const doc1 = new Document(user1, "Doc1", "Doc1", false);
+    const doc2p = new Document(user1, "Doc2", "Doc2", true);
 
-    return { user1, user2, doc1 };
+    await doc1.save();
+    await doc2p.save();
+
+    return { user1, user2, doc1, doc2p };
 }
