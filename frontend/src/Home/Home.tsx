@@ -84,8 +84,8 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                                 {this.props.uploading || this.props.dirty ? (
                                     <Spinner size={20} />
                                 ) : (
-                                        <Icon icon="saved" />
-                                    )}
+                                    <Icon icon="saved" />
+                                )}
                             </Button>
                             <Popover
                                 target={
@@ -160,12 +160,12 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                         onClick={this.props.dispatchToggleDarkMode}
                     />
                 ) : (
-                        <Menu.Item
-                            icon="moon"
-                            text="Dark Mode"
-                            onClick={this.props.dispatchToggleDarkMode}
-                        />
-                    )}
+                    <Menu.Item
+                        icon="moon"
+                        text="Dark Mode"
+                        onClick={this.props.dispatchToggleDarkMode}
+                    />
+                )}
             </Menu>
         );
     }

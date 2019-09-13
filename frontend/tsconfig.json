@@ -1,9 +1,6 @@
 {
     "compilerOptions": {
-        "lib": [
-            "es2017",
-            "dom"
-        ],
+        "lib": ["es2017", "dom"],
         "jsx": "react",
         "target": "es5",
         "module": "commonjs",
@@ -16,9 +13,7 @@
         "allowSyntheticDefaultImports": true,
         "baseUrl": "./",
         "paths": {
-            "~*": [
-                "./src/*"
-            ]
+            "~*": ["./src/*"]
         }
     }
 }
