@@ -16,6 +16,7 @@ const testDoc: IDocumentJSON = {
     user: 1,
     createdAt: 0,
     editedAt: 0,
+    shared: false,
 };
 
 const testDocsChanged: { [key: number]: IDocumentEntry } = {
