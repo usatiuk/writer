@@ -1,7 +1,7 @@
 import { IDocumentJSON } from "~../../src/entity/Document";
 import { IAPIResponse } from "~../../src/types";
 
-import { fetchJSONAuth } from "../utils";
+import { fetchJSONAuth, fetchJSON } from "../utils";
 
 export async function fetchRecentDocs(): Promise<
     IAPIResponse<IDocumentJSON[]>
@@ -17,6 +17,13 @@ export async function fetchDoc(
     id: number,
 ): Promise<IAPIResponse<IDocumentJSON>> {
     return fetchJSONAuth(`/docs/byID/${id}`, "GET");
+}
+
+export async function fetchSharedDoc(
+    username: string,
+    id: number,
+): Promise<IAPIResponse<IDocumentJSON>> {
+    return fetchJSON(`/docs/shared/${username}/${id}`, "GET");
 }
 
 export async function patchDoc(

@@ -8,6 +8,7 @@ import {
     withRouter,
 } from "react-router";
 import { AuthScreen } from "~Auth/AuthScreen";
+import { SharedView } from "~Documents/SharedView";
 import { Home } from "~Home/Home";
 import { Landing } from "~Landing/Landing";
 import { IAppState } from "~redux/reducers";
@@ -23,12 +24,14 @@ export function AppComponent(props: IAppComponentProps) {
             <Route path="/signup" component={AuthScreen} />,
             <Route path="/login" component={AuthScreen} />,
             <Route path="/docs/:id" component={Home} />,
+            <Route path="/shared/:username/:id" component={SharedView} />,
             <Route path="/" component={Home} />,
         </Switch>
     ) : (
         <Switch>
             <Route path="/signup" component={AuthScreen} />
             <Route path="/login" component={AuthScreen} />
+            <Route path="/shared/:username/:id" component={SharedView} />,
             <Route exact={true} path="/" component={Landing} />
             <Route path="/" component={() => <Redirect to="/login" />} />
         </Switch>
