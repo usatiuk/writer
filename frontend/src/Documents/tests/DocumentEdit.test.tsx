@@ -65,6 +65,7 @@ describe("<DocumentEdit />", () => {
                 updateDoc={mock}
                 history={mock}
                 location={mock}
+                username="asdf"
                 match={{ params: { id: 1 } } as any}
             />,
         );
@@ -95,6 +96,7 @@ describe("<DocumentEdit />", () => {
                 updateDoc={mock}
                 history={mock}
                 location={mock}
+                username="asdf"
                 match={{ params: { id: 1 } } as any}
             />,
         );
