@@ -180,6 +180,7 @@ export interface IDocUpdateAction extends Action {
         id: number;
         name: string;
         content: string;
+        shared: boolean;
     };
 }
 
@@ -187,8 +188,12 @@ export function updateDoc(
     id: number,
     name: string,
     content: string,
+    shared: boolean,
 ): IDocUpdateAction {
-    return { type: DocsTypes.DOC_UPDATE, payload: { id, name, content } };
+    return {
+        type: DocsTypes.DOC_UPDATE,
+        payload: { id, name, content, shared },
+    };
 }
 
 export type DocsAction =

@@ -1,7 +1,7 @@
 import { IDocumentJSON } from "~../../src/entity/Document";
 import { IAPIResponse } from "~../../src/types";
 
-import { fetchJSONAuth } from "../utils";
+import { fetchJSONAuth, fetchJSON } from "../utils";
 
 export async function fetchRecentDocs(): Promise<
     IAPIResponse<IDocumentJSON[]>
@@ -19,12 +19,24 @@ export async function fetchDoc(
     return fetchJSONAuth(`/docs/byID/${id}`, "GET");
 }
 
+export async function fetchSharedDoc(
+    username: string,
+    id: number,
+): Promise<IAPIResponse<IDocumentJSON>> {
+    return fetchJSON(`/docs/shared/${username}/${id}`, "GET");
+}
+
 export async function patchDoc(
     id: number,
     name?: string,
     content?: string,
+    shared?: boolean,
 ): Promise<IAPIResponse<IDocumentJSON>> {
-    return fetchJSONAuth(`/docs/byID/${id}`, "PATCH", { name, content });
+    return fetchJSONAuth(`/docs/byID/${id}`, "PATCH", {
+        name,
+        content,
+        shared,
+    });
 }
 
 export async function deleteDoc(id: number): Promise<IAPIResponse<boolean>> {

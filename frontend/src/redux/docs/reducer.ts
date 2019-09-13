@@ -99,12 +99,14 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
             const remote = doc.remote;
             if (
                 payload.content !== remote.content ||
-                payload.name !== remote.name
+                payload.name !== remote.name ||
+                payload.shared !== remote.shared
             ) {
                 all[payload.id] = {
                     ...doc,
                     content: payload.content,
                     name: payload.name,
+                    shared: payload.shared,
                     dirty: true,
                 };
                 dirty = true;
@@ -113,6 +115,7 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
                     ...doc,
                     content: payload.content,
                     name: payload.name,
+                    shared: payload.shared,
                     dirty: false,
                 };
                 const dirtyDocs = Object.values(all).filter(e => e.dirty);

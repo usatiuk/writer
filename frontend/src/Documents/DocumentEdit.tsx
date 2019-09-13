@@ -1,13 +1,21 @@
 import "./Docs.scss";
 
-import { Button, Classes, TextArea } from "@blueprintjs/core";
+import {
+    Button,
+    Classes,
+    Menu,
+    MenuItem,
+    Popover,
+    TextArea,
+} from "@blueprintjs/core";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
-import { showDeletionToast } from "~AppToaster";
+import { showDeletionToast, showSharedToast } from "~AppToaster";
 import { LoadingStub } from "~LoadingStub";
+import { NotFound } from "~NotFound";
 import {
     deleteDocCancel,
     deleteDocStart,
@@ -23,12 +31,18 @@ export interface IDocumentEditComponentProps extends RouteComponentProps {
 
     fetching: boolean;
     spinner: boolean;
+    username: string;
 
     fetchDocs: () => void;
     deleteDoc: (id: number) => void;
     cancelDelete: () => void;
     uploadDocs: () => void;
-    updateDoc: (id: number, name: string, content: string) => void;
+    updateDoc: (
+        id: number,
+        name: string,
+        content: string,
+        shared: boolean,
+    ) => void;
 }
 
 export interface IDocumentEditComponentState {
@@ -51,6 +65,7 @@ export class DocumentEditComponent extends React.PureComponent<
         this.state = defaultDocumentEditComponentState;
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleNameKeyPress = this.handleNameKeyPress.bind(this);
+        this.share = this.share.bind(this);
         this.remove = this.remove.bind(this);
         this.save = this.save.bind(this);
         this.onUnload = this.onUnload.bind(this);
@@ -59,7 +74,9 @@ export class DocumentEditComponent extends React.PureComponent<
     public render() {
         if (this.state.loaded) {
             const doc = this.props.allDocs[this.state.id];
-
+            if (!doc) {
+                return <NotFound />;
+            }
             return (
                 <div className="document">
                     <div className="documentHeader">
@@ -71,18 +88,48 @@ export class DocumentEditComponent extends React.PureComponent<
                             onKeyPress={this.handleNameKeyPress}
                         />
                         <div className="buttons">
-                            <Button
-                                icon="trash"
-                                minimal={true}
-                                intent="danger"
-                                onClick={this.remove}
-                            />
-                            <Button
-                                icon="tick"
-                                intent="success"
-                                minimal={true}
-                                onClick={this.save}
-                            />
+                            <div>
+                                <Popover
+                                    target={
+                                        <Button
+                                            icon="document-share"
+                                            minimal={true}
+                                            intent={
+                                                doc.shared ? "success" : "none"
+                                            }
+                                        />
+                                    }
+                                    content={
+                                        <Menu>
+                                            <MenuItem
+                                                icon="globe"
+                                                text={
+                                                    doc.shared
+                                                        ? "Remove access"
+                                                        : "Make public"
+                                                }
+                                                onClick={this.share}
+                                            />
+                                        </Menu>
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <Button
+                                    icon="trash"
+                                    minimal={true}
+                                    intent="danger"
+                                    onClick={this.remove}
+                                />
+                            </div>
+                            <div>
+                                <Button
+                                    icon="tick"
+                                    intent="success"
+                                    minimal={true}
+                                    onClick={this.save}
+                                />
+                            </div>
                         </div>
                     </div>
                     <TextArea
@@ -118,6 +165,22 @@ export class DocumentEditComponent extends React.PureComponent<
         }
     }
 
+    public share() {
+        const doc = this.props.allDocs[this.state.id];
+
+        const updShared = !doc.shared;
+
+        if (updShared) {
+            navigator.clipboard.writeText(
+                `http://localhost:1234/shared/${this.props.username}/${doc.id}`,
+            );
+            showSharedToast();
+        }
+
+        this.props.updateDoc(this.state.id, doc.name, doc.content, updShared);
+        this.upload();
+    }
+
     public handleInputChange(
         event:
             | React.FormEvent<HTMLInputElement>
@@ -135,7 +198,12 @@ export class DocumentEditComponent extends React.PureComponent<
         };
         updDoc[name] = value;
 
-        this.props.updateDoc(this.state.id, updDoc.name, updDoc.content);
+        this.props.updateDoc(
+            this.state.id,
+            updDoc.name,
+            updDoc.content,
+            doc.shared,
+        );
     }
 
     public componentDidUpdate() {
@@ -165,17 +233,11 @@ export class DocumentEditComponent extends React.PureComponent<
             this.props.fetchDocs();
         } else {
             const { id } = this.props.match.params as any;
-            if (
-                !this.state.loaded &&
-                this.props.allDocs &&
-                this.props.allDocs[id]
-            ) {
-                const doc = this.props.allDocs[id];
-
+            if (!this.state.loaded && this.props.allDocs) {
                 this.setState({
                     ...this.state,
                     loaded: true,
-                    id: doc.id,
+                    id,
                 });
             }
         }
@@ -187,6 +249,7 @@ function mapStateToProps(state: IAppState) {
         allDocs: state.docs.all,
         fetching: state.docs.fetching,
         spinner: state.docs.spinner,
+        username: state.user.user.username,
     };
 }
 
@@ -196,8 +259,12 @@ function mapDispatchToProps(dispatch: Dispatch) {
         cancelDelete: () => dispatch(deleteDocCancel()),
         deleteDoc: (id: number) => dispatch(deleteDocStart(id)),
         uploadDocs: () => dispatch(uploadDocsStart()),
-        updateDoc: (id: number, name: string, content: string) =>
-            dispatch(updateDoc(id, name, content)),
+        updateDoc: (
+            id: number,
+            name: string,
+            content: string,
+            shared: boolean,
+        ) => dispatch(updateDoc(id, name, content, shared)),
     };
 }
 

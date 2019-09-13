@@ -16,3 +16,11 @@ export function showDeletionToast(cancelFn: () => void) {
         },
     });
 }
+
+export function showSharedToast() {
+    AppToaster.show({
+        message: "Link copied to clipboard!",
+        intent: "success",
+        timeout: 2000,
+    });
+}

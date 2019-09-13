@@ -16,6 +16,7 @@ const testDoc: IDocumentJSON = {
     user: 1,
     createdAt: 0,
     editedAt: 0,
+    shared: false,
 };
 
 const testDocsChanged: { [key: number]: IDocumentEntry } = {
@@ -64,6 +65,7 @@ describe("<DocumentEdit />", () => {
                 updateDoc={mock}
                 history={mock}
                 location={mock}
+                username="asdf"
                 match={{ params: { id: 1 } } as any}
             />,
         );
@@ -94,6 +96,7 @@ describe("<DocumentEdit />", () => {
                 updateDoc={mock}
                 history={mock}
                 location={mock}
+                username="asdf"
                 match={{ params: { id: 1 } } as any}
             />,
         );
