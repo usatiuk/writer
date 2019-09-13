@@ -97,8 +97,22 @@
             flex-shrink: 0;
             flex-grow: 0;
 
-            button {
+            div {
+                height: 100%;
                 width: 3rem;
+
+                >* {
+                    width: 100%;
+                    height: 100%;
+                    .bp3-popover-target {
+                        width: 100%;
+                        height: 100%;
+                        button {
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                }
             }
         }
 
@@ -203,6 +217,7 @@
     }
 
     .document {
+
         textarea,
         .documentContents {
             transition: 0.3s;

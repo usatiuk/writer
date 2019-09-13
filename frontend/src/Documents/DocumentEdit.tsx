@@ -1,6 +1,13 @@
 import "./Docs.scss";
 
-import { Button, Classes, TextArea } from "@blueprintjs/core";
+import {
+    Button,
+    Classes,
+    Menu,
+    MenuItem,
+    Popover,
+    TextArea,
+} from "@blueprintjs/core";
 import * as React from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -29,7 +36,12 @@ export interface IDocumentEditComponentProps extends RouteComponentProps {
     deleteDoc: (id: number) => void;
     cancelDelete: () => void;
     uploadDocs: () => void;
-    updateDoc: (id: number, name: string, content: string) => void;
+    updateDoc: (
+        id: number,
+        name: string,
+        content: string,
+        shared: boolean,
+    ) => void;
 }
 
 export interface IDocumentEditComponentState {
@@ -52,6 +64,7 @@ export class DocumentEditComponent extends React.PureComponent<
         this.state = defaultDocumentEditComponentState;
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleNameKeyPress = this.handleNameKeyPress.bind(this);
+        this.share = this.share.bind(this);
         this.remove = this.remove.bind(this);
         this.save = this.save.bind(this);
         this.onUnload = this.onUnload.bind(this);
@@ -74,18 +87,48 @@ export class DocumentEditComponent extends React.PureComponent<
                             onKeyPress={this.handleNameKeyPress}
                         />
                         <div className="buttons">
-                            <Button
-                                icon="trash"
-                                minimal={true}
-                                intent="danger"
-                                onClick={this.remove}
-                            />
-                            <Button
-                                icon="tick"
-                                intent="success"
-                                minimal={true}
-                                onClick={this.save}
-                            />
+                            <div>
+                                <Popover
+                                    target={
+                                        <Button
+                                            icon="document-share"
+                                            minimal={true}
+                                            intent={
+                                                doc.shared ? "success" : "none"
+                                            }
+                                        />
+                                    }
+                                    content={
+                                        <Menu>
+                                            <MenuItem
+                                                icon="globe"
+                                                text={
+                                                    doc.shared
+                                                        ? "Remove access"
+                                                        : "Make public"
+                                                }
+                                                onClick={this.share}
+                                            />
+                                        </Menu>
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <Button
+                                    icon="trash"
+                                    minimal={true}
+                                    intent="danger"
+                                    onClick={this.remove}
+                                />
+                            </div>
+                            <div>
+                                <Button
+                                    icon="tick"
+                                    intent="success"
+                                    minimal={true}
+                                    onClick={this.save}
+                                />
+                            </div>
                         </div>
                     </div>
                     <TextArea
@@ -121,6 +164,15 @@ export class DocumentEditComponent extends React.PureComponent<
         }
     }
 
+    public share() {
+        const doc = this.props.allDocs[this.state.id];
+
+        const updShared = !doc.shared;
+
+        this.props.updateDoc(this.state.id, doc.name, doc.content, updShared);
+        this.upload();
+    }
+
     public handleInputChange(
         event:
             | React.FormEvent<HTMLInputElement>
@@ -138,7 +190,12 @@ export class DocumentEditComponent extends React.PureComponent<
         };
         updDoc[name] = value;
 
-        this.props.updateDoc(this.state.id, updDoc.name, updDoc.content);
+        this.props.updateDoc(
+            this.state.id,
+            updDoc.name,
+            updDoc.content,
+            doc.shared,
+        );
     }
 
     public componentDidUpdate() {
@@ -193,8 +250,12 @@ function mapDispatchToProps(dispatch: Dispatch) {
         cancelDelete: () => dispatch(deleteDocCancel()),
         deleteDoc: (id: number) => dispatch(deleteDocStart(id)),
         uploadDocs: () => dispatch(uploadDocsStart()),
-        updateDoc: (id: number, name: string, content: string) =>
-            dispatch(updateDoc(id, name, content)),
+        updateDoc: (
+            id: number,
+            name: string,
+            content: string,
+            shared: boolean,
+        ) => dispatch(updateDoc(id, name, content, shared)),
     };
 }
 

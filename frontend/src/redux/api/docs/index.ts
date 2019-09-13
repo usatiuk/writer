@@ -23,8 +23,13 @@ export async function patchDoc(
     id: number,
     name?: string,
     content?: string,
+    shared?: boolean,
 ): Promise<IAPIResponse<IDocumentJSON>> {
-    return fetchJSONAuth(`/docs/byID/${id}`, "PATCH", { name, content });
+    return fetchJSONAuth(`/docs/byID/${id}`, "PATCH", {
+        name,
+        content,
+        shared,
+    });
 }
 
 export async function deleteDoc(id: number): Promise<IAPIResponse<boolean>> {

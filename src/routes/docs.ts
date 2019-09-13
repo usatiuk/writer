@@ -50,9 +50,10 @@ docsRouter.patch("/docs/byID/:id", async ctx => {
         ctx.throw(400);
     }
 
-    const { name, content } = (ctx.request as any).body as {
+    const { name, content, shared } = (ctx.request as any).body as {
         name: string | undefined;
         content: string | undefined;
+        shared: boolean | undefined;
     };
 
     const document = await Document.findOne({ id, user });
@@ -66,6 +67,9 @@ docsRouter.patch("/docs/byID/:id", async ctx => {
     }
     if (content) {
         document.content = content;
+    }
+    if (shared !== undefined) {
+        document.shared = shared;
     }
 
     try {
