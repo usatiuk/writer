@@ -5,6 +5,7 @@ import {
     Column,
     Entity,
     Index,
+    OneToMany,
     OneToOne,
     PrimaryGeneratedColumn,
 } from "typeorm";
@@ -39,7 +40,7 @@ export class User extends BaseEntity {
     @Column()
     public passwordHash: string;
 
-    @OneToOne(type => Document, document => document.user)
+    @OneToMany(type => Document, document => document.user)
     public documents: Document[];
 
     constructor(username: string, email: string) {
