@@ -67,6 +67,7 @@ export class DocumentEditComponent extends React.PureComponent<
         this.handleNameKeyPress = this.handleNameKeyPress.bind(this);
         this.share = this.share.bind(this);
         this.remove = this.remove.bind(this);
+        this.copyLink = this.copyLink.bind(this);
         this.save = this.save.bind(this);
         this.onUnload = this.onUnload.bind(this);
     }
@@ -101,6 +102,13 @@ export class DocumentEditComponent extends React.PureComponent<
                                     }
                                     content={
                                         <Menu>
+                                            {doc.shared && (
+                                                <MenuItem
+                                                    icon="clipboard"
+                                                    text={"Copy link"}
+                                                    onClick={this.copyLink}
+                                                />
+                                            )}
                                             <MenuItem
                                                 icon="globe"
                                                 text={
@@ -165,16 +173,21 @@ export class DocumentEditComponent extends React.PureComponent<
         }
     }
 
+    public copyLink() {
+        const doc = this.props.allDocs[this.state.id];
+        navigator.clipboard.writeText(
+            `http://localhost:1234/shared/${this.props.username}/${doc.id}`,
+        );
+        showSharedToast();
+    }
+
     public share() {
         const doc = this.props.allDocs[this.state.id];
 
         const updShared = !doc.shared;
 
         if (updShared) {
-            navigator.clipboard.writeText(
-                `http://localhost:1234/shared/${this.props.username}/${doc.id}`,
-            );
-            showSharedToast();
+            this.copyLink();
         }
 
         this.props.updateDoc(this.state.id, doc.name, doc.content, updShared);
