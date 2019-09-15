@@ -40,7 +40,8 @@ jobs:
     working_directory: ~/writer/frontend
 
     steps:
-      - checkout
+      - checkout:
+          path: ~/writer
 
       - restore_cache:
           keys:
@@ -52,7 +53,7 @@ jobs:
 
       - save_cache:
           paths:
-            - frontend/node_modules
+            - node_modules
           key: frontend-dependencies-{{ checksum "package.json" }}
 
       - run: 
