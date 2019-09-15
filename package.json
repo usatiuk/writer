@@ -56,7 +56,7 @@
     "scripts": {
         "ts-node-dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
         "frontend": "cd frontend && npm start",
-        "dev": "cross-env NODE_ENV=development concurrently npm:ts-node-dev npm:frontend",
+        "dev": "cross-env NODE_ENV=development concurrently npm:ts-node-dev npm:frontend -c 'blue,green'",
         "test": "cross-env NODE_ENV=test mocha --timeout 15000 -r ts-node/register -r tsconfig-paths/register 'tests/**/*.ts' "
     }
 }
