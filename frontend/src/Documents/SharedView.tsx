@@ -4,7 +4,7 @@ import { Button, H1 } from "@blueprintjs/core";
 import * as React from "react";
 import Markdown from "react-markdown";
 import { connect } from "react-redux";
-import { RouteComponentProps, withRouter } from "react-router";
+import { Redirect, RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
 import { LoadingStub } from "~LoadingStub";
@@ -12,11 +12,12 @@ import { NotFound } from "~NotFound";
 import { fetchSharedDoc } from "~redux/api/docs";
 import { fetchDocsStart } from "~redux/docs/actions";
 import { IAppState } from "~redux/reducers";
+import { IUserJSON } from "../../../src/entity/User";
 import { CodeBlock } from "./CodeBlock";
 
 export interface ISharedViewComponentProps extends RouteComponentProps {
     loggedIn: boolean;
-    username: string | undefined;
+    user: IUserJSON | undefined;
 }
 
 export interface ISharedViewComponentState {
@@ -51,7 +52,11 @@ export class SharedViewComponent extends React.PureComponent<
                     </div>
                 );
             }
+            const { loggedIn, user } = this.props;
             const { doc } = this.state;
+            if (loggedIn && user.id === doc.user) {
+                return <Redirect to={`/docs/${doc.id}`} />;
+            }
             return (
                 <div className="viewComponent">
                     <div className="document">
@@ -88,8 +93,11 @@ export class SharedViewComponent extends React.PureComponent<
 function mapStateToProps(state: IAppState) {
     return {
         loggedIn: state.user.user !== null,
-        username: state.user.user.username,
+        user: state.user.user,
     };
 }
 
-export const SharedView = SharedViewComponent;
+export const SharedView = withRouter(
+    connect(mapStateToProps)(SharedViewComponent),
+);
+
