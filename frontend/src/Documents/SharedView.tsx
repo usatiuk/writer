@@ -2,7 +2,6 @@ import "./Docs.scss";
 
 import { Button, H1 } from "@blueprintjs/core";
 import * as React from "react";
-import Markdown from "react-markdown";
 import { connect } from "react-redux";
 import { Redirect, RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
@@ -14,6 +13,9 @@ import { fetchDocsStart } from "~redux/docs/actions";
 import { IAppState } from "~redux/reducers";
 import { IUserJSON } from "../../../src/entity/User";
 import { CodeBlock } from "./CodeBlock";
+
+// Jest for some reason breaks if we do it the other way
+import Markdown = require("react-markdown");
 
 export interface ISharedViewComponentProps extends RouteComponentProps {
     loggedIn: boolean;
@@ -100,4 +102,3 @@ function mapStateToProps(state: IAppState) {
 export const SharedView = withRouter(
     connect(mapStateToProps)(SharedViewComponent),
 );
-
