@@ -14,6 +14,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
 import { showDeletionToast, showSharedToast } from "~AppToaster";
+import { webRoot } from "~env";
 import { LoadingStub } from "~LoadingStub";
 import { NotFound } from "~NotFound";
 import {
@@ -176,7 +177,7 @@ export class DocumentEditComponent extends React.PureComponent<
     public copyLink() {
         const doc = this.props.allDocs[this.state.id];
         navigator.clipboard.writeText(
-            `http://localhost:1234/shared/${this.props.username}/${doc.id}`,
+            `http://${webRoot}/shared/${this.props.username}/${doc.id}`,
         );
         showSharedToast();
     }

@@ -1,3 +1,5 @@
+import { apiRoot } from "~env";
+
 let token: string | null;
 
 export function setToken(_token: string) {
@@ -12,8 +14,6 @@ export function deleteToken(_token: string) {
     token = null;
 }
 
-const root = "http://localhost:3000";
-
 export async function fetchJSON(
     path: string,
     method: string,
@@ -23,7 +23,7 @@ export async function fetchJSON(
     if (typeof body === "object") {
         body = JSON.stringify(body);
     }
-    const response = await fetch(root + path, {
+    const response = await fetch(apiRoot + path, {
         method,
         body,
         headers: {
