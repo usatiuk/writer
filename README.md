@@ -1,6 +1,8 @@
 # writer
 A simple web/markdown-based notebook thingy
 
+![screenshot](docs/main.png)
+
 This is a notebook app written in typescript using koa for the backend and react+redux for the frontend.
 
 ## Getting started
