@@ -30,6 +30,7 @@ export class DocumentViewComponent extends React.PureComponent<
         const { id } = this.props.match.params as any;
         if (this.props.allDocs) {
             const doc = this.props.allDocs[id];
+
             if (!doc) {
                 return <NotFound />;
             }
