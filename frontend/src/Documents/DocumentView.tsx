@@ -40,13 +40,17 @@ export class DocumentViewComponent extends React.PureComponent<
                     <div className="documentHeader">
                         <H1>{doc.name}</H1>
                         <div className="buttons">
-                            <Button
-                                icon="edit"
-                                minimal={true}
-                                onClick={() =>
-                                    this.props.history.push(`/docs/${id}/edit`)
-                                }
-                            />
+                            <div>
+                                <Button
+                                    icon="edit"
+                                    minimal={true}
+                                    onClick={() =>
+                                        this.props.history.push(
+                                            `/docs/${id}/edit`,
+                                        )
+                                    }
+                                />
+                            </div>
                         </div>
                     </div>
                     <div className="documentContents">
@@ -92,8 +96,5 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export const DocumentView = withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(DocumentViewComponent),
+    connect(mapStateToProps, mapDispatchToProps)(DocumentViewComponent),
 );
