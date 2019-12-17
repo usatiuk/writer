@@ -46,39 +46,38 @@ export class SharedViewComponent extends React.PureComponent<
     }
 
     public render() {
-        if (this.state.loaded) {
-            if (this.state.error) {
-                return (
-                    <div className="viewComponent">
-                        <div>{this.state.error}</div>
-                    </div>
-                );
-            }
-            const { loggedIn, user } = this.props;
-            const { doc } = this.state;
-            if (loggedIn && user.id === doc.user) {
-                return <Redirect to={`/docs/${doc.id}`} />;
-            }
-            return (
-                <div className="viewComponent">
-                    <div className="document">
-                        <div className="documentHeader">
-                            <H1>{doc.name}</H1>
-                        </div>
-                        <div className="documentContents">
-                            <Markdown
-                                source={doc.content}
-                                renderers={{
-                                    code: CodeBlock,
-                                }}
-                            />
-                        </div>
-                    </div>
-                </div>
-            );
-        } else {
+        if (!this.state.loaded) {
             return <LoadingStub />;
         }
+        if (this.state.error) {
+            return (
+                <div className="viewComponent">
+                    <div>{this.state.error}</div>
+                </div>
+            );
+        }
+        const { loggedIn, user } = this.props;
+        const { doc } = this.state;
+        if (loggedIn && user.id === doc.user) {
+            return <Redirect to={`/docs/${doc.id}`} />;
+        }
+        return (
+            <div className="viewComponent">
+                <div className="document">
+                    <div className="documentHeader">
+                        <H1>{doc.name}</H1>
+                    </div>
+                    <div className="documentContents">
+                        <Markdown
+                            source={doc.content}
+                            renderers={{
+                                code: CodeBlock,
+                            }}
+                        />
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     public async componentDidMount() {
