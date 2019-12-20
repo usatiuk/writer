@@ -19,6 +19,7 @@ import { animated, config, Transition } from "react-spring/renderprops";
 import { Dispatch } from "redux";
 import { IDocumentJSON } from "~../../src/entity/Document";
 import { IUserJSON } from "~../../src/entity/User";
+import { Account } from "~Account/Account";
 import { DocumentEdit } from "~Documents/DocumentEdit";
 import { DocumentView } from "~Documents/DocumentView";
 import { Overview } from "~Documents/Overview";
@@ -134,6 +135,10 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                                             path="/docs/:id"
                                             component={DocumentView}
                                         />
+                                        <Route
+                                            path="/account"
+                                            component={Account}
+                                        />
                                         <Route path="/" component={Overview} />
                                     </Switch>
                                 </animated.div>
@@ -148,6 +153,11 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
     private menu() {
         return (
             <Menu>
+                <Menu.Item
+                    icon="user"
+                    text="Account"
+                    onClick={() => this.props.history.push("/account")}
+                />
                 <Menu.Item
                     icon="log-out"
                     text="Logout"
