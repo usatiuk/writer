@@ -5,7 +5,9 @@ import * as Koa from "koa";
 import * as bodyParser from "koa-body";
 import * as jwt from "koa-jwt";
 import * as logger from "koa-logger";
+import * as send from "koa-send";
 import * as serve from "koa-static";
+
 import { config } from "~config";
 import { docsRouter } from "~routes/docs";
 import { userRouter } from "~routes/users";
@@ -21,17 +23,22 @@ app.use(
         passthrough: true,
     }),
 );
-app.use(serve("frontend/dist"));
 
 app.use(async (ctx, next) => {
     try {
         await next();
+        const status = ctx.status || 404;
+        if (status === 404) {
+            await send(ctx, "frontend/dist/index.html");
+        }
     } catch (err) {
         ctx.status = err.status || 500;
         ctx.body = err.message;
         ctx.app.emit("error", err, ctx);
     }
 });
+
+app.use(serve("frontend/dist"));
 
 app.use(userRouter.routes()).use(userRouter.allowedMethods());
 app.use(docsRouter.routes()).use(docsRouter.allowedMethods());
