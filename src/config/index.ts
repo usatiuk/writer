@@ -22,9 +22,13 @@ const test: IConfig = {
     ...production,
     jwtSecret: "TESTSECRET",
     dbConnectionOptions:
-        process.env.NODE_ENV === "test" && process.env.CI
-            ? JSON.parse(fs.readFileSync("./ormconfig.ci.json").toString())
-            : JSON.parse(fs.readFileSync("./ormconfig.test.json").toString()),
+        process.env.NODE_ENV === "test"
+            ? process.env.CI
+                ? JSON.parse(fs.readFileSync("./ormconfig.ci.json").toString())
+                : JSON.parse(
+                      fs.readFileSync("./ormconfig.test.json").toString(),
+                  )
+            : null,
 };
 
 const envs: { [key: string]: IConfig } = { production, development, test };
