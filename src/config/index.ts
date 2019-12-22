@@ -27,7 +27,7 @@ const test: IConfig = {
 };
 
 const envs: { [key: string]: IConfig } = { production, development, test };
-const env = process.env.NODE_ENV;
+const env = process.env.NODE_ENV || "production";
 const currentConfig = envs[env];
 
 export { currentConfig as config };
