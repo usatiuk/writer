@@ -65,7 +65,7 @@
         "ts-node-dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
         "start": "ts-node -T -r tsconfig-paths/register src/server.ts",
         "prod-start": "cross-env NODE_ENV=development npm start",
-        "build-frontend": "cd frontend && npm i && npm run build",
+        "build-frontend": "cd frontend && npm i && npm i --only dev && npm run build",
         "build-backend": "npm i",
         "build": "npm run build-backend && npm run build-frontend",
         "frontend": "cd frontend && npm start",
