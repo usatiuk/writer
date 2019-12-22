@@ -6,9 +6,10 @@ import * as bodyParser from "koa-body";
 import * as jwt from "koa-jwt";
 import * as logger from "koa-logger";
 import * as send from "koa-send";
+import sslify from "koa-sslify";
 import * as serve from "koa-static";
 
-import { config } from "~config";
+import { config, EnvType } from "~config";
 import { docsRouter } from "~routes/docs";
 import { userRouter } from "~routes/users";
 
@@ -17,6 +18,9 @@ export const app = new Koa();
 app.use(cors());
 app.use(logger());
 app.use(bodyParser());
+if (config.env === EnvType.production) {
+    app.use(sslify());
+}
 app.use(
     jwt({
         secret: config.jwtSecret,
