@@ -29,18 +29,21 @@ export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     public id: number;
 
-    @Column()
+    @Column({ length: 190})
     @Index({ unique: true })
     public username: string;
 
-    @Column()
+    @Column({ length: 190 })
     @Index({ unique: true })
     public email: string;
 
-    @Column()
+    @Column({ length: 190 })
     public passwordHash: string;
 
-    @OneToMany(type => Document, document => document.user)
+    @OneToMany(
+        type => Document,
+        document => document.user,
+    )
     public documents: Document[];
 
     constructor(username: string, email: string) {
