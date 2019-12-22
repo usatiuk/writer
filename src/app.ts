@@ -5,6 +5,7 @@ import * as Koa from "koa";
 import * as bodyParser from "koa-body";
 import * as jwt from "koa-jwt";
 import * as logger from "koa-logger";
+import * as serve from "koa-static";
 import { config } from "~config";
 import { docsRouter } from "~routes/docs";
 import { userRouter } from "~routes/users";
@@ -20,6 +21,7 @@ app.use(
         passthrough: true,
     }),
 );
+app.use(serve("frontend/dist"));
 
 app.use(async (ctx, next) => {
     try {
