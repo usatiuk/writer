@@ -66,7 +66,8 @@
         "start": "ts-node -T -r tsconfig-paths/register src/server.ts",
         "prod-start": "cross-env NODE_ENV=development npm start",
         "build-frontend": "cd frontend && npm i && npm run build",
-        "build": "npm run build-frontend",
+        "build-backend": "npm i",
+        "build": "npm run build-backend && npm run build-frontend",
         "frontend": "cd frontend && npm start",
         "dev": "cross-env NODE_ENV=development concurrently npm:ts-node-dev npm:frontend -c 'blue,green'",
         "test": "cross-env NODE_ENV=test mocha --timeout 15000 -r ts-node/register -r tsconfig-paths/register 'tests/**/*.ts' "
