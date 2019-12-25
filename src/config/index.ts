@@ -2,7 +2,9 @@ import * as fs from "fs";
 import { ConnectionOptions } from "typeorm";
 
 export enum EnvType {
-    production, development, test
+    production,
+    development,
+    test,
 }
 
 export interface IConfig {

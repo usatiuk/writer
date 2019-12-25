@@ -130,8 +130,5 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export const Signup = withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(SignupComponent),
+    connect(mapStateToProps, mapDispatchToProps)(SignupComponent),
 );

@@ -49,8 +49,8 @@ describe("<DocumentEdit />", () => {
     it("should warn before exiting with unsaved changes", () => {
         // https://medium.com/@DavideRama/testing-global-event-listener-within-a-react-component-b9d661e59953
         const map: { [key: string]: any } = {};
-        window.addEventListener = jest.fn((event, cb) => {
-            map[event] = cb;
+        window.addEventListener = jest.fn((_event, cb) => {
+            map[_event] = cb;
         });
 
         const wrapper = mount(
@@ -80,8 +80,8 @@ describe("<DocumentEdit />", () => {
 
     it("shouldn't warn before exiting with no changes", () => {
         const map: { [key: string]: any } = {};
-        window.addEventListener = jest.fn((event, cb) => {
-            map[event] = cb;
+        window.addEventListener = jest.fn((_event, cb) => {
+            map[_event] = cb;
         });
 
         const wrapper = mount(

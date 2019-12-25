@@ -29,7 +29,7 @@ export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     public id: number;
 
-    @Column({ length: 190})
+    @Column({ length: 190 })
     @Index({ unique: true })
     public username: string;
 

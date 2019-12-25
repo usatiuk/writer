@@ -200,8 +200,5 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export const Home = withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(HomeComponent),
+    connect(mapStateToProps, mapDispatchToProps)(HomeComponent),
 );

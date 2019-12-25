@@ -44,8 +44,5 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export const NewDocumentCard = withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(NewDocumentCardComponent),
+    connect(mapStateToProps, mapDispatchToProps)(NewDocumentCardComponent),
 );

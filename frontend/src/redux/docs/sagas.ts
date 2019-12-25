@@ -146,7 +146,13 @@ function* docsUploadStart(action: IDocsUploadStartAction) {
 
         for (const doc of changedDocs) {
             const { response, timeout } = yield race({
-                response: call(patchDoc, doc.id, doc.name, doc.content, doc.shared),
+                response: call(
+                    patchDoc,
+                    doc.id,
+                    doc.name,
+                    doc.content,
+                    doc.shared,
+                ),
                 timeout: delay(10000),
             });
 

@@ -119,8 +119,5 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export const Login = withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(LoginComponent),
+    connect(mapStateToProps, mapDispatchToProps)(LoginComponent),
 );

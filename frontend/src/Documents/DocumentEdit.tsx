@@ -283,8 +283,5 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export const DocumentEdit = withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps,
-    )(DocumentEditComponent),
+    connect(mapStateToProps, mapDispatchToProps)(DocumentEditComponent),
 );

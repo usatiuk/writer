@@ -77,8 +77,5 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 export const DocumentCard = withRouter(
-    connect(
-        null,
-        mapDispatchToProps,
-    )(DocumentCardComponent),
+    connect(null, mapDispatchToProps)(DocumentCardComponent),
 );

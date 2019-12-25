@@ -1,7 +1,7 @@
 import { IDocumentJSON } from "~../../src/entity/Document";
 import { IAPIResponse } from "~../../src/types";
 
-import { fetchJSONAuth, fetchJSON } from "../utils";
+import { fetchJSON, fetchJSONAuth } from "../utils";
 
 export async function fetchRecentDocs(): Promise<
     IAPIResponse<IDocumentJSON[]>

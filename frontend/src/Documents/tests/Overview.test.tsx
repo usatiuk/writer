@@ -15,7 +15,7 @@ describe("<CodeBlock />", () => {
                 allDocs={{}}
                 fetching={false}
                 spinner={false}
-                fetchDocs={() => {}}
+                fetchDocs={() => undefined}
             />,
         );
 
@@ -28,7 +28,7 @@ describe("<CodeBlock />", () => {
                 allDocs={{ 1: { id: 1 } } as any}
                 fetching={false}
                 spinner={false}
-                fetchDocs={() => {}}
+                fetchDocs={() => undefined}
             />,
         );
 
