@@ -67,8 +67,6 @@
         "node_modules"
     ],
     "scripts": {
-        "pre-commit": "tslint --project . --fix && tslint --project ./frontend --fix && prettier src/** --write && prettier frontend/src/** --write",
-        "pre-push": "npm test && cd frontend && npm test",
         "ts-node-dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
         "start": "ts-node -T -r tsconfig-paths/register src/server.ts",
         "prod-start": "cross-env NODE_ENV=development npm start",
@@ -78,5 +76,11 @@
         "frontend": "cd frontend && npm start",
         "dev": "cross-env NODE_ENV=development concurrently npm:ts-node-dev npm:frontend -c 'blue,green'",
         "test": "cross-env NODE_ENV=test mocha --timeout 15000 -r ts-node/register -r tsconfig-paths/register 'tests/**/*.ts' "
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "tslint --project . --fix && tslint --project ./frontend --fix && prettier src/** --write && prettier frontend/src/** --write",
+            "pre-push": "npm test && cd frontend && npm test"
+        }
     }
 }
