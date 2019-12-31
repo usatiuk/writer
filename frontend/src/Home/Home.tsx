@@ -76,7 +76,12 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
                 >
                     <Navbar fixedToTop={true}>
                         <Navbar.Group align={Alignment.LEFT}>
-                            <Navbar.Heading>Writer</Navbar.Heading>
+                            <Button
+                                minimal={true}
+                                onClick={() => this.props.history.push("/")}
+                            >
+                                Writer
+                            </Button>
                             <Navbar.Divider />
                             <Breadcrumbs items={breadcrumbs} />
                         </Navbar.Group>
