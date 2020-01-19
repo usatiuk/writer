@@ -34,6 +34,14 @@ const defaultDocsState: IDocsState = {
     deletedDocument: null,
 };
 
+function isDocDirty(doc1: IDocumentJSON, doc2: IDocumentJSON) {
+    return (
+        doc1.content !== doc2.content ||
+        doc1.name !== doc2.name ||
+        doc1.shared !== doc2.shared
+    );
+}
+
 export const docsReducer: Reducer<IDocsState, DocsAction> = (
     state: IDocsState = defaultDocsState,
     action: DocsAction | UserAction,
@@ -83,7 +91,11 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
         case DocsTypes.DOCS_UPLOAD_SUCCESS: {
             const all: { [key: number]: IDocumentEntry } = { ...state.all };
             action.payload.all.forEach(doc => {
-                all[doc.id] = { ...doc, remote: doc, dirty: false };
+                if (isDocDirty(all[doc.id], doc)) {
+                    all[doc.id] = { ...all[doc.id], remote: doc, dirty: true };
+                } else {
+                    all[doc.id] = { ...all[doc.id], remote: doc, dirty: false };
+                }
             });
             return { ...state, all, uploading: false, dirty: false };
         }
