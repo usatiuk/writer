@@ -1,1 +1,4 @@
-FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:12
+FROM node:lts
+
+RUN apt update
+RUN apt install -y git zsh
