@@ -12,6 +12,7 @@
     "settings": {
         "terminal.integrated.shell.linux": "/bin/zsh"
     },
+    "remoteUser": "node",
     // Specifies a command that should be run after the container has been created.
     //"postCreateCommand": "npm i && cd frontend && npm i",
 }
