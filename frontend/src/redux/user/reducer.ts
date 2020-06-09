@@ -18,12 +18,14 @@ export const userReducer: Reducer<IUserState, AuthAction> = (
     switch (action.type) {
         case AuthTypes.AUTH_SUCCESS:
         case UserTypes.USER_GET_SUCCESS:
+        case UserTypes.USER_PASS_CHANGE_SUCCESS:
             return {
                 ...defaultUserState,
                 user: action.payload,
             };
             break;
         case UserTypes.USER_GET_FAIL:
+        case UserTypes.USER_PASS_CHANGE_FAIL:
             return defaultUserState;
             break;
         case UserTypes.USER_LOGOUT:

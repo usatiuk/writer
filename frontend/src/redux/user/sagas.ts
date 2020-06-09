@@ -1,7 +1,14 @@
 import { all, call, delay, put, race, takeLatest } from "redux-saga/effects";
-import { fetchUser } from "~redux/api/user";
+import { changeUserPassword, fetchUser } from "~redux/api/user";
 
-import { getUserFail, getUserSuccess, UserTypes } from "./actions";
+import {
+    getUserFail,
+    getUserSuccess,
+    IUserPassChangeAction,
+    userPassChangeFail,
+    userPassChangeSuccess,
+    UserTypes,
+} from "./actions";
 
 function* getUser() {
     try {
@@ -25,6 +32,31 @@ function* getUser() {
     }
 }
 
+function* userPassChange(action: IUserPassChangeAction) {
+    try {
+        const { response, timeout } = yield race({
+            response: call(changeUserPassword, action.password),
+            timeout: delay(10000),
+        });
+
+        if (timeout) {
+            yield put(userPassChangeFail("Timeout", false));
+            return;
+        }
+        if (response.data) {
+            const user = response.data;
+            yield put(userPassChangeSuccess(user));
+        } else {
+            yield put(userPassChangeFail(response.error, true));
+        }
+    } catch (e) {
+        yield put(userPassChangeFail("Internal error", false));
+    }
+}
+
 export function* userSaga() {
-    yield all([takeLatest(UserTypes.USER_GET, getUser)]);
+    yield all([
+        takeLatest(UserTypes.USER_GET, getUser),
+        takeLatest(UserTypes.USER_PASS_CHANGE, userPassChange),
+    ]);
 }

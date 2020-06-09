@@ -102,4 +102,41 @@ describe("users", () => {
         expect(response.body.error).to.be.equal("User already exists");
         expect(response.body.data).to.be.false;
     });
+
+    it("should change user's password", async () => {
+        const response = await request(callback)
+            .post("/users/edit")
+            .set({
+                Authorization: `Bearer ${seed.user1.toJWT()}`,
+                "Content-Type": "application/json",
+            })
+            .send({
+                password: "User1NewPass",
+            })
+            .expect("Content-Type", /json/)
+            .expect(200);
+
+        expect(response.body.error).to.be.false;
+
+        const loginResponse = await request(callback)
+            .post("/users/login")
+            .set({ "Content-Type": "application/json" })
+            .send({ username: "User1", password: "User1NewPass" })
+            .expect("Content-Type", /json/)
+            .expect(200);
+
+        expect(loginResponse.body.error).to.be.false;
+
+        const { jwt: _, ...user } = response.body.data as IUserAuthJSON;
+        expect(user).to.deep.equal(seed.user1.toJSON());
+
+        const badLoginResponse = await request(callback)
+            .post("/users/login")
+            .set({ "Content-Type": "application/json" })
+            .send({ username: "User1", password: "User1" })
+            .expect(404);
+
+        expect(badLoginResponse.body.error).to.be.equal("User not found");
+        expect(badLoginResponse.body.data).to.be.false;
+    });
 });

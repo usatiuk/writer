@@ -24,3 +24,19 @@ export function showSharedToast() {
         timeout: 2000,
     });
 }
+
+export function showPasswordSavedToast() {
+    AppToaster.show({
+        message: "Password saved!",
+        intent: "success",
+        timeout: 2000,
+    });
+}
+
+export function showPasswordNotSavedToast(error: string) {
+    AppToaster.show({
+        message: "Password not saved! " + error,
+        intent: "danger",
+        timeout: 2000,
+    });
+}
