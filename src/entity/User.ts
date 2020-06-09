@@ -40,10 +40,7 @@ export class User extends BaseEntity {
     @Column({ length: 190 })
     public passwordHash: string;
 
-    @OneToMany(
-        type => Document,
-        document => document.user,
-    )
+    @OneToMany((type) => Document, (document) => document.user)
     public documents: Document[];
 
     constructor(username: string, email: string) {

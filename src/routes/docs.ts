@@ -4,7 +4,7 @@ import { User } from "~entity/User";
 
 export const docsRouter = new Router();
 
-docsRouter.post("/docs/new", async ctx => {
+docsRouter.post("/docs/new", async (ctx) => {
     if (!ctx.state.user) {
         ctx.throw(401);
     }
@@ -35,7 +35,7 @@ docsRouter.post("/docs/new", async ctx => {
     };
 });
 
-docsRouter.patch("/docs/byID/:id", async ctx => {
+docsRouter.patch("/docs/byID/:id", async (ctx) => {
     if (!ctx.state.user) {
         ctx.throw(401);
     }
@@ -85,7 +85,7 @@ docsRouter.patch("/docs/byID/:id", async ctx => {
     };
 });
 
-docsRouter.get("/docs/list", async ctx => {
+docsRouter.get("/docs/list", async (ctx) => {
     if (!ctx.state.user) {
         ctx.throw(401);
     }
@@ -96,11 +96,11 @@ docsRouter.get("/docs/list", async ctx => {
 
     ctx.body = {
         error: false,
-        data: documents.map(document => document.toJSON(user.id)),
+        data: documents.map((document) => document.toJSON(user.id)),
     };
 });
 
-docsRouter.get("/docs/byID/:id", async ctx => {
+docsRouter.get("/docs/byID/:id", async (ctx) => {
     if (!ctx.state.user) {
         ctx.throw(401);
     }
@@ -127,7 +127,7 @@ docsRouter.get("/docs/byID/:id", async ctx => {
     };
 });
 
-docsRouter.get("/docs/shared/:username/:id", async ctx => {
+docsRouter.get("/docs/shared/:username/:id", async (ctx) => {
     const { id, username } = ctx.params as {
         id: number | undefined;
         username: string | undefined;
@@ -159,7 +159,7 @@ docsRouter.get("/docs/shared/:username/:id", async ctx => {
     };
 });
 
-docsRouter.delete("/docs/byID/:id", async ctx => {
+docsRouter.delete("/docs/byID/:id", async (ctx) => {
     if (!ctx.state.user) {
         ctx.throw(401);
     }

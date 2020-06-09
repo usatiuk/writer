@@ -139,7 +139,7 @@ function* docsUploadStart(action: IDocsUploadStartAction) {
         const allDocs = state.docs.all;
 
         const changedDocs: IDocumentJSON[] = Object.values(allDocs).filter(
-            e => e.dirty,
+            (e) => e.dirty,
         );
 
         const updatedDocs: IDocumentJSON[] = [];

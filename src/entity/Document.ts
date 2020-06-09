@@ -23,10 +23,7 @@ export class Document extends BaseEntity {
     @PrimaryGeneratedColumn()
     public id: number;
 
-    @ManyToOne(
-        type => User,
-        user => user.documents,
-    )
+    @ManyToOne((type) => User, (user) => user.documents)
     public user: User;
 
     @Column({ length: 190 })

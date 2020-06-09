@@ -10,7 +10,7 @@ export interface IDocumentListProps {
 }
 
 export function DocumentsList(props: IDocumentListProps) {
-    const cards = props.docs.map(doc => (
+    const cards = props.docs.map((doc) => (
         <DocumentCard key={doc.id} doc={doc} />
     ));
 

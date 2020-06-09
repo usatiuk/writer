@@ -53,7 +53,7 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
             return { ...defaultDocsState, fetching: true };
         case DocsTypes.DOCS_FETCH_SUCCESS: {
             const all: { [key: number]: IDocumentEntry } = {};
-            action.payload.all.forEach(doc => {
+            action.payload.all.forEach((doc) => {
                 all[doc.id] = { ...doc, remote: doc, dirty: false };
             });
             return { ...defaultDocsState, all };
@@ -90,7 +90,7 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
         }
         case DocsTypes.DOCS_UPLOAD_SUCCESS: {
             const all: { [key: number]: IDocumentEntry } = { ...state.all };
-            action.payload.all.forEach(doc => {
+            action.payload.all.forEach((doc) => {
                 if (isDocDirty(all[doc.id], doc)) {
                     all[doc.id] = { ...all[doc.id], remote: doc, dirty: true };
                 } else {
@@ -130,7 +130,7 @@ export const docsReducer: Reducer<IDocsState, DocsAction> = (
                     shared: payload.shared,
                     dirty: false,
                 };
-                const dirtyDocs = Object.values(all).filter(e => e.dirty);
+                const dirtyDocs = Object.values(all).filter((e) => e.dirty);
                 dirty = dirtyDocs.length > 0;
             }
             return { ...state, all, dirty };
