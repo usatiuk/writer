@@ -38,8 +38,7 @@
         "mocha": "^8.1.1",
         "prettier": "^2.0.5",
         "supertest": "^4.0.2",
-        "ts-node-dev": "^1.0.0-pre.57",
-        "typescript": "^3.9.7"
+        "ts-node-dev": "^1.0.0-pre.57"
     },
     "dependencies": {
         "@koa/cors": "^3.1.0",
@@ -60,7 +59,8 @@
         "reflect-metadata": "^0.1.13",
         "ts-node": "8.10.2",
         "tsconfig-paths": "^3.9.0",
-        "typeorm": "0.2.25"
+        "typeorm": "0.2.25",
+        "typescript": "^3.9.7"
     },
     "cacheDirectories": [
         "frontend/node_modules",
