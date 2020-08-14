@@ -11,20 +11,20 @@ const callback = app.callback();
 
 let seed: ISeed;
 
-describe("docs", () => {
-    before(async () => {
+describe("docs", function () {
+    before(async function () {
         await connect();
     });
 
-    after(async () => {
+    after(async function () {
         await getConnection().close();
     });
 
-    beforeEach(async () => {
+    beforeEach(async function () {
         seed = await seedDB();
     });
 
-    it("should create a document", async () => {
+    it("should create a document", async function () {
         const response = await request(callback)
             .post("/docs/new")
             .set({
@@ -48,7 +48,7 @@ describe("docs", () => {
         expect(dbDocument.name).to.be.equal("Test1");
     });
 
-    it("should update a document", async () => {
+    it("should update a document", async function () {
         const response = await request(callback)
             .patch(`/docs/byID/${seed.doc1.id}`)
             .set({
@@ -76,7 +76,7 @@ describe("docs", () => {
         );
     });
 
-    it("should list docs", async () => {
+    it("should list docs", async function () {
         const response = await request(callback)
             .get("/docs/list")
             .set({
@@ -96,7 +96,7 @@ describe("docs", () => {
         expect(documents).to.deep.equal(userDocs);
     });
 
-    it("should get a shared document", async () => {
+    it("should get a shared document", async function () {
         const response = await request(callback)
             .get(`/docs/shared/${seed.user1.username}/${seed.doc2p.id}`)
             .expect(200);
@@ -110,7 +110,7 @@ describe("docs", () => {
         expect(document).to.deep.equal(usedDoc);
     });
 
-    it("should get a document", async () => {
+    it("should get a document", async function () {
         const response = await request(callback)
             .get(`/docs/byID/${seed.doc1.id}`)
             .set({
@@ -127,7 +127,7 @@ describe("docs", () => {
         expect(document).to.deep.equal(usedDoc);
     });
 
-    it("should not get a document without jwt", async () => {
+    it("should not get a document without jwt", async function () {
         const response = await request(callback)
             .get(`/docs/byID/${seed.doc1.id}`)
             .set({
@@ -138,7 +138,7 @@ describe("docs", () => {
         expect(response.body.error).to.be.equal("Not Found");
     });
 
-    it("should delete a document", async () => {
+    it("should delete a document", async function () {
         const response = await request(callback)
             .delete(`/docs/byID/${seed.doc1.id}`)
             .set({

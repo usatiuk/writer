@@ -11,20 +11,20 @@ const callback = app.callback();
 
 let seed: ISeed;
 
-describe("users", () => {
-    before(async () => {
+describe("users", function () {
+    before(async function () {
         await connect();
     });
 
-    after(async () => {
+    after(async function () {
         await getConnection().close();
     });
 
-    beforeEach(async () => {
+    beforeEach(async function () {
         seed = await seedDB();
     });
 
-    it("should get user", async () => {
+    it("should get user", async function () {
         const response = await request(callback)
             .get("/users/user")
             .set({
@@ -41,7 +41,7 @@ describe("users", () => {
         expect(user).to.deep.equal(seed.user1.toJSON());
     });
 
-    it("should login user", async () => {
+    it("should login user", async function () {
         const response = await request(callback)
             .post("/users/login")
             .set({ "Content-Type": "application/json" })
@@ -56,7 +56,7 @@ describe("users", () => {
         expect(user).to.deep.equal(seed.user1.toJSON());
     });
 
-    it("should not login user with wrong password", async () => {
+    it("should not login user with wrong password", async function () {
         const response = await request(callback)
             .post("/users/login")
             .set({ "Content-Type": "application/json" })
@@ -67,7 +67,7 @@ describe("users", () => {
         expect(response.body.data).to.be.false;
     });
 
-    it("should signup user", async () => {
+    it("should signup user", async function () {
         const response = await request(callback)
             .post("/users/signup")
             .set({ "Content-Type": "application/json" })
@@ -88,7 +88,7 @@ describe("users", () => {
         expect(user).to.deep.equal(newUser.toJSON());
     });
 
-    it("should not signup user with duplicate username", async () => {
+    it("should not signup user with duplicate username", async function () {
         const response = await request(callback)
             .post("/users/signup")
             .set({ "Content-Type": "application/json" })
@@ -103,7 +103,7 @@ describe("users", () => {
         expect(response.body.data).to.be.false;
     });
 
-    it("should change user's password", async () => {
+    it("should change user's password", async function () {
         const response = await request(callback)
             .post("/users/edit")
             .set({
