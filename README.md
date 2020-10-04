@@ -1,7 +1,7 @@
 # writer
 A simple web/markdown-based note taking app
 
-You can take a loot at the hosted version on heroku: https://ustk-writer.herokuapp.com
+You can take a look at the hosted version on heroku: https://ustk-writer.herokuapp.com
 
 ![screenshot](docs/main.png)
 
