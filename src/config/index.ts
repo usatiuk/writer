@@ -25,6 +25,12 @@ const development: IConfig = {
     ...production,
     env: EnvType.development,
     jwtSecret: "DEVSECRET",
+    dbConnectionOptions:
+        process.env.NODE_ENV === "development"
+            ? fs.existsSync("./ormconfig.dev.json")
+                ? JSON.parse(fs.readFileSync("./ormconfig.dev.json").toString())
+                : null
+            : null,
 };
 
 const test: IConfig = {
