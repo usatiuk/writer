@@ -12,10 +12,21 @@
 		"sqltools.connections": [
 			{
 				"name": "MySQL",
-				"server": "localhost",
+				"server": "db",
 				"driver": "MySQL",
 				"port": 3306,
 				"database": "writer",
+				"username": "writer",
+				"askForPassword": false,
+				"password": "writer",
+				"connectionTimeout": 15
+			},
+			{
+				"name": "MySQL",
+				"server": "dbtest",
+				"driver": "MySQL",
+				"port": 3306,
+				"database": "writer_test",
 				"username": "writer",
 				"askForPassword": false,
 				"password": "writer",
