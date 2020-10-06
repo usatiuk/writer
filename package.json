@@ -78,5 +78,8 @@
             "pre-commit": "prettier src/** --write && prettier frontend/src/** --write",
             "pre-push": "npm test && cd frontend && npm test"
         }
-    }
+    },
+  "engines": {
+    "node": "14.x"
+  }
 }
