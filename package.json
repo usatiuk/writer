@@ -79,7 +79,7 @@
             "pre-push": "npm test && cd frontend && npm test"
         }
     },
-  "engines": {
-    "node": "14.x"
-  }
+    "engines": {
+        "node": "14.x"
+    }
 }
