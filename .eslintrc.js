@@ -1,13 +1,11 @@
 module.exports = {
     root: true,
     parser: "@typescript-eslint/parser",
-    plugins: ["@typescript-eslint", "prettier", "import", "react", "react-hooks"],
+    plugins: ["@typescript-eslint", "prettier", "import"],
     extends: [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "prettier/@typescript-eslint",
-        "plugin:react-hooks/recommended",
-        "plugin:react/recommended",
         "plugin:import/errors",
         "plugin:import/warnings",
         "plugin:import/typescript"
@@ -18,9 +16,6 @@ module.exports = {
     },
     "parserOptions": {
         "ecmaVersion": 6,
-        "ecmaFeatures": {
-            "jsx": true
-        },
         "sourceType": "module"
     },
     "settings": {
