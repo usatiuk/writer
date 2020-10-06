@@ -2,7 +2,7 @@ version: 2
 jobs:
   test-backend:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:14
       - image: circleci/mariadb:latest
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: "true"
