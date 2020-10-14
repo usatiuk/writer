@@ -5,6 +5,8 @@ tmp/
 temp/
 dist/
 ormconfig.json
+ormconfig.test.json
+ormconfig.dev.json
 .env
 .directory
 .history
