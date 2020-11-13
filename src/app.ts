@@ -18,7 +18,7 @@ export const app = new Koa();
 app.use(cors());
 app.use(logger());
 app.use(bodyParser());
-if (config.env === EnvType.production) {
+if (config.https) {
     app.use(sslify({ resolver: xForwardedProtoResolver }));
 }
 app.use(

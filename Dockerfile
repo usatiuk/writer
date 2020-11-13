@@ -17,7 +17,6 @@ RUN npm run build
 WORKDIR ../
 
 ENV PORT=8080
-ENV DATA_DIR=data
 
 ENV TYPEORM_CONNECTION=mariadb
 #ENV TYPEORM_HOST=localhost

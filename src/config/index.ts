@@ -11,6 +11,7 @@ export interface IConfig {
     env: EnvType;
     port: number;
     jwtSecret: string;
+    https: boolean;
     dbConnectionOptions: ConnectionOptions | null;
 }
 
@@ -19,6 +20,7 @@ const production: IConfig = {
     port: parseInt(process.env.PORT, 10) || 3000,
     jwtSecret: process.env.JWT_SECRET,
     dbConnectionOptions: null,
+    https: process.env.HTTPS ? process.env.HTTPS === "yes" : false,
 };
 
 const development: IConfig = {
