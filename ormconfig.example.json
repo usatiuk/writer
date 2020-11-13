@@ -4,8 +4,8 @@
     "port": 3306,
     "username": "writer",
     "password": "writer",
-    "database": "writer_test",
-    "synchronize": true,
+    "database": "writer",
+    "synchronize": false,
     "logging": false,
     "entities": [
         "src/entity/**/*.ts"

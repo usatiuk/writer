@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  writerapp:
+    image: stepanusatiuk/writer:latest
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/usr/src/app/data
+    environment:
+      - JWT_SECRET=huegrhuigerhupoiervw
+    env_file:
+      - db.env
+    depends_on:
+      - db
+  db:
+    image: mariadb
+    restart: always
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    env_file:
+      - db.env
+

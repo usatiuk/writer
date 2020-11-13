@@ -22,7 +22,7 @@ services:
     network_mode: service:db
 
     # Uncomment the next line to use a non-root user for all processes.
-    # user: node
+    user: node
 
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally. 
     # (Adding the "ports" property to this file will not forward from a Codespace.)
@@ -31,7 +31,7 @@ services:
     image: mariadb:latest
     restart: unless-stopped
     volumes:
-      - mariadb-data:/var/lib/mysql
+      - writermariadb-data:/var/lib/mysql
     environment:
       MYSQL_DATABASE: writer
       MYSQL_USER: writer
@@ -42,7 +42,7 @@ services:
     image: mariadb:latest
     restart: unless-stopped
     volumes:
-      - mariadbtest-data:/var/lib/mysql
+      - writermariadbtest-data:/var/lib/mysql
     environment:
       MYSQL_DATABASE: writer_test
       MYSQL_USER: writer
@@ -53,5 +53,5 @@ services:
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
 volumes:
-  mariadb-data:
-  mariadbtest-data:
+  writermariadb-data:
+  writermariadbtest-data:

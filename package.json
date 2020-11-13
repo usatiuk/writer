@@ -71,7 +71,9 @@
         "frontend": "cd frontend && npm start",
         "dev": "cross-env NODE_ENV=development concurrently npm:ts-node-dev npm:frontend -c 'blue,green'",
         "test": "cross-env NODE_ENV=test mocha --timeout 15000 -r ts-node/register -r tsconfig-paths/register 'src/tests/**/*.ts' ",
-        "lint": "eslint ./src/** ./frontend/src/** --ext .js,.jsx,.ts,.tsx"
+        "lint": "eslint ./src/** ./frontend/src/** --ext .js,.jsx,.ts,.tsx",
+        "typeorm-dev": "cross-env NODE_ENV=development ts-node -T -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+        "typeorm": "cross-env NODE_ENV=production ts-node -T -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
     },
     "husky": {
         "hooks": {
