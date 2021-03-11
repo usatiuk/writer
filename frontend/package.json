@@ -24,7 +24,7 @@
     "dependencies": {
         "@blueprintjs/core": "^3.41.0",
         "@blueprintjs/icons": "^3.25.1",
-        "autoprefixer": "^10.2.5",
+        "autoprefixer": "^9",
         "enzyme": "^3.11.0",
         "enzyme-adapter-react-16": "^1.15.6",
         "eslint-plugin-html": "^6.1.2",
