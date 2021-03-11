@@ -34,6 +34,8 @@ docker-compose example in `dockercomposeexample` folder
 
 ### Config options (for docker container)
 
+* `PORT` - web port
+
 * `TYPEORM_HOST` - mariadb hostname
 
 * `TYPEORM_USERNAME` - mariadb username
