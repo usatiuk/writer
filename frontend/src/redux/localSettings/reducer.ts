@@ -19,9 +19,10 @@ export const localSettingsReducer: Reducer<
     action: LocalSettingsAction | UserAction,
 ) => {
     switch (action.type) {
-        case LocalSettingsTypes.TOGGLE_DARK_MODE:
+        case LocalSettingsTypes.TOGGLE_DARK_MODE: {
             const { darkMode } = state;
             return { ...state, darkMode: !darkMode };
+        }
         case UserTypes.USER_LOGOUT:
             return defaultLocalSettingsState;
         default:

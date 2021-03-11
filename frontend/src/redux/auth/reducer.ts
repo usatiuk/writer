@@ -39,6 +39,7 @@ export const authReducer: Reducer<IAuthState, AuthAction> = (
             if (action.payload.logout) {
                 return defaultAuthState;
             }
+            break;
         case AuthTypes.AUTH_FAIL:
             return { ...defaultAuthState, formError: action.payload.error };
             break;

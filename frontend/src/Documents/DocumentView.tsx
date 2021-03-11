@@ -27,7 +27,7 @@ export class DocumentViewComponent extends React.PureComponent<
     null
 > {
     public render() {
-        const { id } = this.props.match.params as any;
+        const { id } = this.props.match.params as { id: number };
         if (this.props.allDocs) {
             const doc = this.props.allDocs[id];
 

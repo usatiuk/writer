@@ -1,0 +1,59 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+        "@typescript-eslint",
+        "prettier",
+        "import",
+        "jest",
+        "react",
+        "react-hooks",
+        "html"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript",
+        "plugin:jest/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:react/recommended"
+    ],
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+    "settings": {
+        "import/parsers": {
+            "@typescript-eslint/parser": [
+                ".ts",
+                ".tsx"
+            ]
+        },
+        "import/resolver": {
+            "typescript": {
+                "alwaysTryTypes": true,
+                "project": [
+                    "./tsconfig.json"
+                ]
+            }
+        }
+    },
+    "rules": {
+        "@typescript-eslint/require-await": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/unbound-method": "off",
+        "react/prop-types": "off"
+    }
+}

@@ -176,7 +176,7 @@ export class DocumentEditComponent extends React.PureComponent<
 
     public copyLink() {
         const doc = this.props.allDocs[this.state.id];
-        navigator.clipboard.writeText(
+        void navigator.clipboard.writeText(
             `${webRoot}/shared/${this.props.username}/${doc.id}`,
         );
         showSharedToast();

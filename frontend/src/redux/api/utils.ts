@@ -17,9 +17,9 @@ export function deleteToken(_token: string) {
 export async function fetchJSON(
     path: string,
     method: string,
-    body?: string | object,
+    body?: string | Record<string, unknown>,
     headers?: Record<string, string>,
-) {
+): Promise<Record<string, unknown>> {
     if (typeof body === "object") {
         body = JSON.stringify(body);
     }
@@ -31,16 +31,16 @@ export async function fetchJSON(
             "Content-Type": "application/json",
         },
     });
-    const json = await response.json();
+    const json = (await response.json()) as Record<string, unknown>;
     return json;
 }
 
 export async function fetchJSONAuth(
     path: string,
     method: string,
-    body?: string | object,
-    headers?: object,
-) {
+    body?: string | Record<string, unknown>,
+    headers?: Record<string, unknown>,
+): Promise<Record<string, unknown>> {
     if (token) {
         return fetchJSON(path, method, body, {
             ...headers,

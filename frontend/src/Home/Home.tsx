@@ -58,7 +58,7 @@ export class HomeComponent extends React.PureComponent<IHomeProps> {
         ];
 
         if ((this.props.match.params as any).id && this.props.allDocs) {
-            const { id } = this.props.match.params as any;
+            const { id } = this.props.match.params as { id: number };
             if (this.props.allDocs[id]) {
                 breadcrumbs.push({
                     icon: "document",

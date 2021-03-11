@@ -1,2 +1,12 @@
 {
+    "cSpell.words": [
+        "typeorm"
+    ],
+    "eslint.workingDirectories": [
+        ".",
+        "./frontend"
+    ],
+    "search.exclude": {
+        "**/package-lock.json": true
+    }
 }
