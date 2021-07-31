@@ -1,13 +1,13 @@
 import { mount } from "enzyme";
 import * as React from "react";
 
+import * as flushPromises from "flush-promises";
 import ReactMarkdown = require("react-markdown");
 import { Redirect } from "react-router";
 import { SharedViewComponent } from "~Documents/SharedView";
 import { LoadingStub } from "~LoadingStub";
 import { fetchSharedDoc } from "~redux/api/docs";
 import { IDocumentEntry } from "~redux/docs/reducer";
-import { flushPromises } from "~tests/utils";
 import { IDocumentJSON } from "../../../../src/entity/Document";
 
 const testDoc: IDocumentJSON = {

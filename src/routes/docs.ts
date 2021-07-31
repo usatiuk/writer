@@ -43,7 +43,7 @@ docsRouter.patch("/docs/byID/:id", async (ctx) => {
     const { user } = ctx.state;
 
     const { id } = ctx.params as {
-        id: number | undefined;
+        id: string | undefined;
     };
 
     if (!id) {
@@ -56,7 +56,7 @@ docsRouter.patch("/docs/byID/:id", async (ctx) => {
         shared: boolean | undefined;
     };
 
-    const document = await Document.findOne({ id, user });
+    const document = await Document.findOne({ id: parseInt(id), user });
 
     if (!document) {
         ctx.throw(404);
@@ -106,7 +106,7 @@ docsRouter.get("/docs/byID/:id", async (ctx) => {
     }
 
     const { id } = ctx.params as {
-        id: number | undefined;
+        id: string | undefined;
     };
 
     if (!id) {
@@ -115,7 +115,7 @@ docsRouter.get("/docs/byID/:id", async (ctx) => {
 
     const { user } = ctx.state;
 
-    const document = await Document.findOne({ id, user });
+    const document = await Document.findOne({ id: parseInt(id), user });
 
     if (!document) {
         ctx.throw(404);
@@ -129,7 +129,7 @@ docsRouter.get("/docs/byID/:id", async (ctx) => {
 
 docsRouter.get("/docs/shared/:username/:id", async (ctx) => {
     const { id, username } = ctx.params as {
-        id: number | undefined;
+        id: string | undefined;
         username: string | undefined;
     };
 
@@ -143,7 +143,7 @@ docsRouter.get("/docs/shared/:username/:id", async (ctx) => {
         ctx.throw(404);
     }
 
-    const document = await Document.findOne({ id, user });
+    const document = await Document.findOne({ id: parseInt(id), user });
 
     if (!document) {
         ctx.throw(404);
@@ -165,7 +165,7 @@ docsRouter.delete("/docs/byID/:id", async (ctx) => {
     }
 
     const { id } = ctx.params as {
-        id: number | undefined;
+        id: string | undefined;
     };
 
     if (!id) {
@@ -174,7 +174,7 @@ docsRouter.delete("/docs/byID/:id", async (ctx) => {
 
     const { user } = ctx.state;
 
-    const document = await Document.findOne({ id, user });
+    const document = await Document.findOne({ id: parseInt(id), user });
 
     if (!document) {
         ctx.throw(404);
