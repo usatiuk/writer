@@ -117,6 +117,6 @@ workflows:
     jobs:
       - test-backend
       - test-frontend
-      - test-frontend-build
+      - test-frontend-build:
           requires:
             - test-frontend
