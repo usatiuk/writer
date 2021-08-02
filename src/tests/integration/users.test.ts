@@ -4,6 +4,7 @@ import * as request from "supertest";
 import { getConnection } from "typeorm";
 import { app } from "~app";
 import { IUserAuthJSON, User } from "~entity/User";
+import { Document } from "~entity/Document";
 
 import { ISeed, seedDB } from "./util";
 
@@ -39,6 +40,37 @@ describe("users", function () {
         const { jwt: _, ...user } = response.body.data as IUserAuthJSON;
 
         expect(user).to.deep.equal(seed.user1.toJSON());
+    });
+
+    it("should delete user", async function () {
+        const response = await request(callback)
+            .delete("/users/user")
+            .set({
+                Authorization: `Bearer ${seed.user1.toJWT()}`,
+                "Content-Type": "application/json",
+            })
+            .expect("Content-Type", /json/)
+            .expect(200);
+
+        expect(response.body.error).to.be.false;
+        expect(await User.findOne(seed.user1.id)).to.be.undefined;
+        expect(await Document.findOne(seed.doc1.id)).to.be.undefined;
+    });
+
+    it("should not delete user with wrong jwt", async function () {
+        const response = await request(callback)
+            .delete("/users/user")
+            .set({
+                Authorization: `Bearer ${seed.user2.toJWT()}`,
+                "Content-Type": "application/json",
+            })
+            .expect("Content-Type", /json/)
+            .expect(200);
+
+        expect(response.body.error).to.be.false;
+        expect(await User.findOne(seed.user2.id)).to.be.undefined;
+        expect(await User.findOne(seed.user1.id)).to.not.be.undefined;
+        expect(await Document.findOne(seed.doc1.id)).to.not.be.undefined;
     });
 
     it("should login user", async function () {
