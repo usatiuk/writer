@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   writerapp:
-    image: stepanusatiuk/writer:latest
+    image: stepanusatiuk/writer:main
     restart: always
     ports:
       - "8080:8080"
