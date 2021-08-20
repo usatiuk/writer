@@ -1,4 +1,5 @@
 # writer
+
 A simple web/markdown-based note taking app
 
 You can take a look at the hosted version on heroku: https://ustk-writer.herokuapp.com
@@ -21,7 +22,7 @@ only need to change the database connection settings)
 
 Open the workspace in a remote docker container using VSCode - everything should
 be set up for you. You just need to rename `ormconfig.example.json` to `ormconfig.json`
-Also, you need to run database migrations with
+Also, you need to **run database migrations** with
 `npm run typeorm-dev -- migration:run`
 
 Then start with `npm run dev` and visit http://localhost:1234 (Parcel dev server
@@ -34,18 +35,18 @@ docker-compose example in `dockercomposeexample` folder
 
 ### Config options (for docker container)
 
-* `PORT` - web port
+-   `PORT` - web port
 
-* `TYPEORM_HOST` - mariadb hostname
+-   `TYPEORM_HOST` - mariadb hostname
 
-* `TYPEORM_USERNAME` - mariadb username
+-   `TYPEORM_USERNAME` - mariadb username
 
-* `TYPEORM_PASSWORD` - mariadb password
+-   `TYPEORM_PASSWORD` - mariadb password
 
-* `TYPEORM_DATABASE` - mariadb database
+-   `TYPEORM_DATABASE` - mariadb database
 
-* `TYPEORM_PORT` - mariadb port
+-   `TYPEORM_PORT` - mariadb port
 
-* `JWT_SECRET` - JWT secret - set it to something random
+-   `JWT_SECRET` - JWT secret - set it to something random
 
-* `HTTPS` (`"yes"`/`"no"`) - whether the server enforce HTTPS or not
+-   `HTTPS` (`"yes"`/`"no"`) - whether the server enforce HTTPS or not
