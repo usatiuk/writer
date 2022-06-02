@@ -48,6 +48,9 @@ app.use(userRouter.routes()).use(userRouter.allowedMethods());
 app.use(docsRouter.routes()).use(docsRouter.allowedMethods());
 
 app.on("error", (err, ctx) => {
+    if (ctx.response.status == "500") {
+        console.error(err);
+    }
     ctx.body = {
         error: err.message,
         data: false,

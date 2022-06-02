@@ -1,4 +1,5 @@
 import * as Router from "koa-router";
+import { Document } from "~entity/Document";
 import { IUserJWT, User } from "~entity/User";
 
 export const userRouter = new Router();
@@ -13,6 +14,20 @@ userRouter.get("/users/user", async (ctx) => {
     const user = await User.findOne(jwt.id);
 
     ctx.body = { error: false, data: user.toAuthJSON() };
+});
+
+userRouter.delete("/users/user", async (ctx) => {
+    if (!ctx.state.user) {
+        ctx.throw(401);
+    }
+
+    const jwt = ctx.state.user as IUserJWT;
+
+    const user = await User.findOne(jwt.id);
+    await Document.remove(await Document.find({ user }));
+    await user.remove();
+
+    ctx.body = { error: false };
 });
 
 userRouter.post("/users/login", async (ctx) => {
