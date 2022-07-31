@@ -2,8 +2,6 @@
 
 A simple web/markdown-based note taking app
 
-You can take a look at the hosted version on heroku: https://ustk-writer.herokuapp.com
-
 ![screenshot](docs/main.png)
 
 This is a notebook app written in typescript using koa for the backend and react+redux for the frontend.
