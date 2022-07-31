@@ -121,9 +121,9 @@ jobs:
                   name: log in to docker hub
                   command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
 
-#            - run:
-#                  name: install emulators
-#                  command: docker run --privileged --rm tonistiigi/binfmt --install all
+            - run:
+                  name: install emulators
+                  command: docker run --privileged --rm tonistiigi/binfmt --install all
 
             - run:
                   name: create docker builder
@@ -131,33 +131,33 @@ jobs:
 
             - run:
                   name: build and push to docker hub
-                  #command: docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag stepanusatiuk/writer:latest .
-                  command: docker buildx build --push --platform linux/amd64 --tag stepanusatiuk/writer:$CIRCLE_BRANCH .
+                  command: docker buildx build --push --platform linux/arm64,linux/amd64  --tag stepanusatiuk/writer:$CIRCLE_BRANCH .
+                  #command: docker buildx build --push --platform linux/amd64 --tag stepanusatiuk/writer:$CIRCLE_BRANCH .
     
-    build-arm:
-        machine:
-            image: ubuntu-2004:current
-        resource_class: arm.medium
-        working_directory: ~/writer
-
-        steps:
-            - checkout
-            - run:
-                  name: log in to docker hub
-                  command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
-
+#    build-arm:
+#        machine:
+#            image: ubuntu-2004:current
+#        resource_class: arm.medium
+#        working_directory: ~/writer
+#
+#        steps:
+#            - checkout
+#            - run:
+#                  name: log in to docker hub
+#                  command: echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
+#
 #            - run:
 #                  name: install emulators
 #                  command: docker run --privileged --rm tonistiigi/binfmt --install all
-
-            - run:
-                  name: create docker builder
-                  command: docker buildx create --use
-
-            - run:
-                  name: build and push to docker hub
-                  #command: docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag stepanusatiuk/writer:latest .
-                  command: docker buildx build --push --platform linux/arm64 --tag stepanusatiuk/writer:$CIRCLE_BRANCH .
+#
+#            - run:
+#                  name: create docker builder
+#                  command: docker buildx create --use
+#
+#            - run:
+#                  name: build and push to docker hub
+#                  #command: docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 --tag stepanusatiuk/writer:latest .
+#                  command: docker buildx build --push --platform linux/arm64 --tag stepanusatiuk/writer:$CIRCLE_BRANCH .
 
 workflows:
     version: 2
@@ -173,8 +173,8 @@ workflows:
                       - test-backend
                       - test-frontend
                       - test-frontend-build
-            - build-arm:
-                  requires:
-                      - test-backend
-                      - test-frontend
-                      - test-frontend-build
+#            - build-arm:
+#                  requires:
+#                      - test-backend
+#                      - test-frontend
+#                      - test-frontend-build
