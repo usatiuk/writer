@@ -114,7 +114,8 @@ jobs:
         machine:
             image: ubuntu-2004:current
         working_directory: ~/writer
-
+        resource_class: large
+        
         steps:
             - checkout
             - run:
