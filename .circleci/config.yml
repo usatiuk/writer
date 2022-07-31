@@ -112,7 +112,7 @@ jobs:
                   command: cd frontend && npm run build
     build:
         machine:
-            image: ubuntu-2204:2022.04.1
+            image: ubuntu-2004:current
         working_directory: ~/writer
 
         steps:
@@ -136,7 +136,7 @@ jobs:
     
     build-arm:
         machine:
-            image: ubuntu-2204:2022.04.1
+            image: ubuntu-2004:current
         resource_class: arm.medium
         working_directory: ~/writer
 
